@@ -1,0 +1,22 @@
+accessLog: {}
+
+api:
+  insecure: true
+  dashboard: true
+  debug: true
+
+entryPoints:
+  websecure:
+    address: ":8443"
+    http:
+      tls:
+        options:
+
+log:
+  level: INFO
+
+ping: true
+
+providers:
+  file:
+    filename: /traefik/conf/local/dynamic.yaml

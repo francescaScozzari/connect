@@ -1,0 +1,29 @@
+http:
+  routers:
+    backend:
+      rule: |
+        PathPrefix(`/__debug__`) ||
+        PathPrefix(`/admin`) ||
+        PathPrefix(`/api`) ||
+        PathPrefix(`/backend`) ||
+        PathPrefix(`/static`)
+      service: backend
+    frontend:
+      rule: |
+        PathPrefix(`/frontend`) ||
+        PathPrefix(`/`)
+      service: frontend
+  services:
+    backend:
+      loadBalancer:
+        servers:
+          - url: "http://backend:8000/"
+    frontend:
+      loadBalancer:
+        servers:
+          - url: "http://frontend:3000/"
+
+tls:
+  certificates:
+    - certFile: /traefik/localhost/cert.pem
+      keyFile: /traefik/localhost/key.pem
