@@ -1,0 +1,268 @@
+stages:
+  - Test
+  - Test-build
+  - Build
+  - Report
+  - E2E
+
+variables:
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+  PROJECT_SLUG: connect
+  SENTRY_PROJECT_NAME: connect-frontend
+  VERSION_BEFORE_REF: ${CI_COMMIT_BEFORE_SHA}
+  VERSION_REF: ${CI_COMMIT_SHA}
+
+cache:
+  paths:
+    - node_modules/
+
+.staging:
+  rules: &staging-rules
+    - &pipeline-push-rule
+      if: $CI_PIPELINE_SOURCE == "trigger"
+      when: never
+    - &staging-rule
+      if: $CI_COMMIT_BRANCH == "main"
+      variables:
+        ENV_SLUG: stage
+        STACK_SLUG: main
+  environment:
+    name: staging
+    url: https://stage.connect.unich.it
+
+.production:
+  rules: &production-rules
+    - <<: *pipeline-push-rule
+    - &production-rule
+      if: $CI_COMMIT_TAG
+      variables:
+        ENV_SLUG: prod
+        STACK_SLUG: main
+  environment:
+    name: production
+    url: https://connect.unich.it
+
+.sentry:
+  stage: .pre
+  image: docker:20
+  services:
+    - docker:20-dind
+  script:
+    - >
+      docker run --rm
+      -v ${PWD}:${PWD}
+      -w ${PWD}
+      -e CI_ENVIRONMENT_NAME
+      -e PROJECT_DIR=${CI_PROJECT_DIR}
+      -e PROJECT_SLUG
+      -e RELEASE_END
+      -e RELEASE_START
+      -e SENTRY_AUTH_TOKEN
+      -e SENTRY_DSN
+      -e SENTRY_ORG
+      -e SENTRY_PROJECT_NAME
+      -e SENTRY_URL
+      -e VERSION_REF
+      --entrypoint=""
+      getsentry/sentry-cli:latest ./scripts/ci_sentry.sh ${SENTRY_CMD}
+
+.sentry_release:
+  extends:
+    - .sentry
+  variables:
+    SENTRY_CMD: release
+  before_script:
+    - RELEASE_START=$(date +%s)
+
+sentry_release_staging:
+  extends:
+    - .staging
+    - .sentry_release
+  rules:
+    - &sentry-rule
+      if: $SENTRY_ENABLED != "true"
+      when: never
+    - *staging-rules
+
+sentry_release_production:
+  extends:
+    - .production
+    - .sentry_release
+  rules:
+    - <<: *sentry-rule
+    - *production-rules
+
+test:
+  stage: Test
+  image: docker:20
+  services:
+    - docker:20-dind
+  needs: []
+  variables:
+    COMPOSE_FILE: docker-compose.yaml:docker-compose/test.yaml
+    COMPOSE_PROJECT_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}"
+    SERVICE_CONTAINER_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}_frontend"
+    SERVICE_DOCKER_FILE: "docker/test.Dockerfile"
+    SERVICE_IMAGE_NAME: "gitlabci_connect_frontend"
+    SERVICE_IMAGE_TAG: "${CI_JOB_NAME}-${CI_JOB_ID}"
+  script:
+    - docker-compose build --quiet consumer
+    - docker-compose run --name ${SERVICE_CONTAINER_NAME} consumer
+  after_script:
+    - docker cp ${SERVICE_CONTAINER_NAME}:/app/coverage .
+    - docker-compose down --volumes --remove-orphans
+  coverage: /All files[^|]*\|[^|]*\s+([\d\.]+)/
+  artifacts:
+    paths:
+      - coverage
+    reports:
+      junit:
+      - junit.xml
+    expire_in: 1 day
+
+test_build:
+  stage: Test-build
+  image: docker:20
+  services:
+    - docker:20-dind
+  needs: ["test"]
+  variables:
+    SERVICE_BUILD_TARGET: "remote"
+    SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
+    SERVICE_IMAGE_NAME: "gitlabci_${PROJECT_SLUG}_frontend"
+    SERVICE_IMAGE_TAG: "$CI_JOB_NAME-$VERSION_REF"
+  before_script:
+    - export DOCKER_CONFIG=$PWD/.dockerconfig
+  script:
+    - >
+      docker build
+      --tag=${SERVICE_IMAGE_NAME}:${SERVICE_IMAGE_TAG}
+      --file=${SERVICE_DOCKER_FILE}
+      --target=${SERVICE_BUILD_TARGET}
+      --pull .
+    - mkdir trivy
+    - >
+      docker run --rm
+      --entrypoint=""
+      --env GIT_STRATEGY=none
+      --env TARGET_IMAGE=${SERVICE_IMAGE_NAME}:${SERVICE_IMAGE_TAG}
+      --env TRIVY_CACHE_DIR=/tmp/.trivycache/
+      --env TRIVY_NO_PROGRESS=true
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      --volume ${PWD}/trivy:/trivy
+      --volume ${PWD}/scripts/trivy.sh:/app/trivy.sh
+      aquasec/trivy /app/trivy.sh
+  artifacts:
+    paths:
+      - trivy
+    when: always
+
+pages:
+  stage: Report
+  image: busybox
+  needs: ["test"]
+  rules:
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - mv coverage/tests/lcov-report/* public
+  artifacts:
+    paths:
+      - public
+
+.build:
+  stage: Build
+  image: docker:20
+  services:
+    - docker:20-dind
+  before_script:
+    - export DOCKER_CONFIG=${PWD}/.dockerconfig
+    - docker login --username "${CI_REGISTRY_USER}" --password "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+  script:
+    - >
+      docker build
+      --tag=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
+      --file=docker/remote.Dockerfile
+      --target=remote
+      --pull .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
+  after_script:
+    - docker logout ${CI_REGISTRY}
+
+build_staging:
+  extends:
+    - .staging
+    - .build
+  needs:
+    - job: test
+
+build_production:
+  extends:
+    - .production
+    - .build
+  needs:
+    - job: test
+
+.e2e:
+  stage: E2E
+  image: docker:20
+  services:
+    - docker:20-dind
+  variables:
+    COMPOSE_PROJECT_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}"
+    SERVICE_CONTAINER_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}_e2e"
+  before_script:
+    - export CONSUMER_IMAGE=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
+    - docker login --username "${CI_REGISTRY_USER}" --password "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+  script:
+    - docker-compose build --quiet consumer
+    - docker-compose up -d consumer
+    - docker-compose run --name ${SERVICE_CONTAINER_NAME} cypress
+  after_script:
+    - docker cp ${SERVICE_CONTAINER_NAME}:/app/cypress-outputs ./screenshots
+    - docker-compose down --volumes --remove-orphans
+    - docker logout ${CI_REGISTRY}
+  artifacts:
+    paths:
+      - screenshots
+    expire_in: 1 day
+
+e2e_staging:
+  extends:
+    - .staging
+    - .e2e
+  needs: ["test", "build_staging"]
+  rules:
+    - &skip-e2e-rule
+      if: $SKIP_E2E == "true"
+      when: never
+    - &push-only
+      if: $CI_PIPELINE_SOURCE != "push"
+      when: never
+    - *staging-rules
+
+e2e_production:
+  extends:
+    - .production
+    - .e2e
+  needs: ["test", "build_production"]
+  rules:
+    - <<: *skip-e2e-rule
+    - <<: *push-only
+    - *production-rules
+
+e2e_manual:
+  rules:
+    - <<: *skip-e2e-rule
+    - <<: *push-only
+    - if: $CI_COMMIT_REF_PROTECTED == "true"
+      when: never
+    - when: manual
+  extends:
+    - .e2e
+  variables:
+    NEXT_PUBLIC_PROJECT_URL: 'https://proxy:8443'
+    REACT_ENVIRONMENT: 'production'
+    SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
+    COMPOSE_FILE: docker-compose.yaml:docker-compose/e2e.yaml
+  needs: ["test"]

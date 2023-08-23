@@ -1,0 +1,32 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button components <Button /> Button primary ui renders correctly 1`] = `
+.c0 {
+  align-items: center;
+  background-color: #316CF4;
+  border: 0;
+  border-radius: 5px;
+  color: #F1F9FF;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  min-width: 120px;
+  outline: none;
+  padding: 10px;
+  transition: 0.3s background-color ease-in-out;
+  width: fit-content;
+}
+
+.c0:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.c0:hover {
+  background-color: #007AFF;
+}
+
+<button
+  class="c0"
+/>
+`;
