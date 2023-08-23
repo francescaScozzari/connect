@@ -1,0 +1,75 @@
+[tool.black]
+target-version = ["py311"]
+
+[tool.ruff]
+extend-exclude = [
+    "__pycache__",
+    ".pytest_cache",
+    ".vscode*",
+    "*/migrations/*",
+]
+extend-ignore = [
+    "D203",
+    "D212",
+    "D213",
+    "D214",
+    "D215",
+    "D404",
+    "D405",
+    "D406",
+    "D407",
+    "D408",
+    "D409",
+    "D410",
+    "D411",
+    "D413",
+    "D415",
+    "D416",
+    "D417",
+]
+select = ["A", "B", "C", "D", "E", "F", "I", "W", "B9"]
+target-version = "py311"
+
+[tool.ruff.per-file-ignores]
+"connect/*sgi.py" = ["E402"]
+
+[tool.ruff.isort]
+known-first-party = [
+    "connect",
+]
+known-third-party = [
+    "django",
+]
+
+[tool.pytest.ini_options]
+DJANGO_CONFIGURATION = "Testing"
+DJANGO_SETTINGS_MODULE = "connect.settings"
+
+[tool.coverage.html]
+title = "Connect - Coverage"
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+
+[tool.coverage.run]
+branch = true
+concurrency = ["multiprocessing"]
+data_file = ".coverages/.coverage"
+disable_warnings = ["no-data-collected"]
+omit = [
+    ".venv/*",
+    "connect/asgi.py",
+    "connect/workers.py",
+    "connect/wsgi.py",
+    "manage*.py",
+    "venv/*",
+]
+source = ["."]
+
+[tool.mypy]
+ignore_missing_imports = true
+python_version = "3.11"
+
+[tool.bandit]
+exclude_dirs = [".venv", "tests", "features"]
