@@ -1,92 +1,142 @@
-# Orchestrator
+# Connect Orchestrator
 
+This is the "Connect" orchestrator.
 
+## Index
 
-## Getting started
+- [Quickstart](#quickstart)
+  - [Git](#git)
+    - [Clone](#clone)
+  - [Environment variables](#environment-variables)
+  - [Docker](#docker)
+    - [Build](#build)
+    - [Run](#run)
+  - [Makefile shortcuts](#makefile-shortcuts)
+    - [Pull](#pull)
+    - [Django manage command](#django-manage-command)
+    - [Restart and build services](#restart-and-build-services)
+  - [Create SSL Certificate <sup id="a-setup-https-locally">1</sup>](#create-ssl-certificate-sup-ida-setup-https-locally1sup)
+  - [Create and activate a local SSL Certificate <sup id="a-setup-https-locally">1</sup>](#create-and-activate-a-local-ssl-certificate-sup-ida-setup-https-locally1sup)
+    - [Install the cert utils](#install-the-cert-utils)
+    - [Import certificates](#import-certificates)
+    - [Trust the self-signed server certificate](#trust-the-self-signed-server-certificate)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## Quickstart
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+This section explains the steps you need to clone and work with this project.
 
-## Add your files
+1. [clone](#clone) the project code
+2. set all the required [environment variables](#environment-variables)
+3. [build](#build) all the services
+4. [create a superuser](#create-a-superuser) to login the platform
+5. [run](#run) all the services
+6. login using the URL: http://localhost:8080
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Git
 
+#### Clone
+
+Clone the orchestrator and services repositories:
+
+```console
+git clone git@gitlab.com:uda-connect/orchestrator.git connect
+cd connect
+git clone -b mian git@gitlab.com:uda-connect/backend.git
+git clone -b mian git@gitlab.com:uda-connect/frontend.git
+cd ..
 ```
-cd existing_repo
-git remote add origin https://gitlab.com/uda-connect/orchestrator.git
-git branch -M main
-git push -uf origin main
+
+**NOTE** : We're cloning the `main` branch for all repo.
+
+### Environment variables
+
+In order for the project to run correctly, a number of environment variables must be set in an `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
+
+Enter the newly created **project** directory and create the `.env` file copying from `.env_template`:
+
+```console
+$ cd ~/projects/connect
+$ cp .env_template .env
 ```
 
-## Integrate with your tools
+### Docker
 
-- [ ] [Set up project integrations](https://gitlab.com/uda-connect/orchestrator/-/settings/integrations)
+All the following Docker commands are supposed to be run from the orchestrator directory.
 
-## Collaborate with your team
+#### Build
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+```console
+$ docker-compose build
+```
 
-## Test and Deploy
+#### Run
 
-Use the built-in continuous integration in GitLab.
+```console
+$ docker-compose up
+```
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+**NOTE**: It can be daemonized adding the `-d` flag.
 
-***
+### Makefile shortcuts
 
-# Editing this README
+#### Self documentation of Makefile commands
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
+To show the Makefile self documentation help:
 
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+```console
+$ make
+```
 
-## Name
-Choose a self-explaining name for your project.
+#### Pull
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+Pull the main git repo and the sub-repos:
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+```console
+$ make pull
+```
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+#### Django manage command
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+Use the Django `manage.py` command shell:
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+```console
+$ make django
+```
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+You can pass the specific command:
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+```console
+$ make django p=check
+```
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+You can pass the container name:
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+```console
+$ make django p=shell c=backend_2
+```
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
+#### Restart and build services
 
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
+Restart and build all services:
 
-## License
-For open source projects, say how it is licensed.
+```console
+$ make rebuild
+```
 
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+You can pass the service name:
+
+```console
+$ make rebuild s=backend
+```
+
+### Activate a valid local SSL Certificate
+
+Import the `traefik/conf/local/unsigned.crt` file in your browser to have a trusted ssl certificate:
+
+#### Firefox
+
+- Settings > Privacy & Security > Manage Certificates > View Certificates... > Authorities > Import
+
+#### Chrome
+
+- Settings > Security > Certificates > Authorities > Import

@@ -1,0 +1,60 @@
+version: "3.8"
+
+services:
+  backend:
+    environment:
+      - CACHE_URL
+      - DATABASE_URL
+      - DJANGO_ADMINS
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_CONFIGURATION
+      - DJANGO_DEBUG
+      - DJANGO_DEFAULT_FROM_EMAIL
+      - DJANGO_SECRET_KEY
+      - DJANGO_SERVER_EMAIL
+      - DJANGO_SESSION_COOKIE_DOMAIN
+      - DJANGO_SUPERUSER_EMAIL
+      - DJANGO_SUPERUSER_PASSWORD
+      - DJANGO_SUPERUSER_USERNAME
+      - EMAIL_URL
+      - PYTHONBREAKPOINT
+    healthcheck:
+      test: curl --fail --head http://localhost:8000/backend/health/ || exit 1
+      interval: 30s
+      start_period: 5s
+      timeout: 5s
+      retries: 5
+    user: ${USER:-appuser}
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    depends_on:
+      backend:
+        condition: service_started
+    environment:
+      - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://backend:8000}
+      - NEXT_PUBLIC_PROJECT_URL=${PROJECT_URL:-https://localhost:8443}
+      - REACT_ENVIRONMENT=${REACT_ENVIRONMENT:-Development}
+    healthcheck:
+      test: curl --fail --head http://localhost:3000/frontend/health/ || exit 1
+      interval: 30s
+      timeout: 5s
+      start_period: 5s
+      retries: 5
+
+  traefik:
+    depends_on:
+      - backend
+      - frontend
+    volumes:
+      - ./traefik/:/traefik/:ro
+    image: traefik:v2.10
+    healthcheck:
+      test: ["CMD", "traefik", "healthcheck", "--ping"]
+      interval: 30s
+      timeout: 5s
+      start_period: 5s
+      retries: 5
+    ports:
+      - "${LOCAL_HTTPS_PORT:-443}:443"
