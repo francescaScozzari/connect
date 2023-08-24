@@ -1,5 +1,6 @@
 stages:
   - Test
+  - Test-build
   - Build
   - Report
 
@@ -114,6 +115,48 @@ test:
       - htmlcov
     when: always
 
+test_build:
+  stage: Test-build
+  image: docker:20
+  services:
+    - docker:20-dind
+  needs: []
+  variables:
+    BACKEND_IMAGE_NAME: "gitlabci_connect_backend"
+    BACKEND_IMAGE_TAG: "${CI_JOB_NAME}-${VERSION_REF}"
+  before_script:
+    - export DOCKER_CONFIG=${PWD}/.dockerconfig
+  script:
+    - docker build --tag ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} --target remote --pull .
+    - >
+      docker run --rm
+      --entrypoint=""
+      --env-file .env_template
+      --env BACKEND_BUILD_TARGET=remote
+      --env DJANGO_CONFIGURATION=Remote
+      --env PYTHONDEVMODE=0
+      ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+      python3 -m manage check --deploy
+    - mkdir trivy
+    - >
+      docker run --rm
+      --entrypoint=""
+      --env GIT_STRATEGY=none
+      --env TARGET_IMAGE=${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+      --env TRIVY_CACHE_DIR=/tmp/.trivycache/
+      --env TRIVY_NO_PROGRESS=true
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      --volume ${PWD}/trivy:/trivy
+      --volume ${PWD}/.trivyignore:/.trivyignore
+      --volume ${PWD}/scripts/trivy.sh:/app/trivy.sh
+      aquasec/trivy /app/trivy.sh
+  after_script:
+    - docker rmi ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+  artifacts:
+    paths:
+      - trivy
+    when: always
+
 pages:
   stage: Report
   image: busybox
@@ -148,6 +191,7 @@ build_staging:
     - .build
   needs:
     - job: test
+    - job: test_build
 
 build_production:
   extends:
@@ -155,3 +199,6 @@ build_production:
     - .build
   needs:
     - job: test
+    - job: test_build
+  variables:
+    VERSION_REF: "v.${CI_COMMIT_TAG}"
