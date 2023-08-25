@@ -19,7 +19,7 @@ precommit_update:  ## Update pre_commit
 	python3 -m pre_commit autoupdate
 
 .PHONY: pull
-pull:  ## Pull amin on all services
+pull:  ## Pull main on all services
 	git checkout main && git pull && \
 	cd backend && git checkout main && git pull && \
 	cd ../frontend && git checkout main && git pull && \

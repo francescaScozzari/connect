@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  backend:
+    image: ${BACKEND_IMAGE}
+    user: appuser
+
+  frontend:
+    image: ${FRONTEND_IMAGE}
+
+  traefik:
+    environment:
+      - BASIC_AUTH
+      - LETSENCRYPT_EMAIL
+      - PROJECT_HOST
+    command:
+      - "--configFile=/traefik/conf/remote/static.yaml"
+      - "--certificatesResolvers.le-ssl.acme.email=${LETSENCRYPT_EMAIL}"
+    ports:
+      - "${LOCAL_HTTPS_PORT:-80}:80"
+      - "${LOCAL_HTTPS_PORT:-443}:443"
+    volumes:
+      - ./traefik/letsencrypt/:/letsencrypt/
+      - /var/run/docker.sock:/var/run/docker.sock

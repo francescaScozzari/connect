@@ -1,0 +1,24 @@
+version: "3.8"
+
+services:
+  backend:
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    environment:
+      - POSTGRES_DB=connect
+      - POSTGRES_INITDB_ARGS=--no-sync
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    image: postgres:15-bookworm
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data: {}

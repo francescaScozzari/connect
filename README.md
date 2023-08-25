@@ -41,8 +41,8 @@ Clone the orchestrator and services repositories:
 ```console
 git clone git@gitlab.com:uda-connect/orchestrator.git connect
 cd connect
-git clone -b mian git@gitlab.com:uda-connect/backend.git
-git clone -b mian git@gitlab.com:uda-connect/frontend.git
+git clone -b main git@gitlab.com:uda-connect/backend.git
+git clone -b main git@gitlab.com:uda-connect/frontend.git
 cd ..
 ```
 
