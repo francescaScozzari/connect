@@ -8,6 +8,8 @@ http:
         PathPrefix(`/admin`) ||
         PathPrefix(`/api`) ||
         PathPrefix(`/backend`) ||
+        PathPrefix(`/password_reset`) ||
+        PathPrefix(`/reset`) ||
         PathPrefix(`/static`)
       service: backend
       tls:
