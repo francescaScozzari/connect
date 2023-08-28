@@ -18,7 +18,7 @@ repos:
       - id: detect-private-key
       - id: end-of-file-fixer
       - id: file-contents-sorter
-        files: ^(\.env_template|\.dockerignore|requirements/\w*.in)$
+        files: ^(\.env_template|requirements/\w*.in)$
         args: ["--ignore-case", "--unique"]
       - id: fix-byte-order-marker
       - id: fix-encoding-pragma

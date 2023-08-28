@@ -199,6 +199,8 @@ class ProjectDefault(Configuration):
 
     CSRF_TRUSTED_ORIGINS = values.ListValue([])
 
+    LOGIN_URL = "admin:login"
+
 
 class Local(ProjectDefault):
     """The local settings."""

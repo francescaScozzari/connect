@@ -1,5 +1,7 @@
 **/*.po
 **/__pycache__
+**/fixtures
+!users/fixtures/groups.json
 **/lost+found
 *.md
 *.svg

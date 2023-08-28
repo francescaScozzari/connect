@@ -26,7 +26,7 @@ createsuperuser:  ## Django createsuperuser
 
 .PHONY: dumpgroups
 dumpgroups:  ## Django dump auth.Group data
-	python3 -m manage dumpdata auth.Group --natural-foreign --natural-primary --output fixtures/auth_groups.json
+	python3 -m manage dumpdata auth.Group --natural-foreign --natural-primary --output connect/fixtures/groups.json
 
 .PHONY: fix
 fix:  ## Fix code formatting, linting and sorting imports
@@ -44,7 +44,7 @@ graph_models:  ## Django generate graph models
 
 .PHONY: loadgroups
 loadgroups:  ## Django load auth.Group data
-	python3 -m manage loaddata fixtures/auth_groups.json
+	python3 -m manage loaddata connect/fixtures/groups.json
 
 .PHONY: local
 local: pip_update  ## Install local requirements and dependencies

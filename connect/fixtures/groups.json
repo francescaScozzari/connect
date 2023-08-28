@@ -1,0 +1,13 @@
+[
+  {
+    "model": "auth.group",
+    "fields": {
+      "name": "Amministratore Connect",
+      "permissions": [
+        ["add_user", "auth", "user"],
+        ["change_user", "auth", "user"],
+        ["view_user", "auth", "user"]
+      ]
+    }
+  }
+]
