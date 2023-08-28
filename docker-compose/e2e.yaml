@@ -1,7 +1,6 @@
 version: "3.8"
 
 services:
-
   consumer:
     image: ${CONSUMER_IMAGE}
     environment:
@@ -23,7 +22,5 @@ services:
 
 networks:
   container_network:
-    name:
-      container_network
-    driver:
-      bridge
+    name: container_network
+    driver: bridge

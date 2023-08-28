@@ -118,7 +118,7 @@ test:
       - coverage
     reports:
       junit:
-      - junit.xml
+        - junit.xml
     expire_in: 1 day
 
 test_build:
@@ -264,8 +264,8 @@ e2e_manual:
   extends:
     - .e2e
   variables:
-    NEXT_PUBLIC_PROJECT_URL: 'http://localhost:3000'
-    REACT_ENVIRONMENT: 'production'
+    NEXT_PUBLIC_PROJECT_URL: "http://localhost:3000"
+    REACT_ENVIRONMENT: "production"
     SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
     COMPOSE_FILE: docker-compose.yaml:docker-compose/e2e.yaml:docker-compose/e2e-manual.yaml
   needs: ["test"]

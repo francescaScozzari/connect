@@ -1,11 +1,8 @@
-import { parseCookies } from 'nookies'
 import { ThemeProvider } from 'styled-components'
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { changeTheme } from '@/store/utilsSlice'
 import { GlobalStyle } from '@/styles/GlobalStyle'
-import { Navbar } from '@/components/Navbar'
-import { useAppDispatch, useAppSelector } from '@/store'
+import { Theme } from '@/models/Utils'
 import themes from '@/styles/themes'
 
 type Props = {
@@ -13,20 +10,9 @@ type Props = {
 }
 
 const Layout = ({ children }: Props) => {
-  const dispatch = useAppDispatch()
-  const { theme } = useAppSelector(state => state.utils)
-
-  useEffect(() => {
-    const cookie = parseCookies()
-    if (cookie['THEME'] !== theme) {
-      dispatch(changeTheme(cookie['THEME']))
-    }
-  }, [dispatch, theme])
-
   return (
-    <ThemeProvider theme={themes[theme]}>
+    <ThemeProvider theme={themes[Theme.light]}>
       <GlobalStyle />
-      <Navbar />
       {children}
     </ThemeProvider>
   )

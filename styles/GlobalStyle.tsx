@@ -21,6 +21,10 @@ const titleFont = HeptaSlab({
 export const GlobalStyle = createGlobalStyle`
   ${normalize}
 
+  :root {
+    font-size: 1em;
+  }
+
   * {
     box-sizing: border-box;
   }
