@@ -28,6 +28,10 @@ createsuperuser:  ## Django createsuperuser
 dumpgroups:  ## Django dump auth.Group data
 	python3 -m manage dumpdata auth.Group --natural-foreign --natural-primary --output connect/fixtures/groups.json
 
+.PHONY: dumpuniversities
+dumpuniversities:  ## Django dump universities data
+	python3 -m manage dumpdata universities --natural-foreign --natural-primary --output universities/fixtures/universities.json
+
 .PHONY: fix
 fix:  ## Fix code formatting, linting and sorting imports
 	python3 -m black .
@@ -45,6 +49,10 @@ graph_models:  ## Django generate graph models
 .PHONY: loadgroups
 loadgroups:  ## Django load auth.Group data
 	python3 -m manage loaddata connect/fixtures/groups.json
+
+.PHONY: loaduniversities
+loaduniversities:  ## Django load universities data
+	python3 -m manage loaddata universities/fixtures/universities.json
 
 .PHONY: local
 local: pip_update  ## Install local requirements and dependencies

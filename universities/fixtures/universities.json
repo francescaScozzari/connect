@@ -1,0 +1,35 @@
+[
+  {
+    "model": "universities.university",
+    "pk": 1,
+    "fields": { "name": "University of G. d'Annunzio Chieti and Pescara" }
+  },
+  {
+    "model": "universities.author",
+    "pk": 1,
+    "fields": {
+      "orcid": "0000-0002-6214-5198",
+      "full_name": "Gianluca Amato",
+      "university": 1
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 2,
+    "fields": {
+      "orcid": "0000-0002-2105-4855",
+      "full_name": "Francesca Scozzari",
+      "university": 1
+    }
+  },
+  {
+    "model": "universities.document",
+    "pk": 1,
+    "fields": {
+      "doi": "10.1007/978-3-031-27481-7_10",
+      "title": "The ScalaFix Equation Solver",
+      "description": "We present ScalaFix, a modular library for solving equation systems by iterative methods. ScalaFix implements several solvers, involving iteration strategies from plain Kleene’s iteration to more complex ones based on a hierarchical ordering of the unknowns. It works with finite and infinite equation systems and supports widening, narrowing and warrowing operators. It also allows intertwining ascending and descending chains and other advanced techniques such as localized widening.",
+      "authors": [1, 2]
+    }
+  }
+]
