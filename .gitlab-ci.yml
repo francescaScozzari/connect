@@ -126,7 +126,7 @@ test_build:
   image: docker:20
   services:
     - docker:20-dind
-  needs: ["test"]
+  needs: []
   variables:
     SERVICE_BUILD_TARGET: "remote"
     SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
@@ -177,7 +177,7 @@ pages:
     - docker:20-dind
   before_script:
     - export DOCKER_CONFIG=${PWD}/.dockerconfig
-    - docker login --username "${CI_REGISTRY_USER}" --password "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - echo ${CI_REGISTRY_PASSWORD} | docker login ${CI_REGISTRY} --username ${CI_REGISTRY_USER} --password-stdin
   script:
     - >
       docker build
@@ -202,6 +202,8 @@ build_production:
     - .build
   needs:
     - job: test
+  variables:
+    VERSION_REF: "v.${CI_COMMIT_TAG}"
 
 .e2e:
   stage: E2E
@@ -211,9 +213,10 @@ build_production:
   variables:
     COMPOSE_PROJECT_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}"
     SERVICE_CONTAINER_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}_e2e"
+    COMPOSE_FILE: docker-compose.yaml:docker-compose/e2e.yaml
   before_script:
     - export CONSUMER_IMAGE=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
-    - docker login --username "${CI_REGISTRY_USER}" --password "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - echo ${CI_REGISTRY_PASSWORD} | docker login ${CI_REGISTRY} --username ${CI_REGISTRY_USER} --password-stdin
   script:
     - docker-compose build --quiet consumer
     - docker-compose up -d consumer
@@ -261,8 +264,8 @@ e2e_manual:
   extends:
     - .e2e
   variables:
-    NEXT_PUBLIC_PROJECT_URL: 'https://proxy:8443'
+    NEXT_PUBLIC_PROJECT_URL: 'http://localhost:3000'
     REACT_ENVIRONMENT: 'production'
     SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
-    COMPOSE_FILE: docker-compose.yaml:docker-compose/e2e.yaml
+    COMPOSE_FILE: docker-compose.yaml:docker-compose/e2e.yaml:docker-compose/e2e-manual.yaml
   needs: ["test"]

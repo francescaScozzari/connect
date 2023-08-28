@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:18-bookworm-slim
-LABEL company="20tab" project="connect" service="frontend" stage="test"
+LABEL project="connect" service="frontend" stage="test"
 ARG DEBIAN_FRONTEND=noninteractive GROUP_ID=1001 USER=appuser
 ENV APPUSER=$USER \
     LANG=C.UTF-8 \
@@ -35,6 +35,7 @@ COPY --chown=$APPUSER \
     tsconfig.json \
     yarn.lock \
     ./
-RUN yarn config set cache-folder $HOME/.yarn-cache
+RUN yarn add @next/swc-linux-x64-gnu @next/swc-linux-x64-musl \
+    && yarn config set cache-folder $HOME/.yarn-cache
 ENTRYPOINT ["./entrypoint_test.sh"]
 CMD ["./test.sh"]

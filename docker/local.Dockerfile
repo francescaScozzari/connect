@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:18-bookworm-slim
-LABEL company="20tab" project="connect" service="frontend" stage="local"
+LABEL project="connect" service="frontend" stage="local"
 ARG DEBIAN_FRONTEND=noninteractive GROUP_ID=1000 USER_ID=1000 USER=appuser
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8 NEXT_TELEMETRY_DISABLED=1 NODE_ENV="development" USER=$USER WORKDIR=/app
 RUN apt-get update \

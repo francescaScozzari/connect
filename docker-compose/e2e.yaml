@@ -3,29 +3,21 @@ version: "3.8"
 services:
 
   consumer:
-    build:
-      context: ./
-      dockerfile: ${SERVICE_DOCKER_FILE:-docker/remote.Dockerfile}
+    image: ${CONSUMER_IMAGE}
     environment:
       - NEXT_PUBLIC_PROJECT_URL=${NEXT_PUBLIC_PROJECT_URL:-http://localhost:3000}
-    ports:
-      - 3000:3000
 
   cypress:
     build:
       context: ./
       dockerfile: docker/cypress.Dockerfile
-      args:
-        USER: ${USER:-appuser}
     container_name: cypress
     depends_on:
       consumer:
         condition: service_started
     environment:
       - CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-http://consumer:3000}
-    user: ${USER:-appuser}
     volumes:
-      - ./:/app
       - ./cypress:/app/cypress
       - ./cypress.config.ts:/app/cypress.config.ts
 

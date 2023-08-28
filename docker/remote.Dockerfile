@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 
 FROM node:18-bookworm-slim AS build
-LABEL company="20tab" project="connect" service="frontend" stage="build"
+LABEL project="connect" service="frontend" stage="build"
 ENV PATH="$PATH:./node_modules/.bin"
 WORKDIR /app
 COPY package.json yarn.lock* package-lock.json* pnpm-lock.yaml* ./
@@ -31,6 +31,7 @@ ENV NEXT_TELEMETRY_DISABLED=1 \
   SENTRY_ORG=$SENTRY_ORG \
   SENTRY_PROJECT_NAME=$SENTRY_PROJECT_NAME \
   SENTRY_URL=$SENTRY_URL
+RUN yarn add @next/swc-linux-x64-gnu @next/swc-linux-x64-musl
 RUN apt-get update \
   && apt-get install --assume-yes --no-install-recommends \
     ca-certificates \
@@ -41,10 +42,14 @@ RUN apt-get update \
   && rm -rf /var/lib/apt/lists/*
 
 FROM node:18-bookworm-slim AS remote
-LABEL company="20tab" project="connect" service="frontend" stage="remote"
+LABEL project="connect" service="frontend" stage="remote"
 WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+RUN apt-get update \
+  && apt-get install --assume-yes --no-install-recommends \
+    curl \
+  && rm -rf /var/lib/apt/lists/*
 USER nextjs
 COPY ["next.config.js", "package.json", "sentry.client.config.js", "sentry.server.config.js", "server.js", "yarn.lock", "middleware.ts", "./"]
 COPY ["public/", "public/"]

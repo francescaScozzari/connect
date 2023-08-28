@@ -1,12 +1,11 @@
 # syntax=docker/dockerfile:1
 
-FROM cypress/base:18.16.0
-LABEL company="20tab" project="connect" service="frontend" stage="e2e"
+FROM cypress/base:18.16.1
+LABEL project="connect" service="frontend" stage="e2e"
 ARG USER=appuser
 ENV APPUSER=$USER \
   CYPRESS_CACHE_FOLDER="/home/$USER/.cache/Cypress" \
-  PATH="$PATH:./node_modules/.bin" \
-  NEXT_TELEMETRY_DISABLED=1
+  PATH="$PATH:./node_modules/.bin"
 WORKDIR /app
 RUN useradd --skel /dev/null --create-home $APPUSER
 RUN chown $APPUSER:$APPUSER /app
@@ -20,5 +19,5 @@ COPY --chown=$APPUSER \
 RUN yarn add cypress typescript
 RUN cypress install
 RUN mkdir cypress-outputs
-ENTRYPOINT [ "./scripts/entrypoint.sh" ]
-CMD [ "./scripts/ci_e2e.sh" ]
+ENTRYPOINT [ "./entrypoint.sh" ]
+CMD [ "./ci_e2e.sh" ]
