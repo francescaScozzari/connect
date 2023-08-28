@@ -10,13 +10,13 @@ describe('Input components', () => {
     const setup = () =>
       renderWithWrappers(
         <InputWithErrors
-          placeholder='some-placeholder'
+          placeholder="some-placeholder"
           errors={['This field may not be blank.']}
         />
       )
 
     const setupWithNoErrors = () =>
-      renderWithWrappers(<Input placeholder='some-placeholder' />)
+      renderWithWrappers(<Input placeholder="some-placeholder" />)
 
     test('should render input', () => {
       setup()

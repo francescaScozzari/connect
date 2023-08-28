@@ -36,7 +36,7 @@ export default class MyDocument extends Document {
     return (
       <Html lang={(locale && locale.split('-')[0]) || 'en'}>
         <Head>
-          <link rel='icon' href='/favicon.ico' />
+          <link rel="icon" href="/favicon.ico" />
         </Head>
         <body>
           <Main />

@@ -23,7 +23,7 @@ const ThemeSwitch = () => {
 
   return (
     <Switch>
-      <Input type='checkbox' onChange={handlePressTheme} checked={isDark} />
+      <Input type="checkbox" onChange={handlePressTheme} checked={isDark} />
       <Slider />
     </Switch>
   )

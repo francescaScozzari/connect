@@ -11,7 +11,8 @@
     "ci:unit-test": "npx jest --color --silent --detectOpenHandles --coverage --ci --reporters=default --reporters=jest-junit",
     "e2e": "CYPRESS_BASE_URL=http://localhost:3000 cypress open",
     "start": "node server.js",
-    "test": "npx jest --detectOpenHandles"
+    "test": "npx jest --detectOpenHandles",
+    "prettier:fix": "yarn prettier . --check --write"
   },
   "dependencies": {
     "@next/font": "^13.4.19",

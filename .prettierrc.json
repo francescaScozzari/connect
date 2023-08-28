@@ -2,7 +2,14 @@
   "arrowParens": "avoid",
   "singleQuote": false,
   "semi": false,
-  "jsxSingleQuote": true,
   "trailingComma": "none",
-  "useTabs": false
+  "useTabs": false,
+  "overrides": [
+    {
+      "files": ["*.js", "*.jsx", "*.ts", "*.tsx"],
+      "options": {
+        "singleQuote": true
+      }
+    }
+  ]
 }

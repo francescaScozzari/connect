@@ -20,7 +20,9 @@ First, run the development server:
 ```bash
 npm run dev
 ```
+
 or
+
 ```bash
 yarn dev
 ```
@@ -34,7 +36,9 @@ To check all file linting, execute:
 ```bash
 npm run lint
 ```
+
 or
+
 ```bash
 yarn lint
 ```
@@ -52,7 +56,9 @@ To check audit, execute:
 ```bash
 npm run audit:fix
 ```
+
 or
+
 ```bash
 yarn audit:fix
 ```
@@ -66,7 +72,9 @@ To run the unit test suite, execute:
 ```bash
 npm run test
 ```
+
 or
+
 ```bash
 yarn test
 ```
@@ -92,7 +100,9 @@ npm run pact && \
 docker-compose up provider && \
 npm run dev
 ```
+
 or
+
 ```bash
 yarn pact && \
 docker-compose up provider && \
@@ -104,15 +114,19 @@ yarn dev
 :warning: **develop, main and tags**: should be protected!
 
 ## E2E Integration
+
 The E2E integration, can be skip using following variable that should be set in the GitLab respository:
+
 ```git
   SKIP_E2E = true
 ```
 
 ## Monitoring
+
 ### Sentry integration
 
 To enable the Sentry integration, the following variables should be set in the GitLab respository:
+
 ```git
   SENTRY_AUTH_TOKEN (protected and masked) from Sentry
   SENTRY_DSN (protected and masked) from Sentry

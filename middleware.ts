@@ -30,13 +30,12 @@ export function middleware(req: NextRequest) {
 
   /**
    * Allow serving health endpoint.
-  */
+   */
   const { pathname } = req.nextUrl
 
   if (
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/frontend/health')
   )
-
-  return NextResponse.next()
+    return NextResponse.next()
 }

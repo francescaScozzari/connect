@@ -7,18 +7,12 @@
     }
   },
   "parserOptions": {
-    "project": [
-      "./tsconfig.json",
-      "./cypress/tsconfig.json"
-    ],
+    "project": ["./tsconfig.json", "./cypress/tsconfig.json"],
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": [
-    "@typescript-eslint",
-    "prettier"
-  ],
+  "plugins": ["@typescript-eslint", "prettier"],
   "extends": [
     "eslint:recommended",
     "next/core-web-vitals",
@@ -31,8 +25,11 @@
   "rules": {
     "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-unused-vars": ["warn", {"argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }],
-    "camelcase": [2, {"properties": "always"}],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_" }
+    ],
+    "camelcase": [2, { "properties": "always" }],
     "prettier/prettier": "warn",
     "react/no-unescaped-entities": 0,
     "react/prop-types": 0,

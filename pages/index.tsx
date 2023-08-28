@@ -9,7 +9,7 @@ const Home: NextPage = () => {
   return (
     <Container>
       <H1.Normal>Lorem Ipsum</H1.Normal>
-      <InputWithErrors placeholder='' />
+      <InputWithErrors placeholder="" />
     </Container>
   )
 }
