@@ -46,7 +46,7 @@ const theme: DefaultTheme = {
   titles: {
     h1: {
       normal: {
-        fontSize: '40px',
+        fontSize: '35px',
         fontWeight: 500
       },
       big: {
@@ -54,7 +54,7 @@ const theme: DefaultTheme = {
         fontWeight: 500
       },
       medium: {
-        fontSize: '45px',
+        fontSize: '40px',
         fontWeight: 500
       }
     },
