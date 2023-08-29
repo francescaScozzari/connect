@@ -4,6 +4,8 @@ services:
   backend:
     image: ${BACKEND_IMAGE}
     user: appuser
+    volumes:
+      - .cache/pybliometrics:/home/appuser/.cache/pybliometrics/
 
   frontend:
     image: ${FRONTEND_IMAGE}

@@ -90,3 +90,6 @@ terraform.tfvars.json
 
 # Let's Encrypt
 letsencrypt/
+
+# Cache
+.cache/

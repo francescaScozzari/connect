@@ -12,6 +12,7 @@ services:
         condition: service_healthy
     volumes:
       - ./backend:/app
+      - .cache/pybliometrics:/home/${USER:-appuser}/.cache/pybliometrics/
 
   frontend:
     build:
