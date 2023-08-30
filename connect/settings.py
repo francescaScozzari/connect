@@ -49,6 +49,8 @@ class ProjectDefault(Configuration):
         "django.contrib.sessions",
         "django.contrib.messages",
         "django.contrib.staticfiles",
+        "rest_framework",
+        "django_filters",
         "universities",
         "scopus",
     ]
@@ -203,6 +205,25 @@ class ProjectDefault(Configuration):
 
     LOGIN_URL = "admin:login"
 
+    # Django REST Framework
+    # https://www.django-rest-framework.org/api-guide/settings/
+
+    REST_FRAMEWORK: dict = {
+        "DEFAULT_AUTHENTICATION_CLASSES": [],
+        "DEFAULT_FILTER_BACKENDS": [
+            "django_filters.rest_framework.DjangoFilterBackend"
+        ],
+        "DEFAULT_PARSER_CLASSES": [
+            "djangorestframework_camel_case.parser.CamelCaseFormParser",
+            "djangorestframework_camel_case.parser.CamelCaseMultiPartParser",
+            "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        ],
+        "DEFAULT_RENDERER_CLASSES": [
+            "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+        ],
+        "JSON_UNDERSCOREIZE": {"no_underscore_before_number": True},
+    }
+
     # pybliometrics
     # https://pybliometrics.readthedocs.io/en/stable/index.html
 
@@ -273,6 +294,44 @@ class Local(ProjectDefault):
             "theme": "django2018",
             "verbose_names": False,
         }
+
+    # Django REST Framework
+    # https://www.django-rest-framework.org/api-guide/settings/
+
+    REST_FRAMEWORK: dict = {
+        **ProjectDefault.REST_FRAMEWORK,
+        "DEFAULT_RENDERER_CLASSES": [
+            "djangorestframework_camel_case.render.CamelCaseJSONRenderer",
+            "djangorestframework_camel_case.render.CamelCaseBrowsableAPIRenderer",
+        ],
+        "DEFAULT_PARSER_CLASSES": (
+            "djangorestframework_camel_case.parser.CamelCaseJSONParser",
+        ),
+    }
+
+    # DRF Spectacular (API Docs)
+    # https://drf-spectacular.readthedocs.io/en/latest/readme.html
+
+    try:
+        import drf_spectacular  # noqa: F401
+    except ModuleNotFoundError:  # pragma: no cover
+        pass
+    else:  # pragma: no cover
+        INSTALLED_APPS.append("drf_spectacular")
+
+        SPECTACULAR_SETTINGS = {
+            "TITLE": "Connect",
+            "DESCRIPTION": "An open cloud platform for matching research interests "
+            "and to identify opportunities for calls",
+            "VERSION": "local",
+            "SERVE_INCLUDE_SCHEMA": False,
+            "POSTPROCESSING_HOOKS": [
+                "drf_spectacular.contrib.djangorestframework_camel_case.camelize_serializer_fields",
+                "drf_spectacular.hooks.postprocess_schema_enums",
+            ],
+        }
+
+        REST_FRAMEWORK["DEFAULT_SCHEMA_CLASS"] = "drf_spectacular.openapi.AutoSchema"
 
 
 class Testing(ProjectDefault):

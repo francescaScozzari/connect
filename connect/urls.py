@@ -24,8 +24,36 @@ from connect.views import HealthView
 
 admin.site.site_header = admin.site.site_title = "Connect"
 
+try:
+    from drf_spectacular.views import (
+        SpectacularAPIView,
+        SpectacularRedocView,
+    )
+except ModuleNotFoundError:  # pragma: no cover
+    api_docs_urlpatterns = []  # pragma: no cover
+    pass
+else:  # pragma: no cover
+    api_docs_urlpatterns = [
+        path("schema/", SpectacularAPIView.as_view(), name="schema"),
+        path(
+            "docs/", SpectacularRedocView.as_view(url_name="api:schema"), name="redoc"
+        ),
+    ]
+
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path(
+        "api/",
+        include(
+            (
+                [
+                    path("", include("universities.urls")),
+                    *api_docs_urlpatterns,
+                ],
+                "api",
+            )
+        ),
+    ),
     path(
         "password_reset/",
         auth_views.PasswordResetView.as_view(),

@@ -2,14 +2,44 @@
   {
     "model": "universities.university",
     "pk": 1,
-    "fields": { "name": "University of G. d'Annunzio Chieti and Pescara" }
+    "fields": { "name": "Princeton University" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 2,
+    "fields": { "name": "East Texas Tech University" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 3,
+    "fields": { "name": "Massachusetts Institute of Technology" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 4,
+    "fields": { "name": "University of Cambridge" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 5,
+    "fields": { "name": "University of California" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 6,
+    "fields": { "name": "Harvard University" }
+  },
+  {
+    "model": "universities.university",
+    "pk": 7,
+    "fields": { "name": "Yale University" }
   },
   {
     "model": "universities.author",
     "pk": 1,
     "fields": {
-      "orcid": "0000-0002-6214-5198",
-      "full_name": "Gianluca Amato",
+      "orcid": "0000-0000-0000-0001",
+      "full_name": "Leonard Hofstadter",
       "university": 1
     }
   },
@@ -17,18 +47,72 @@
     "model": "universities.author",
     "pk": 2,
     "fields": {
-      "orcid": "0000-0002-2105-4855",
-      "full_name": "Francesca Scozzari",
-      "university": 1
+      "orcid": "0000-0000-0000-0002",
+      "full_name": "Sheldon Cooper",
+      "university": 2
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 3,
+    "fields": {
+      "orcid": "0000-0000-0000-0003",
+      "full_name": "Howard Wolowitz",
+      "university": 3
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 4,
+    "fields": {
+      "orcid": "0000-0000-0000-0004",
+      "full_name": "Raj Koothrappali",
+      "university": 4
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 5,
+    "fields": {
+      "orcid": "0000-0000-0000-0005",
+      "full_name": "Bernadette Rostenkowski",
+      "university": 5
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 6,
+    "fields": {
+      "orcid": "0000-0000-0000-0006",
+      "full_name": "Amy Farrah Fowler",
+      "university": 6
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 7,
+    "fields": {
+      "orcid": "0000-0000-0000-0007",
+      "full_name": "Leslie Winkle",
+      "university": 7
+    }
+  },
+  {
+    "model": "universities.author",
+    "pk": 7,
+    "fields": {
+      "orcid": "0000-0000-0000-0007",
+      "full_name": "Emily Sweeney",
+      "university": 6
     }
   },
   {
     "model": "universities.document",
     "pk": 1,
     "fields": {
-      "doi": "10.1007/978-3-031-27481-7_10",
-      "title": "The ScalaFix Equation Solver",
-      "description": "We present ScalaFix, a modular library for solving equation systems by iterative methods. ScalaFix implements several solvers, involving iteration strategies from plain Kleene’s iteration to more complex ones based on a hierarchical ordering of the unknowns. It works with finite and infinite equation systems and supports widening, narrowing and warrowing operators. It also allows intertwining ascending and descending chains and other advanced techniques such as localized widening.",
+      "doi": "99.9999/999-9-999-99999-9_99",
+      "title": "The superfluid vacuum theory",
+      "description": "Superfluid vacuum theory (SVT), sometimes known as the BEC vacuum theory, is an approach in theoretical physics and quantum mechanics where the fundamental physical vacuum (non-removable background) is considered as a superfluid or as a Bose–Einstein condensate (BEC).",
       "authors": [1, 2]
     }
   }

@@ -1,4 +1,4 @@
-"""Universities admin."""
+"""The universities app admin."""
 
 from django.contrib import admin
 

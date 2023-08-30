@@ -98,6 +98,8 @@ django==4.2.4 \
     #   -r requirements/base.in
     #   dj-database-url
     #   django-configurations
+    #   django-filter
+    #   djangorestframework
 django-cache-url==3.4.4 \
     --hash=sha256:5ca4760b4580b80e41279bc60d1e5c16a822e4e462265faab0a330701bb0ef9a \
     --hash=sha256:ef2cfacea361ee22e9b67d6ca941db22e0a9eaf892b67ca71cad52c62a17fd36
@@ -106,6 +108,17 @@ django-configurations==2.4.1 \
     --hash=sha256:8bf8866ae29db89ecf93a7743450b5d8974073cf7c194fd98764fd16deac218d \
     --hash=sha256:a6c25c143834e67b20d34751512d08b3290684f25098ee212b1ee36804a59085
     # via -r requirements/base.in
+django-filter==23.2 \
+    --hash=sha256:2fe15f78108475eda525692813205fa6f9e8c1caf1ae65daa5862d403c6dbf00 \
+    --hash=sha256:d12d8e0fc6d3eb26641e553e5d53b191eb8cec611427d4bdce0becb1f7c172b5
+    # via -r requirements/common.in
+djangorestframework==3.14.0 \
+    --hash=sha256:579a333e6256b09489cbe0a067e66abe55c6595d8926be6b99423786334350c8 \
+    --hash=sha256:eb63f58c9f218e1a7d064d17a70751f528ed4e1d35547fdade9aaf4cd103fd08
+    # via -r requirements/common.in
+djangorestframework-camel-case==1.4.2 \
+    --hash=sha256:cdae75846648abb6585c7470639a1d2fb064dc45f8e8b62aaa50be7f1a7a61f4
+    # via -r requirements/common.in
 idna==3.4 \
     --hash=sha256:814f528e8dead7d329833b91c5faa87d60bf71824cd12a7530b5526063d02cb4 \
     --hash=sha256:90b77e79eaa3eba6de819a0c442c0b4ceefc341a7a2ab77d7562bf49f425c5c2
@@ -118,6 +131,10 @@ pybliometrics==3.5.2 \
     --hash=sha256:ead3726e3eb777a04e2eb58b54458a67e14c50f4b6a2e71283568d9259103664 \
     --hash=sha256:f7d8fb003a9f80eab190a6d2668239765090203403701b949162e5e2366d798b
     # via -r requirements/common.in
+pytz==2023.3 \
+    --hash=sha256:1d8ce29db189191fb55338ee6d0387d82ab59f3d00eac103412d64e0ebd0c588 \
+    --hash=sha256:a151b3abb88eda1d4e34a9814df37de2a80e301e68ba0fd856fb9b46bfbbbffb
+    # via djangorestframework
 requests==2.31.0 \
     --hash=sha256:58cd2187c01e70e6e26505bca751777aa9f2ee0b7f4300988b709f44e013003f \
     --hash=sha256:942c5a758f98d790eaed1a29cb6eefc7ffb0d1cf7af05c3d2791656dbd6ad1e1

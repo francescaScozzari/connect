@@ -132,7 +132,7 @@ test_build:
       --env-file .env_template
       --env BACKEND_BUILD_TARGET=remote
       --env DJANGO_CONFIGURATION=Remote
-      --env PYTHONDEVMODE=0
+      --env PYTHONDEVMODE=""
       ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
       python3 -m manage check --deploy
     - mkdir trivy
