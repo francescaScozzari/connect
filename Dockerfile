@@ -74,5 +74,5 @@ COPY --chown=$APPUSER ./requirements/local.txt requirements/local.txt
 RUN python3 -m pip install --user --no-cache-dir -r requirements/local.txt
 COPY --chown=$APPUSER . .
 RUN DJANGO_SECRET_KEY=build python3 -m manage collectstatic --clear --link --noinput
-ENTRYPOINT ["./scripts/entrypoint.sh"]
+ENTRYPOINT ["./scripts/entrypoint_local.sh"]
 CMD python3 -m manage runserver 0.0.0.0:${INTERNAL_SERVICE_PORT}
