@@ -10,3 +10,8 @@ export interface LoginRequest {
 export interface LoginResponse {
   email: string
 }
+
+export interface SearchRequest {
+  teamSize: number
+  prompt: string
+}

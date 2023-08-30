@@ -1,0 +1,64 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Card component Card renders correctly 1`] = `
+.c1 {
+  color: #1C1C1C;
+  margin: 0;
+  text-transform: none;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.c2 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.c0 {
+  display: flex;
+  width: 20em;
+  flex-direction: column;
+  align-content: start;
+  padding: 1.5em 1em 3em;
+  border: 2px solid black;
+  border-radius: 1em;
+  gap: 0.5em;
+}
+
+.c0 svg {
+  margin-top: 1em;
+  align-self: end;
+  transform: rotate(90deg);
+}
+
+<div
+  class="c0"
+>
+  <p
+    class="c1 c2"
+  >
+    Marco Foschi
+  </p>
+  <p
+    class="c1 c3"
+  >
+    Università d'Annunzio
+  </p>
+  <svg
+    height="24"
+    viewBox="0 0 24 24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>
+      Author details
+    </title>
+    <path
+      d="M12 1a11 11 0 1 0 11 11A11 11 0 0 0 12 1Zm4.707 9.707a1 1 0 0 1-1.414 0L13 8.414V18a1 1 0 0 1-2 0V8.414l-2.293 2.293a1 1 0 1 1-1.414-1.414l4-4a1 1 0 0 1 1.414 0l4 4a1 1 0 0 1 0 1.414Z"
+    />
+  </svg>
+</div>
+`;
