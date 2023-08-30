@@ -30,9 +30,6 @@ services:
     user: ${USER:-appuser}
 
   frontend:
-    depends_on:
-      backend:
-        condition: service_started
     environment:
       - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://backend:8000}
       - NEXT_PUBLIC_PROJECT_URL=${PROJECT_URL:-https://localhost:8443}
