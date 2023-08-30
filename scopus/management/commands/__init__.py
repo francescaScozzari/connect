@@ -1,0 +1,1 @@
+"""Scopus app management commands."""

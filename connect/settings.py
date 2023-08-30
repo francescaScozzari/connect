@@ -50,6 +50,7 @@ class ProjectDefault(Configuration):
         "django.contrib.messages",
         "django.contrib.staticfiles",
         "universities",
+        "scopus",
     ]
 
     MIDDLEWARE = [
@@ -201,6 +202,13 @@ class ProjectDefault(Configuration):
     CSRF_TRUSTED_ORIGINS = values.ListValue([])
 
     LOGIN_URL = "admin:login"
+
+    # pybliometrics
+    # https://pybliometrics.readthedocs.io/en/stable/index.html
+
+    SCOPUS_API_KEYS = values.ListValue([])
+
+    SCOPUS_INST_TOKEN = values.Value("")
 
 
 class Local(ProjectDefault):

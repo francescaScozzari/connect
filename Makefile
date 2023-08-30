@@ -128,7 +128,7 @@ endif
 simpletest:  ## Run debugging test
 	# You can pass more arguments as follows:
 	# make simpletest -- --debug-sql --failfast --keepdb --pdb --verbosity 2 path.to.TestClass
-	python3 -m manage test --configuration=Testing --shuffle --timing $(simpletestargs)
+	PYB_CONFIG_FILE="./scopus/tests/config/pybliometrics.cfg" python3 -m manage test --configuration=Testing --shuffle --timing $(simpletestargs)
 
 .PHONY: test
 test:  ## Run test
