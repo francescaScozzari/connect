@@ -2,6 +2,7 @@ stages:
   - Test
   - Test-build
   - Build
+  - Deploy
   - Report
 
 variables:
@@ -20,11 +21,9 @@ variables:
     - &staging-rule
       if: $CI_COMMIT_BRANCH == "main"
       variables:
-        ENV_SLUG: stage
-        STACK_SLUG: main
+        ENV_HOST: dev.connect.unich.it
   environment:
     name: staging
-    url: https://stage.connect.unich.it
 
 .production:
   rules: &production-rules
@@ -32,11 +31,10 @@ variables:
     - &production-rule
       if: $CI_COMMIT_TAG
       variables:
-        ENV_SLUG: prod
-        STACK_SLUG: main
+        ENV_HOST: connect.unich.it
+        VERSION_REF: "v.${CI_COMMIT_TAG}"
   environment:
     name: production
-    url: https://connect.unich.it
 
 .sentry:
   stage: .pre
@@ -178,7 +176,7 @@ pages:
     - docker:20-dind
   before_script:
     - export DOCKER_CONFIG=${PWD}/.dockerconfig
-    - docker login --username "${CI_REGISTRY_USER}" --password "${CI_REGISTRY_PASSWORD}" "${CI_REGISTRY}"
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
   script:
     - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} --target remote --pull .
     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
@@ -200,5 +198,68 @@ build_production:
   needs:
     - job: test
     - job: test_build
+
+.deploy:
+  stage: Deploy
+  image: ubuntu:22.04
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    - echo "$ENV_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $ENV_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - >
+      ssh $ENV_USER@$ENV_HOST "cd $ENV_WORK_DIR &&
+      export BACKEND_IMAGE=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} &&
+      echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY} &&
+      docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} &&
+      docker compose stop ${CI_PROJECT_NAME} &&
+      docker compose up -d ${CI_PROJECT_NAME} &&
+      docker logout ${CI_REGISTRY} &&
+      exit"
+  after_script:
+    - rm -rf ~/.ssh
+
+deploy_staging:
+  extends:
+    - .staging
+    - .deploy
+  needs:
+    - build_staging
+
+deploy_production:
+  extends:
+    - .production
+    - .deploy
+  needs:
+    - build_production
+
+.rollback:
+  extends: .deploy
   variables:
-    VERSION_REF: "v.${CI_COMMIT_TAG}"
+    VERSION_REF: ${VERSION_BEFORE_REF}
+
+rollback_staging:
+  extends:
+    - .staging
+    - .rollback
+  needs: ["deploy_staging"]
+  rules:
+    - <<: *pipeline-push-rule
+    - <<: *staging-rule
+      when: manual
+      allow_failure: true
+
+rollback_production:
+  extends:
+    - .production
+    - .rollback
+  needs: ["deploy_production"]
+  rules:
+    - <<: *pipeline-push-rule
+    - <<: *production-rule
+      when: manual
+      allow_failure: true

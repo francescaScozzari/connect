@@ -11,6 +11,7 @@ ENV PATH="/home/${APPUSER}/.local/bin:${PATH}"
 ARG PACKAGES_PATH=/home/${APPUSER}/.local/lib/python3.11/site-packages
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
+        curl \
         libpq5 \
     && rm -rf /var/lib/apt/lists/*
 COPY --chown=$APPUSER ./requirements/base.txt requirements/base.txt
@@ -59,7 +60,6 @@ LABEL project="connect" service="backend" stage="local"
 ENV DJANGO_CONFIGURATION=Local INTERNAL_SERVICE_PORT=8000
 RUN apt-get update \
     && apt-get install --assume-yes --no-install-recommends \
-        curl \
         gcc \
         gettext \
         git \
