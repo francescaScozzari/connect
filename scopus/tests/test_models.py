@@ -115,3 +115,18 @@ class ScopusAuthorTest(TestCase):
                     ScopusAuthor.objects.values_list("author_id", flat=True),
                     [11111111111],
                 )
+            with self.subTest("Update objects with duplicated input author ids"):
+                processed_objs = ScopusAuthor.populate_authors([author_id, author_id])
+                self.assertEqual(
+                    [(o.author_id, o.data) for o in processed_objs],
+                    [
+                        (
+                            11111111111,
+                            json.loads(AUTHOR_11111111111_JSON.read_text()),
+                        )
+                    ],
+                )
+                self.assertQuerySetEqual(
+                    ScopusAuthor.objects.values_list("author_id", flat=True),
+                    [11111111111],
+                )

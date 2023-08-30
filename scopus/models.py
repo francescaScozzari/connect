@@ -31,7 +31,7 @@ class ScopusAuthor(models.Model):
         return cls.objects.bulk_create(
             [
                 author
-                for author_id in author_ids
+                for author_id in set(author_ids)
                 if (author := cls.retrieve_author(author_id)) is not None
             ],
             update_conflicts=True,
