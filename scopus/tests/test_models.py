@@ -52,6 +52,8 @@ class ScopusAuthorTest(TestCase):
                 self.assertEqual(
                     processed_obj.data, json.loads(AUTHOR_11111111111_JSON.read_text())
                 )
+            with self.subTest("Resource id not numerical"):
+                self.assertIsNone(ScopusAuthor.retrieve_author("A"))
 
     def test_populate_authors(self):
         """Test populating authors."""

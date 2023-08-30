@@ -38,6 +38,7 @@ class ImportAuthorsCommandTests(TestCase):
                     stdout=out,
                 )
                 self.assertIn("0 authors successfully processed.", out.getvalue())
+                self.assertIn("1 authors unsuccessfully processed [1].", out.getvalue())
             author_id = 11111111111
             m.get(
                 f"{AUTHOR_BASE_URL}/{author_id}",
@@ -55,6 +56,7 @@ class ImportAuthorsCommandTests(TestCase):
                     verbosity=2,
                     stdout=out,
                 )
+                self.assertIn("1 author ids are about to be processed.", out.getvalue())
                 self.assertIn("1 authors successfully processed.", out.getvalue())
             author_id = 11111111111
             m.get(
@@ -73,6 +75,25 @@ class ImportAuthorsCommandTests(TestCase):
                     verbosity=2,
                     stdout=out,
                 )
+                self.assertIn("1 authors successfully processed.", out.getvalue())
+            author_id = 11111111111
+            m.get(
+                f"{AUTHOR_BASE_URL}/{author_id}",
+                json={
+                    "author-retrieval-response": [
+                        json.loads(AUTHOR_11111111111_JSON.read_text())
+                    ]
+                },
+            )
+            with self.subTest("Duplicated objects"):
+                out = io.StringIO()
+                call_command(
+                    "import_authors",
+                    author_ids=[author_id, author_id],
+                    verbosity=2,
+                    stdout=out,
+                )
+                self.assertIn("Duplicate author ids: 11111111111.", out.getvalue())
                 self.assertIn("1 authors successfully processed.", out.getvalue())
             author_id = 11111111111
             m.get(

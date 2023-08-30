@@ -19,8 +19,8 @@ class ScopusAuthor(models.Model):
     def retrieve_author(cls, author_id: int):
         """Retrieve an author."""
         try:
-            author = AuthorRetrieval(author_id)
-        except ScopusException:
+            author = AuthorRetrieval(int(author_id))
+        except (ScopusException, ValueError):
             return None
         else:
             return cls(author_id=author_id, data=author._json)
