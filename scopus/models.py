@@ -32,13 +32,13 @@ class ScopusAuthor(models.Model):
             author = cls.retrieve_author(author_id)
             if author is not None:
                 authors.append(cls(author_id=author_id, data=author._json))
-            if populate_documents and (documents := author.get_documents()):
-                docs = {d.doi: d._asdict() for d in documents if d.doi}
-                created_documents.extend(
-                    ScopusDocument.populate_documents(
-                        [ScopusDocument(doi=k, data=v) for k, v in docs.items()]
+                if populate_documents and (documents := author.get_documents()):
+                    docs = {d.doi: d._asdict() for d in documents if d.doi}
+                    created_documents.extend(
+                        ScopusDocument.populate_documents(
+                            [ScopusDocument(doi=k, data=v) for k, v in docs.items()]
+                        )
                     )
-                )
         created_authors = cls.objects.bulk_create(
             authors,
             update_conflicts=True,
