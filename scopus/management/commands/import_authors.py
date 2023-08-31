@@ -15,6 +15,7 @@ class Command(BaseCommand):
         parser.add_argument(
             "--author-ids", dest="author_ids", nargs="+", type=int, required=True
         )
+        parser.add_argument("--populate-documents", action="store_true", required=False)
 
     def handle(self, author_ids, verbosity, **kwargs):
         """Import authors from Scopus."""
@@ -28,7 +29,9 @@ class Command(BaseCommand):
         verbose and duplicates and self.stdout.write(
             self.style.WARNING(f"Duplicate author ids: {duplicates}.")
         )
-        processed_authors = ScopusAuthor.populate_authors(author_ids)
+        processed_authors, processed_documents = ScopusAuthor.populate_authors(
+            author_ids, populate_documents=kwargs.get("populate_documents")
+        )
         unprocessed_ids = set(author_ids).difference(
             {a.author_id for a in processed_authors}
         )
@@ -41,6 +44,7 @@ class Command(BaseCommand):
         )
         verbose and self.stdout.write(
             self.style.SUCCESS(
-                f"{len(processed_authors)} authors successfully processed."
+                f"{len(processed_authors)} authors successfully processed.\n"
+                f"{len(processed_documents)} documents successfully processed."
             )
         )
