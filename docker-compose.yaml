@@ -21,6 +21,7 @@ services:
       - DJANGO_SUPERUSER_USERNAME
       - EMAIL_URL
       - PYTHONBREAKPOINT
+      - PYTHONDEVMODE
     healthcheck:
       test: curl --fail --head http://backend:8000/backend/health/ || exit 1
       interval: 30s
