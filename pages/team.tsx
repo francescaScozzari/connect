@@ -1,27 +1,15 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 
 import { H2, Text } from '@/components/commons/Typography'
 import { Button } from '@/components/commons/Button'
 import { Navbar } from '@/components/team/Navbar'
 import { Card } from '@/components/team/Card'
-import { searchAuthors } from '@/utils/api/search'
-import type { Author } from '@/models/Authors'
+import { useAppSelector } from '@/store'
 
 const Team: NextPage = () => {
-  const [authors, setAuthors] = useState<Author[]>([])
-
-  useEffect(() => {
-    searchAuthors({}, { teamSize: 6, prompt: 'lorem ipsum' })
-      .then(({ data }) => setAuthors(data))
-      .catch(err => {
-        if (err instanceof AxiosError) {
-          console.log(err.toJSON())
-        }
-      })
-  }, [])
+  const { authors } = useAppSelector(state => state.search)
 
   return (
     <>

@@ -2,14 +2,14 @@ import React from 'react'
 import styled from 'styled-components'
 import type { NextPage } from 'next'
 
-import { InputWithErrors } from '@/components/commons/Input'
 import { H1 } from '@/components/commons/Typography'
+import { SearchForm } from '@/components/home/SearchForm'
 
 const Home: NextPage = () => {
   return (
     <Container>
       <H1.Normal>Lorem Ipsum</H1.Normal>
-      <InputWithErrors placeholder="" />
+      <SearchForm />
     </Container>
   )
 }

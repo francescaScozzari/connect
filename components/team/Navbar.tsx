@@ -4,14 +4,17 @@ import Link from 'next/link'
 
 import { InputWithErrors } from '@/components/commons/Input'
 import { H3 } from '@/components/commons/Typography'
+import { useAppSelector } from '@/store'
 
 const Navbar = () => {
+  const { q } = useAppSelector(state => state.search)
+
   return (
     <Nav>
       <H3.Normal>
         <Link href="/">Lorem Ipsum</Link>
       </H3.Normal>
-      <InputWithErrors placeholder="" />
+      <InputWithErrors placeholder={q} />
     </Nav>
   )
 }

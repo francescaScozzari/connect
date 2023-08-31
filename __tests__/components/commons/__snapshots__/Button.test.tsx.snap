@@ -3,7 +3,7 @@
 exports[`Button components <Button /> Button primary ui renders correctly 1`] = `
 .c0 {
   align-items: center;
-  background-color: #316CF4;
+  background-color: black;
   border: 0;
   border-radius: 5px;
   color: #F1F9FF;
@@ -23,7 +23,7 @@ exports[`Button components <Button /> Button primary ui renders correctly 1`] = 
 }
 
 .c0:hover {
-  background-color: #007AFF;
+  background-color: #444444;
 }
 
 <button

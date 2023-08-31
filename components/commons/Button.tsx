@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Button = styled.button`
   align-items: center;
-  background-color: ${({ theme }) => theme.colors.link};
+  background-color: black;
   border: 0;
   border-radius: 5px;
   color: ${({ theme }) => theme.colors.ui1};
@@ -19,6 +19,6 @@ export const Button = styled.button`
     opacity: 0.4;
   }
   &:hover {
-    background-color: ${({ theme }) => theme.colors.activeLink};
+    background-color: #444444;
   }
 `

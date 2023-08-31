@@ -1,7 +1,9 @@
 import utils from '@/store/utilsSlice'
+import search from '@/store/searchSlice'
 
 const reducers = {
-  utils
+  utils,
+  search
 }
 
 export default reducers
