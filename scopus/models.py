@@ -1,5 +1,7 @@
 """Scopus models."""
 
+from typing import ValuesView
+
 from django.db import models
 from pybliometrics.scopus import AuthorRetrieval
 from pybliometrics.scopus.exception import ScopusException
@@ -27,24 +29,25 @@ class ScopusAuthor(models.Model):
     def populate_authors(cls, author_ids: list[int], populate_documents: bool = False):
         """Populate authors."""
         authors: list[ScopusAuthor] = []
-        created_documents: list[ScopusDocument] = []
+        documents: dict = {}
         for author_id in set(author_ids):
-            author = cls.retrieve_author(author_id)
-            if author is not None:
+            if (author := cls.retrieve_author(author_id)) is not None:
                 authors.append(cls(author_id=author_id, data=author._json))
-                if populate_documents and (documents := author.get_documents()):
-                    docs = {d.doi: d._asdict() for d in documents if d.doi}
-                    created_documents.extend(
-                        ScopusDocument.populate_documents(
-                            [ScopusDocument(doi=k, data=v) for k, v in docs.items()]
+                if populate_documents and (author_documents := author.get_documents()):
+                    documents |= {
+                        document.doi: ScopusDocument(
+                            doi=document.doi, data=document._asdict()
                         )
-                    )
+                        for document in author_documents
+                        if document.doi
+                    }
         created_authors = cls.objects.bulk_create(
             authors,
             update_conflicts=True,
             update_fields=("data",),
             unique_fields=("author_id",),
         )
+        created_documents = ScopusDocument.populate_documents(documents.values())
         return created_authors, created_documents
 
     def get_documents(self):
@@ -63,10 +66,12 @@ class ScopusDocument(models.Model):
         return f"{self.doi}"
 
     @classmethod
-    def populate_documents(cls, documents: list):
+    def populate_documents(cls, documents: ValuesView):
         """Populate author's documents."""
+        BATCH_SIZE = 1000
         return documents and cls.objects.bulk_create(
             documents,
+            batch_size=BATCH_SIZE,
             update_conflicts=True,
             update_fields=("data",),
             unique_fields=("doi",),
