@@ -2,6 +2,7 @@
 
 import io
 import json
+from pathlib import Path
 
 import requests_mock
 from django.core.management import call_command
@@ -21,6 +22,14 @@ class ImportAuthorsCommandTests(TestCase):
 
     def test_command(self, m):
         """Test importing authors from Scopus."""
+        with self.subTest("No authors"):
+            out = io.StringIO()
+            call_command(
+                "import_authors",
+                verbosity=2,
+                stdout=out,
+            )
+            self.assertIn("No author ids.", out.getvalue())
         with self.subTest("Resource not found"):
             author_id = 1
             m.get(
@@ -62,6 +71,24 @@ class ImportAuthorsCommandTests(TestCase):
                 stdout=out,
             )
             self.assertIn("1 author ids are about to be processed.", out.getvalue())
+            self.assertIn("1 authors successfully processed.", out.getvalue())
+        author_path = Path("scopus/tests/data/11111111111.txt")
+        m.get(
+            f"{AUTHOR_BASE_URL}/{author_id}",
+            json={
+                "author-retrieval-response": [
+                    json.loads(AUTHOR_11111111111_JSON.read_text())
+                ]
+            },
+        )
+        with self.subTest("Update objects"):
+            out = io.StringIO()
+            call_command(
+                "import_authors",
+                author_paths=[author_path],
+                verbosity=2,
+                stdout=out,
+            )
             self.assertIn("1 authors successfully processed.", out.getvalue())
         author_id = 11111111111
         m.get(
