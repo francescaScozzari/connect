@@ -36,5 +36,5 @@ class Command(BaseCommand):
                 )
                 loaded_points += 1
         self.stdout.write(
-            self.style.SUCCESS(f"TOT {loaded_points} loaded succesfully.")
+            self.style.SUCCESS(f"TOT {loaded_points} loaded successfully.")
         )

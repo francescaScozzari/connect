@@ -12,7 +12,6 @@ from scopus.tests import (
     AUTHOR_11111111111_JSON,
     AUTHOR_BASE_URL,
     SEARCH_AUTHOR_11111111111_URL,
-    SEARCH_AUTHOR_11111111111_URL_ENHANCED,
 )
 
 
@@ -147,8 +146,12 @@ class ScopusAuthorTest(TestCase):
             json=json.loads(AUTHOR_11111111111_DOCUMENTS_JSON.read_text()),
         )
         m.get(
-            SEARCH_AUTHOR_11111111111_URL_ENHANCED,
-            json=json.loads(AUTHOR_11111111111_DOCUMENTS_JSON.read_text()),
+            f"{AUTHOR_BASE_URL}/{author_id}",
+            json={
+                "author-retrieval-response": [
+                    json.loads(AUTHOR_11111111111_JSON.read_text())
+                ]
+            },
         )
         documents_response = ScopusAuthor(
             author_id=author_id, data={"author_id": author_id}
