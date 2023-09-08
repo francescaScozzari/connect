@@ -94,3 +94,6 @@ letsencrypt/
 
 # Cache
 .cache/
+
+# Qdrant
+qdrant/storage
