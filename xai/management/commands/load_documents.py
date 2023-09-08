@@ -24,9 +24,7 @@ class Command(BaseCommand):
         for document in all_documents:
             document_point = facade.generate_document_point(document)
             verbose and bool(document_point) and self.stdout.write(
-                self.style.INFO(
-                    f"Point for document {document.id} generated succesfully."
-                )
+                f"Point for document {document.id} generated successfully."
             )
             load_response = facade.load_document_point(
                 point=document_point,
@@ -34,7 +32,7 @@ class Command(BaseCommand):
             )
             if load_response.status == "completed":
                 verbose and self.stdout.write(
-                    self.style.INFO(f"Point {document.id} loaded succesfully.")
+                    f"Point {document.id} loaded successfully."
                 )
                 loaded_points += 1
         self.stdout.write(
