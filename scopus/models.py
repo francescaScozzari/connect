@@ -76,3 +76,11 @@ class ScopusDocument(models.Model):
             update_fields=("data",),
             unique_fields=("doi",),
         )
+
+    @property
+    def author_ids(self):
+        """Retrun the list of author ids."""
+        try:
+            return self.data.get("author_ids").split(";")
+        except AttributeError:
+            return []

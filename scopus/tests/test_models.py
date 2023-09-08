@@ -12,6 +12,7 @@ from scopus.tests import (
     AUTHOR_11111111111_JSON,
     AUTHOR_BASE_URL,
     SEARCH_AUTHOR_11111111111_URL,
+    SEARCH_AUTHOR_11111111111_URL_ENHANCED,
 )
 
 
@@ -145,6 +146,10 @@ class ScopusAuthorTest(TestCase):
             SEARCH_AUTHOR_11111111111_URL,
             json=json.loads(AUTHOR_11111111111_DOCUMENTS_JSON.read_text()),
         )
+        m.get(
+            SEARCH_AUTHOR_11111111111_URL_ENHANCED,
+            json=json.loads(AUTHOR_11111111111_DOCUMENTS_JSON.read_text()),
+        )
         documents_response = ScopusAuthor(
             author_id=author_id, data={"author_id": author_id}
         ).get_documents()
@@ -217,3 +222,32 @@ class ScopusDocumentTest(TestCase):
         ]
         author_documents = ScopusDocument.populate_documents(documents)
         self.assertEqual(len(author_documents), 4)
+
+    def test_author_ids(self):
+        """Test author_ids property."""
+        document = ScopusDocument(
+            doi="99.9999/999-9-999-99999-8_88",
+            data={
+                "doi": "99.9999/999-9-999-99999-8_88",
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet, consectetur "
+                "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua.",
+                "author_ids": "11111111111;22222222222;33333333333",
+            },
+        )
+        self.assertEqual(
+            document.author_ids, ["11111111111", "22222222222", "33333333333"]
+        )
+        document = ScopusDocument(
+            doi="99.9999/999-9-999-99999-8_88",
+            data={
+                "doi": "99.9999/999-9-999-99999-8_88",
+                "title": "Lorem ipsum",
+                "description": "Lorem ipsum dolor sit amet, consectetur "
+                "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
+                "et dolore magna aliqua.",
+                "author_ids": None,
+            },
+        )
+        self.assertEqual(document.author_ids, [])

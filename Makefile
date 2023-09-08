@@ -57,6 +57,7 @@ loaduniversities:  ## Django load universities data
 .PHONY: local
 local: pip_update  ## Install local requirements and dependencies
 	python3 -m piptools sync requirements/local.txt
+	python3 -m pip install --user --no-cache-dir -r requirements/extra.txt
 
 .PHONY: messages
 messages:  ## Django makemessages
@@ -86,6 +87,7 @@ pip: pip_update  ## Compile requirements
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/local.txt requirements/local.in
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/remote.txt requirements/remote.in
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/test.txt requirements/test.in
+	python3 -m piptools compile --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/extra.txt requirements/extra.in
 
 .PHONY: pip_update
 pip_update:  ## Update requirements and dependencies

@@ -2,4 +2,7 @@
 django-filter~=23.2.0
 djangorestframework-camel-case~=1.4.0
 djangorestframework~=3.14.0
+ftfy~=6.1.0
 pybliometrics~=3.5.0
+qdrant-client~=1.4.0
+transformers~=4.33.0

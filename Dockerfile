@@ -28,13 +28,15 @@ RUN apt-get update \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 COPY --chown=$APPUSER ./requirements/common.txt requirements/common.txt
+COPY --chown=$APPUSER ./requirements/extra.txt requirements/extra.txt
 RUN su $APPUSER -c "python3 -m pip install --user --no-cache-dir -r requirements/common.txt" \
-    && find ${PACKAGES_PATH} -regex '^.*/locale/.*/*.\(mo\|po\)$' -not -path '*/en*' -not -path '*/it*' -delete || true
+    && find ${PACKAGES_PATH} -regex '^.*/locale/.*/*.\(mo\|po\)$' -not -path '*/en*' -not -path '*/it*' -delete || true \
+    && su $APPUSER -c "python3 -m pip install --user --no-cache-dir -r requirements/extra.txt"
 
 FROM base AS test
 
 LABEL project="connect" service="backend" stage="test"
-ENV DJANGO_CONFIGURATION=Testing
+ENV DJANGO_CONFIGURATION=Testing PYB_CONFIG_FILE="$WORKDIR/scopus/tests/config/pybliometrics.cfg"
 USER $APPUSER
 COPY --chown=$APPUSER ./requirements/test.txt requirements/test.txt
 RUN python3 -m pip install --user --no-cache-dir -r requirements/test.txt

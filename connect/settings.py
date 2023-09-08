@@ -53,6 +53,7 @@ class ProjectDefault(Configuration):
         "django_filters",
         "universities",
         "scopus",
+        "xai",
     ]
 
     MIDDLEWARE = [
@@ -231,6 +232,19 @@ class ProjectDefault(Configuration):
 
     SCOPUS_INST_TOKEN = values.Value("")
 
+    # Qdrant
+    # https://pypi.org/project/qdrant-client/
+
+    QDRANT_API_KEY = values.Value()
+
+    QDRANT_URL = values.Value()
+
+    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents")
+
+    QDRANT_LOCATION = None
+
+    QDRANT_VECTOR_SIZE = 384
+
 
 class Local(ProjectDefault):
     """The local settings."""
@@ -333,6 +347,11 @@ class Local(ProjectDefault):
 
         REST_FRAMEWORK["DEFAULT_SCHEMA_CLASS"] = "drf_spectacular.openapi.AutoSchema"
 
+    # Qdrant
+    # https://pypi.org/project/qdrant-client/
+
+    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents_local")
+
 
 class Testing(ProjectDefault):
     """The testing settings."""
@@ -381,6 +400,15 @@ class Testing(ProjectDefault):
     # Uncomment when using media
 
     # MEDIA_ROOT = ProjectDefault.BASE_DIR / "media_test"
+
+    # Qdrant
+    # https://pypi.org/project/qdrant-client/
+
+    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents_test")
+
+    QDRANT_LOCATION = values.Value(":memory:")
+
+    QDRANT_VECTOR_SIZE = 3
 
 
 class Remote(ProjectDefault):
