@@ -13,6 +13,7 @@ RUN \
   fi
 COPY components ./components
 COPY declarations ./declarations
+COPY hooks ./hooks
 COPY models ./models
 COPY pages ./pages
 COPY public ./public

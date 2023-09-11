@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { styled } from 'styled-components'
+import { useRouter } from 'next/router'
+import { AxiosError } from 'axios'
+import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
-import { useRouter } from 'next/router'
 
-import { Button } from '@/components/commons/Button'
 import { Text } from '@/components/commons/Typography'
 import { searchAuthors } from '@/utils/api/search'
 import { useAppDispatch } from '@/store'
 import { setTeam } from '@/store/searchSlice'
-import { AxiosError } from 'axios'
+import { IconArrowSubmit, IconCrossReset } from '../commons/Icons'
+import { useDynamicHeight } from '@/hooks'
 
 type FormValues = {
   q: string
@@ -18,12 +20,21 @@ type FormValues = {
 const SearchForm = () => {
   const {
     register,
+    reset,
     handleSubmit,
-    formState: { errors }
+    formState: { errors, isSubmitting, isValid }
   } = useForm<FormValues>({ mode: 'onChange' })
 
+  const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
+  const heightKeeperRef = useRef<HTMLDivElement | null>(null)
   const { push } = useRouter()
   const dispatch = useAppDispatch()
+  const { ref, ...rest } = register('q', {
+    required: 'A search prompt is required',
+    maxLength: 1024
+  })
+
+  useDynamicHeight(textAreaRef?.current, heightKeeperRef?.current)
 
   const onSubmit: SubmitHandler<FormValues> = async body => {
     const { q } = body
@@ -35,7 +46,15 @@ const SearchForm = () => {
       })
       .catch(err => {
         if (err instanceof AxiosError) {
-          console.log(err.toJSON())
+          toast.error(
+            err.response
+              ? `Oops! Something went wrong while fetching data. Please check your internet connection and try again`
+              : null
+          ),
+            {
+              position: toast.POSITION.TOP_CENTER,
+              autoClose: 5000
+            }
         }
       })
   }
@@ -44,34 +63,100 @@ const SearchForm = () => {
     <>
       <Form onSubmit={handleSubmit(onSubmit)} role="search">
         <Wrapper>
+          <HeightKeeper ref={heightKeeperRef} />
           <Input
             id="q"
-            type="text"
-            placeholder=""
-            {...register('q', {
-              required: 'A search prompt is required',
-              maxLength: 1024
-            })}
+            placeholder="Search here to find your research team"
+            role="textarea"
+            ref={e => {
+              ref(e)
+              textAreaRef.current = e
+            }}
+            {...rest}
           />
-          {errors.q?.type === 'required' ? (
-            <Text.NormalBold role="alert">{errors.q?.message}</Text.NormalBold>
-          ) : null}
           {errors.q?.type === 'maxLength' ? (
             <Text.NormalBold role="alert">
               Search prompt too long
             </Text.NormalBold>
           ) : null}
-          <Button type="submit">Search</Button>
+          <ClearButton
+            type="button"
+            role="reset"
+            isFilled={textAreaRef?.current?.value}
+            onClick={() => {
+              reset()
+              textAreaRef?.current?.dispatchEvent(new Event('input'))
+            }}
+          >
+            <div>
+              <IconCrossReset title="reset" />
+            </div>
+          </ClearButton>
+          <SubmitButton
+            type="submit"
+            role="submit"
+            disabled={isSubmitting || !isValid}
+          >
+            <IconArrowSubmit title="submit" />
+          </SubmitButton>
         </Wrapper>
       </Form>
     </>
   )
 }
 
+const HeightKeeper = styled.div`
+  display: none;
+`
+
+const ClearButton = styled.button<{ isFilled: string | undefined }>`
+  all: unset;
+  display: ${({ isFilled }) => (isFilled?.length ? 'block' : 'none')};
+  position: absolute;
+  top: calc(6em / 2);
+  left: 5%;
+  transform: translate(-50%, -50%);
+
+  @media (max-width: 1280px) {
+    top: calc(6em / 2);
+  }
+
+  @media (max-width: 768px) {
+    top: calc(6.125em / 2);
+    left: 7%;
+  }
+`
+
+const SubmitButton = styled.button`
+  width: 4.5em;
+  height: 4.5em;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: absolute;
+  top: calc(5.75em / 2);
+  right: 0;
+  transform: translate(-50%, -50%);
+
+  &:disabled {
+    opacity: 0.3;
+  }
+
+  @media (max-width: 1280px) {
+    top: calc(5.5em / 2);
+  }
+
+  @media (max-width: 768px) {
+    width: 4em;
+    height: 4em;
+    top: calc(5.5em / 2);
+  }
+`
+
 const Wrapper = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 2em;
   align-items: center;
 `
 
@@ -85,24 +170,34 @@ const Form = styled.form`
   }
 `
 
-const Input = styled.input<{ errors?: boolean }>`
+const Input = styled.textarea`
   position: relative;
+  flex-grow: 1;
+  resize: none;
+  overflow: hidden;
   border: 2px solid black;
+  border-radius: 3.5em;
   box-sizing: border-box;
-  border-radius: 0.5em;
-  padding: 0.625em 2em;
-  width: 25em;
-  font-style: normal;
+  width: 52em;
+  padding: 1.75em 6.25em 0.75em 4.625em;
+  line-height: 1.375;
   font-size: 1.125rem;
+
   &::placeholder {
-    padding-left: 1.5em;
-    font-size: 1.125rem;
-    background: url("data:image/svg+xml,%3Csvg height='24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px%7D%3C/style%3E%3C/defs%3E%3Cg id='_21.search'%3E%3Ccircle class='cls-1' cx='9' cy='9' r='8'/%3E%3Cpath class='cls-1' d='m15 15 8 8'/%3E%3C/g%3E%3C/svg%3E")
-      no-repeat 0.5em center;
+    opacity: 1;
+    background: url("data:image/svg+xml,%3Csvg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Ctitle/%3E%3Cg id='_21.search'%3E%3Ccircle class='cls-1' cx='9' cy='9' r='8'/%3E%3Cline class='cls-1' x1='15' x2='23' y1='15' y2='23'/%3E%3C/g%3E%3C/svg%3E")
+      no-repeat 2em center;
   }
+
+  @media (max-width: 1280px) {
+    width: 42em;
+    padding: 1.625em 6.25em 0.75em 4.625em;
+  }
+
   @media (max-width: 768px) {
     font-size: 1em;
-    width: 15em;
+    width: 36em;
+    padding: 2em 6.25em 0.75em 4.625em;
   }
 `
 

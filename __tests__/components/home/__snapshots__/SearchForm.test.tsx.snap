@@ -1,35 +1,39 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`<SearchForm /> SearchForm renders correctly 1`] = `
-.c3 {
-  align-items: center;
-  background-color: black;
-  border: 0;
-  border-radius: 5px;
-  color: #F1F9FF;
-  cursor: pointer;
-  display: flex;
-  justify-content: center;
-  min-width: 120px;
-  outline: none;
-  padding: 10px;
-  transition: 0.3s background-color ease-in-out;
-  width: fit-content;
+.c2 {
+  display: none;
 }
 
-.c3:disabled {
-  cursor: not-allowed;
-  opacity: 0.4;
+.c4 {
+  all: unset;
+  display: none;
+  position: absolute;
+  top: calc(6em / 2);
+  left: 5%;
+  transform: translate(-50%, -50%);
 }
 
-.c3:hover {
-  background-color: #444444;
+.c5 {
+  width: 4.5em;
+  height: 4.5em;
+  border: 2px solid black;
+  border-radius: 50%;
+  position: absolute;
+  top: calc(5.75em / 2);
+  right: 0;
+  transform: translate(-50%, -50%);
+}
+
+.c5:disabled {
+  opacity: 0.3;
 }
 
 .c1 {
   display: flex;
+  position: relative;
   flex-direction: column;
-  gap: 0.5em;
+  gap: 2em;
   align-items: center;
 }
 
@@ -44,27 +48,64 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
   color: #BA1B23;
 }
 
-.c2 {
+.c3 {
   position: relative;
+  flex-grow: 1;
+  resize: none;
+  overflow: hidden;
   border: 2px solid black;
+  border-radius: 3.5em;
   box-sizing: border-box;
-  border-radius: 0.5em;
-  padding: 0.625em 2em;
-  width: 25em;
-  font-style: normal;
+  width: 52em;
+  padding: 1.75em 6.25em 0.75em 4.625em;
+  line-height: 1.375;
   font-size: 1.125rem;
 }
 
-.c2::placeholder {
-  padding-left: 1.5em;
-  font-size: 1.125rem;
-  background: url("data:image/svg+xml,%3Csvg height='24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px%7D%3C/style%3E%3C/defs%3E%3Cg id='_21.search'%3E%3Ccircle class='cls-1' cx='9' cy='9' r='8'/%3E%3Cpath class='cls-1' d='m15 15 8 8'/%3E%3C/g%3E%3C/svg%3E") no-repeat 0.5em center;
+.c3::placeholder {
+  opacity: 1;
+  background: url("data:image/svg+xml,%3Csvg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Ctitle/%3E%3Cg id='_21.search'%3E%3Ccircle class='cls-1' cx='9' cy='9' r='8'/%3E%3Cline class='cls-1' x1='15' x2='23' y1='15' y2='23'/%3E%3C/g%3E%3C/svg%3E") no-repeat 2em center;
+}
+
+@media (max-width: 1280px) {
+  .c4 {
+    top: calc(6em / 2);
+  }
 }
 
 @media (max-width: 768px) {
-  .c2 {
+  .c4 {
+    top: calc(6.125em / 2);
+    left: 7%;
+  }
+}
+
+@media (max-width: 1280px) {
+  .c5 {
+    top: calc(5.5em / 2);
+  }
+}
+
+@media (max-width: 768px) {
+  .c5 {
+    width: 4em;
+    height: 4em;
+    top: calc(5.5em / 2);
+  }
+}
+
+@media (max-width: 1280px) {
+  .c3 {
+    width: 42em;
+    padding: 1.625em 6.25em 0.75em 4.625em;
+  }
+}
+
+@media (max-width: 768px) {
+  .c3 {
     font-size: 1em;
-    width: 15em;
+    width: 36em;
+    padding: 2em 6.25em 0.75em 4.625em;
   }
 }
 
@@ -75,18 +116,66 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
   <div
     class="c1"
   >
-    <input
+    <div
       class="c2"
+    />
+    <textarea
+      class="c3"
       id="q"
       name="q"
-      placeholder=""
-      type="text"
+      placeholder="Search here to find your research team"
+      role="textarea"
     />
     <button
-      class="c3"
+      class="c4"
+      role="reset"
+      type="button"
+    >
+      <div>
+        <svg
+          fill="none"
+          height="31"
+          width="31"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            reset
+          </title>
+          <g>
+            <path
+              d="m24.5417 8.27962-1.8212-1.82125L15.5 13.6788 8.27962 6.45837 6.45837 8.27962 13.6788 15.5l-7.22043 7.2205 1.82125 1.8212L15.5 17.3213l7.2205 7.2204 1.8212-1.8212L17.3213 15.5l7.2204-7.22038Z"
+              fill="#000"
+            />
+          </g>
+        </svg>
+      </div>
+    </button>
+    <button
+      class="c5"
+      disabled=""
+      role="submit"
       type="submit"
     >
-      Search
+      <svg
+        fill="none"
+        height="45"
+        viewBox="0 0 45 45"
+        width="45"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>
+          submit
+        </title>
+        <g
+          id="Arrow forward"
+        >
+          <path
+            d="M22.5 7.5L19.8563 10.1437L30.3188 20.625H7.5V24.375H30.3188L19.8563 34.8563L22.5 37.5L37.5 22.5L22.5 7.5Z"
+            fill="black"
+            id="Vector"
+          />
+        </g>
+      </svg>
     </button>
   </div>
 </form>

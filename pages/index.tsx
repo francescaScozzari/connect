@@ -2,25 +2,27 @@ import React from 'react'
 import styled from 'styled-components'
 import type { NextPage } from 'next'
 
-import { H1 } from '@/components/commons/Typography'
 import { SearchForm } from '@/components/home/SearchForm'
+import { Logo } from '@/components/home/Logo'
+import { SearchTips } from '@/components/home/SearchTips'
 
 const Home: NextPage = () => {
   return (
     <Container>
-      <H1.Normal>Lorem Ipsum</H1.Normal>
+      <Logo title="BI4E" />
       <SearchForm />
+      <SearchTips />
     </Container>
   )
 }
 
 const Container = styled.div`
   display: flex;
+  flex-direction: column;
   gap: 3em;
   min-height: calc(100vh - 80px);
   align-items: center;
   justify-content: center;
-  flex-direction: column;
 `
 
 export default Home

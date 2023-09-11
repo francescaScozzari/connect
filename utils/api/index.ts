@@ -1,1 +1,1 @@
-export * from '@/utils/api/auth'
+export * from '@/utils/api/search'

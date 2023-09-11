@@ -1,6 +1,6 @@
 import React from 'react'
 import { expect } from '@jest/globals'
-import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { fireEvent, screen } from '@testing-library/react'
 
 import { SearchForm } from '@/components/home/SearchForm'
 import { renderWithWrappers } from '@/__tests__/functions'
@@ -13,21 +13,35 @@ describe('<SearchForm />', () => {
     expect(container.firstChild).toMatchSnapshot()
   })
 
-  it('should display required error when input is empty', async () => {
+  it('submit button should be disabled when input is empty', async () => {
     renderWithWrappers(<SearchForm />)
-    fireEvent.submit(screen.getByRole('button'))
-    expect(await screen.findByText('A search prompt is required')).toBeDefined()
+    expect(await screen.findByRole('submit')).toBeDisabled()
   })
 
-  it('should display matching error when input is too long', async () => {
+  it('submit button should not be enabled when input is not empty', async () => {
     renderWithWrappers(<SearchForm />)
-    fireEvent.input(screen.getByRole('textbox'), {
+
+    fireEvent.input(await screen.getByRole('textarea'), {
       target: {
-        value: 'x'.repeat(2 * 1024)
+        value: 'test'
       }
     })
 
-    fireEvent.submit(screen.getByRole('button'))
-    expect(await screen.findByText('Search prompt too long')).toBeDefined()
+    expect(await screen.findByRole('reset')).toBeVisible()
+    expect(await screen.findByRole('submit')).not.toBeDisabled()
+  })
+
+  it('clear search input', async () => {
+    renderWithWrappers(<SearchForm />)
+
+    fireEvent.input(await screen.getByRole('textarea'), {
+      target: {
+        value: 'test'
+      }
+    })
+
+    fireEvent.click(await screen.getByRole('reset'))
+
+    expect(await screen.findByRole('textarea')).toBeEmptyDOMElement()
   })
 })

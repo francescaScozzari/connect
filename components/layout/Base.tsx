@@ -1,8 +1,10 @@
-import { ThemeProvider } from 'styled-components'
 import React from 'react'
+import { ThemeProvider } from 'styled-components'
+import { ToastContainer } from 'react-toastify'
 
 import { GlobalStyle } from '@/styles/GlobalStyle'
 import { Theme } from '@/models/Utils'
+import { Footer } from '@/components/home/Footer'
 import themes from '@/styles/themes'
 
 type Props = {
@@ -12,8 +14,10 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <ThemeProvider theme={themes[Theme.light]}>
+      <ToastContainer />
       <GlobalStyle />
       {children}
+      <Footer />
     </ThemeProvider>
   )
 }
