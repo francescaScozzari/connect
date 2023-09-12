@@ -2,4 +2,5 @@
 
 set -euo pipefail
 
+python3 -m manage setup_llmembedder
 exec "${@}"

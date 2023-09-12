@@ -1,85 +1,49 @@
 """Test the xai app facade."""
 
-from unittest import TestCase
-
 from django.conf import settings
-from qdrant_client.http import models
+from django.test import TestCase, override_settings
 
-from scopus.models import ScopusDocument
-from xai.facade import WriteEmbeddingFacade
+from connect.tests.utils import SetUpQdrantMixin
+from scopus.models import ScopusAuthor, ScopusDocument
+from xai.facade import SearchMostSimilarFacade, WriteEmbeddingFacade
 
 
-class TestWriteEmbeddingFacade(TestCase):
+class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
     """Test write embedding facade."""
 
-    def setUp(self):
-        """Prepare initial data for testing."""
-        self.facade = WriteEmbeddingFacade()
-        self.point = models.PointStruct(
-            id=3849439176125250520832009392267879549757464859643919592969476415123787,
-            payload={
-                "authors": ["11111111111", "22222222222"],
-                "title": "Score vs. Winrate in Score-Based Games: "
-                "Which Reward for Reinforcement Learning?",
-                "description": "In the last years, DeepMind algorithm AlphaZero "
-                "has become the state of the art to efficiently tackle perfect "
-                "information two-player zero-sum games with a win/lose outcome. "
-                "However, when the win/lose outcome is decided by a final score "
-                "difference, AlphaZero may play score-suboptimal moves, because "
-                "all winning final positions are equivalent from the win/lose "
-                "outcome perspective. This can be an issue, for instance when "
-                "used for teaching, or when trying to understand whether there "
-                "is a better move. Moreover, there is the theoretical quest of "
-                "the perfect game. A naive approach would be training a "
-                "AlphaZero-like agent to predict score differences instead of "
-                "win/lose outcomes. Since the game of Go is deterministic, this "
-                "should as well produce outcome-optimal play. However, it is a "
-                "folklore belief that 'this does not work'.In this paper we first "
-                "provide empirical evidence to this belief. We then give a "
-                "theoretical interpretation of this suboptimality in a general "
-                "perfect information two-player zero-sum game where the complexity "
-                "of a game like Go is replaced by randomness of the environment. "
-                "We show that an outcome-optimal policy has a different preference "
-                "for uncertainty when it is winning or losing. In particular, when "
-                "in a losing state, an outcome-optimal agent chooses actions "
-                "leading to a higher variance of the score. We then posit that "
-                "when approximation is involved, a deterministic game behaves like "
-                "a nondeterministic game, where the score variance is modeled by "
-                "how uncertain the position is. We validate this hypothesis in a "
-                "AlphaZero-like software with a human expert.",
-            },
-            vector=[0.1, 0.2, 0.3],
-        )
-
-    def test_load_document_point(self):
-        """Test load_document_point method."""
-        res = self.facade.load_document_point(
-            point=self.point, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
-        self.assertEqual(res.status, "completed")
-
-    def test_merge_title_and_description(self):
-        """Test merge_title_and_description method."""
-        title = (
-            "Score vs. Winrate in Score-Based Games: Which Reward for "
-            "Reinforcement Learning?"
-        )
-        description = (
-            "In the last years, DeepMind algorithm AlphaZero has become the "
-            "state of the art to efficiently tackle perfect information two-player "
-            "zero-sum games with a win/lose outcome."
-        )
-        merged_text = self.facade.merge_title_and_description(title, description)
-        expected_result = [
-            "Score vs. Winrate in Score-Based Games: Which Reward for Reinforcement "
-            "Learning?. In the last years, DeepMind algorithm AlphaZero has become "
-            "the state of the art to efficiently tackle perfect information "
-            "two-player zero-sum games with a win/lose outcome."
+    @classmethod
+    def setUpTestData(cls):
+        """Set up test case."""
+        cls.facade = WriteEmbeddingFacade()
+        cls.scopus_authors = [
+            ScopusAuthor(
+                author_id="11111111111",
+                data={
+                    "author-profile": {
+                        "preferred-name": {
+                            "given-name": "Sheldon Lee",
+                            "indexed-name": "Cooper S. L.",
+                            "initials": "S.",
+                            "surname": "Cooper",
+                        },
+                    }
+                },
+            ),
+            ScopusAuthor(
+                author_id="22222222222",
+                data={
+                    "author-profile": {
+                        "preferred-name": {
+                            "given-name": "Leonard",
+                            "indexed-name": "Hofstadter L.",
+                            "initials": "L.",
+                            "surname": "Hofstadter",
+                        },
+                    }
+                },
+            ),
         ]
-        self.assertEqual(merged_text, expected_result)
-
-    def test_generate_document_point(self):
-        """Test generate_document_point method."""
+        ScopusAuthor.objects.bulk_create(cls.scopus_authors)
         scopus_documents = [
             ScopusDocument(
                 id=1,
@@ -129,20 +93,244 @@ class TestWriteEmbeddingFacade(TestCase):
                 },
             ),
         ]
-        document_point1 = self.facade.generate_document_point(scopus_documents[0])
-        document_point2 = self.facade.generate_document_point(scopus_documents[1])
-        document_point3 = self.facade.generate_document_point(scopus_documents[2])
-        self.assertEqual(len(document_point1.vector), 384)
-        self.assertIn("author_ids", document_point1.payload.keys())
-        self.assertIn("token", document_point1.payload.keys())
+        cls.point1 = cls.facade.generate_document_point(
+            scopus_documents[0], [11111111111, 22222222222]
+        )
+        cls.point2 = cls.facade.generate_document_point(
+            scopus_documents[1], [11111111111, 22222222222]
+        )
+        cls.point3 = cls.facade.generate_document_point(
+            scopus_documents[2], [11111111111, 22222222222]
+        )
+
+    def test_load_document_point(self):
+        """Test load_document_point method."""
+        res = self.facade.load_document_point(
+            point=self.point1, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
+        )
+        self.assertEqual(res.status, "completed")
+
+    def test_merge_title_and_description(self):
+        """Test merge_title_and_description method."""
+        title = (
+            "Score vs. Winrate in Score-Based Games: Which Reward for "
+            "Reinforcement Learning?"
+        )
+        description = (
+            "In the last years, DeepMind algorithm AlphaZero has become the "
+            "state of the art to efficiently tackle perfect information two-player "
+            "zero-sum games with a win/lose outcome."
+        )
+        merged_text = self.facade.merge_title_and_description(title, description)
+        expected_result = (
+            "Score vs. Winrate in Score-Based Games: Which Reward for Reinforcement "
+            "Learning?. In the last years, DeepMind algorithm AlphaZero has become "
+            "the state of the art to efficiently tackle perfect information "
+            "two-player zero-sum games with a win/lose outcome."
+        )
+        self.assertEqual(merged_text, expected_result)
+
+    def test_generate_document_point(self):
+        """Test generate_document_point method."""
+        self.assertEqual(len(self.point1.vector), 384)
+        self.assertIn("author_ids", self.point1.payload.keys())
         self.assertEqual(
-            document_point1.payload["author_ids"],
-            ["11111111111", "22222222222", "33333333333"],
+            self.point1.payload["author_ids"],
+            ["11111111111", "22222222222"],
         )
         self.assertEqual(
-            document_point1.payload["doi"],
+            self.point1.payload["doi"],
             "99.9999/999-9-999-99999-1_11",
         )
-        self.assertEqual(len(document_point1.payload["token"]), 57)
-        self.assertEqual(len(document_point2.payload["token"]), 15)
-        self.assertEqual(len(document_point3.payload["token"]), 56)
+
+
+@override_settings(QDRANT_VECTOR_SIZE=384)
+class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
+    """Test search most similar facade."""
+
+    @classmethod
+    def setUpTestData(cls):
+        """Prepare initial data for testing."""
+        cls.scopus_authors = [
+            ScopusAuthor(
+                author_id="11111111111",
+                data={
+                    "author-profile": {
+                        "preferred-name": {
+                            "given-name": "Sheldon Lee",
+                            "indexed-name": "Cooper S. L.",
+                            "initials": "S.",
+                            "surname": "Cooper",
+                        },
+                    }
+                },
+            ),
+            ScopusAuthor(
+                author_id="22222222222",
+                data={
+                    "author-profile": {
+                        "preferred-name": {
+                            "given-name": "Leonard",
+                            "indexed-name": "Hofstadter L.",
+                            "initials": "L.",
+                            "surname": "Hofstadter",
+                        },
+                    }
+                },
+            ),
+        ]
+        ScopusAuthor.objects.bulk_create(cls.scopus_authors)
+        cls.scopus_documents = [
+            ScopusDocument(
+                id=1,
+                doi="99.9999/999-9-999-99999-1_11",
+                data={
+                    "doi": "99.9999/999-9-999-99999-1_11",
+                    "title": "The Evaluation of Family Support Programmes in Spain. "
+                    "An Analysis of their Quality Standards",
+                    "author_ids": "11111111111;22222222222;33333333333",
+                    "description": "Since the well-known publication of the Society "
+                    "for Prevention Research about standards for evidence related to "
+                    "research on prevention interventions, a rigorous evaluation is "
+                    "considered one of the main requirements for "
+                    "evidence-based programmes.",
+                    "author_count": "3",
+                    "citedby_count": 0,
+                },
+            ),
+            ScopusDocument(
+                id=2,
+                doi="99.9999/999-9-999-99999-2_22",
+                data={
+                    "doi": "99.9999/999-9-999-99999-2_22",
+                    "title": "Introduction to the monographic issue Emotional "
+                    "Education in Diversity Contexts",
+                    "author_ids": "11111111111",
+                    "description": None,
+                    "author_count": "3",
+                    "citedby_count": 0,
+                },
+            ),
+            ScopusDocument(
+                id=3,
+                doi="99.9999/999-9-999-99999-3_33",
+                data={
+                    "doi": "99.9999/999-9-999-99999-3_33",
+                    "title": "Comparison of parental competences in fathers and "
+                    "mothers with adolescent children"
+                    "Education in Diversity Contexts",
+                    "author_ids": "11111111111;33333333333",
+                    "description": "Parenting adolescents requires personal, emotional "
+                    "and social competencies from the parents. There are few gender "
+                    "studies that analyze these competencies in the father and the "
+                    "mother in the same family.",
+                    "author_count": "3",
+                    "citedby_count": 0,
+                },
+            ),
+        ]
+        cls.facade = SearchMostSimilarFacade(sentence="test sentence")
+        cls.point1 = WriteEmbeddingFacade().generate_document_point(
+            cls.scopus_documents[0], [11111111111, 22222222222]
+        )
+        WriteEmbeddingFacade().load_document_point(
+            point=cls.point1, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
+        )
+        cls.point2 = WriteEmbeddingFacade().generate_document_point(
+            cls.scopus_documents[1], [11111111111, 22222222222]
+        )
+        WriteEmbeddingFacade().load_document_point(
+            point=cls.point2, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
+        )
+        cls.point3 = WriteEmbeddingFacade().generate_document_point(
+            cls.scopus_documents[2], [11111111111, 22222222222]
+        )
+        WriteEmbeddingFacade().load_document_point(
+            point=cls.point3, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
+        )
+
+    def test_search_most_similar(self):
+        """Test search_most_similar method."""
+        response = self.facade.search_most_similar(limit=1)
+        self.assertEqual(len(response["results"]), 1)
+        self.assertEqual(len(response["author_ids"]), 2)
+        response = self.facade.search_most_similar(limit=2)
+        self.assertEqual(len(response["results"]), 2)
+        self.assertEqual(len(response["author_ids"]), 2)
+
+    def test_search_most_similar_filtered_by_author_id(self):
+        """Test search_most_similar_filtered_by_author_id method."""
+        response = self.facade.search_most_similar_filtered_by_author_id(
+            author_id="11111111111", limit_documents=1
+        )
+        self.assertEqual(len(response), 1)
+        response = self.facade.search_most_similar_filtered_by_author_id(
+            author_id="11111111111", limit_documents=2
+        )
+        self.assertEqual(len(response), 2)
+        response = self.facade.search_most_similar_filtered_by_author_id(
+            author_id="22222222222", limit_documents=3
+        )
+        self.assertEqual(len(response), 1)
+
+    def test_get_authors_from_similar_search(self):
+        """Test get_authors_from_similar_search method."""
+        response = self.facade.get_authors_from_similar_search(
+            limit_authors=2,
+        )
+        expected_response = [
+            {
+                "author_id": "11111111111",
+                "documents": [
+                    {
+                        "doi": "99.9999/999-9-999-99999-1_11",
+                        "title": "The Evaluation of Family Support Programmes "
+                        "in Spain. An Analysis of their Quality Standards",
+                        "description": "Since the well-known publication of the "
+                        "Society for Prevention Research about standards for evidence "
+                        "related to research on prevention interventions, a rigorous "
+                        "evaluation is considered one of the main requirements for "
+                        "evidence-based programmes.",
+                        "score": 0.16714,
+                    },
+                    {
+                        "doi": "99.9999/999-9-999-99999-3_33",
+                        "title": "Comparison of parental competences in fathers and "
+                        "mothers with adolescent childrenEducation in "
+                        "Diversity Contexts",
+                        "description": "Parenting adolescents requires personal, "
+                        "emotional and social competencies from the parents. There are "
+                        "few gender studies that analyze these competencies in the "
+                        "father and the mother in the same family.",
+                        "score": 0.1603,
+                    },
+                    {
+                        "doi": "99.9999/999-9-999-99999-2_22",
+                        "title": "Introduction to the monographic issue Emotional "
+                        "Education in Diversity Contexts",
+                        "description": None,
+                        "score": 0.04815,
+                    },
+                ],
+                "score": 0.3756,
+            },
+            {
+                "author_id": "22222222222",
+                "documents": [
+                    {
+                        "doi": "99.9999/999-9-999-99999-1_11",
+                        "title": "The Evaluation of Family Support Programmes "
+                        "in Spain. An Analysis of their Quality Standards",
+                        "description": "Since the well-known publication of the "
+                        "Society for Prevention Research about standards for evidence "
+                        "related to research on prevention interventions, a rigorous "
+                        "evaluation is considered one of the main requirements for "
+                        "evidence-based programmes.",
+                        "score": 0.16714,
+                    }
+                ],
+                "score": 0.16714,
+            },
+        ]
+        self.assertEqual(len(response), 2)
+        self.assertEqual(response, expected_response)
