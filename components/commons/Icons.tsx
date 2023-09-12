@@ -93,10 +93,34 @@ const IconTarget = ({ title, ...props }: Props) => {
   )
 }
 
+const IconSearch = ({ title, ...props }: Props) => {
+  const svgStyle = {
+    fill: 'none',
+    stroke: '#000',
+    strokeLineCap: 'round',
+    strokeLineJoin: 'round',
+    strokeWidth: '2px'
+  }
+
+  return (
+    <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg" {...props}>
+      <title>{title}</title>
+      <defs>
+        <style></style>
+      </defs>
+      <g id="_21.search">
+        <circle style={svgStyle} cx="9" cy="9" r="8" />
+        <path style={svgStyle} d="m15 15 8 8" />
+      </g>
+    </svg>
+  )
+}
+
 export {
   IconArrowCircle,
   IconArrowSubmit,
   IconCrossReset,
   IconCopy,
-  IconTarget
+  IconTarget,
+  IconSearch
 }

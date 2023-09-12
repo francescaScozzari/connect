@@ -10,7 +10,7 @@ import { Text } from '@/components/commons/Typography'
 import { searchAuthors } from '@/utils/api/search'
 import { useAppDispatch } from '@/store'
 import { setTeam } from '@/store/searchSlice'
-import { IconArrowSubmit, IconCrossReset } from '../commons/Icons'
+import { IconArrowSubmit, IconCrossReset, IconSearch } from '../commons/Icons'
 import { useDynamicHeight } from '@/hooks'
 
 type FormValues = {
@@ -79,7 +79,8 @@ const SearchForm = () => {
               Search prompt too long
             </Text.NormalBold>
           ) : null}
-          <ClearButton
+          <Placeholder isFilled={textAreaRef?.current?.value} title="search" />
+          <ClearButton  
             type="button"
             role="reset"
             isFilled={textAreaRef?.current?.value}
@@ -105,13 +106,30 @@ const SearchForm = () => {
   )
 }
 
+const Placeholder = styled(IconSearch)<{ isFilled: string | undefined }>`
+  display: ${({ isFilled }) => (isFilled?.length ? 'none' : 'block')};
+  position: absolute;
+  top: calc(6em / 2);
+  left: 5%;
+  transform: translate(-50%, -50%);
+
+  @media (max-width: 1280px) {
+    top: calc(6em / 2);
+  }
+
+  @media (max-width: 768px) {
+    top: calc(6.125em / 2);
+    left: 7%;
+  }
+`
+
 const HeightKeeper = styled.div`
   display: none;
 `
 
 const ClearButton = styled.button<{ isFilled: string | undefined }>`
   all: unset;
-  display: ${({ isFilled }) => (isFilled?.length ? 'block' : 'none')};
+  display: ${({ isFilled }) => (isFilled?.length  ? 'block' : 'none')};
   position: absolute;
   top: calc(6em / 2);
   left: 5%;
@@ -185,8 +203,6 @@ const Input = styled.textarea`
 
   &::placeholder {
     opacity: 1;
-    background: url("data:image/svg+xml,%3Csvg height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'%3E%3Cdefs%3E%3Cstyle%3E.cls-1%7Bfill:none;stroke:%23000;stroke-linecap:round;stroke-linejoin:round;stroke-width:2px;%7D%3C/style%3E%3C/defs%3E%3Ctitle/%3E%3Cg id='_21.search'%3E%3Ccircle class='cls-1' cx='9' cy='9' r='8'/%3E%3Cline class='cls-1' x1='15' x2='23' y1='15' y2='23'/%3E%3C/g%3E%3C/svg%3E")
-      no-repeat 2em center;
   }
 
   @media (max-width: 1280px) {
