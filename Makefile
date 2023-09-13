@@ -14,7 +14,7 @@ collectstatic:  ## Django collectstatic
 
 .PHONY: clearpybliometricscache
 clearpybliometricscache:  ## Clear pybliometrics cache directory
-    rm --force --recursive /dev/shm/.cache/pybliometrics
+	rm --force --recursive /dev/shm/.cache/pybliometrics
 
 .PHONY: compilemessages
 compilemessages:  ## Django compilemessages

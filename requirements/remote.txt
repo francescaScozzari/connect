@@ -488,9 +488,9 @@ httpx==0.25.0 \
     --hash=sha256:181ea7f8ba3a82578be86ef4171554dd45fec26a02556a744db029a0a27b7100 \
     --hash=sha256:47ecda285389cb32bb2691cc6e069e3ab0205956f681c5b2ad2325719751d875
     # via qdrant-client
-huggingface-hub==0.16.4 \
-    --hash=sha256:0d3df29932f334fead024afc7cb4cc5149d955238b8b5e42dcf9740d6995a349 \
-    --hash=sha256:608c7d4f3d368b326d1747f91523dbd1f692871e8e2e7a4750314a2dd8b63e14
+huggingface-hub==0.17.1 \
+    --hash=sha256:7a9dc262a2e0ecf8c1749c8b9a7510a7a22981849f561af4345942d421822451 \
+    --hash=sha256:dd828d2a24ee6af86392042cc1052c482c053eb574864669f0cae4d29620e62c
     # via transformers
 hyperframe==6.0.1 \
     --hash=sha256:0ec6bafd80d8ad2195c4f03aacba3a8265e57bc4cff261e802bf39970ed02a15 \
