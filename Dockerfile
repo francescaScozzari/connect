@@ -28,10 +28,8 @@ RUN apt-get update \
         libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 COPY --chown=$APPUSER ./requirements/common.txt requirements/common.txt
-COPY --chown=$APPUSER ./requirements/extra.txt requirements/extra.txt
 RUN su $APPUSER -c "python3 -m pip install --user --no-cache-dir -r requirements/common.txt" \
-    && find ${PACKAGES_PATH} -regex '^.*/locale/.*/*.\(mo\|po\)$' -not -path '*/en*' -not -path '*/it*' -delete || true \
-    && su $APPUSER -c "python3 -m pip install --user --no-cache-dir -r requirements/extra.txt"
+    && find ${PACKAGES_PATH} -regex '^.*/locale/.*/*.\(mo\|po\)$' -not -path '*/en*' -not -path '*/it*' -delete || true
 
 FROM base AS test
 
