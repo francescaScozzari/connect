@@ -12,6 +12,10 @@ check:  ## Check code formatting and import sorting
 collectstatic:  ## Django collectstatic
 	python3 -m manage collectstatic --clear --link --noinput
 
+.PHONY: clearpybliometricscache
+clearpybliometricscache:  ## Clear pybliometrics cache directory
+    rm --force --recursive /dev/shm/.cache/pybliometrics
+
 .PHONY: compilemessages
 compilemessages:  ## Django compilemessages
 	python3 -m manage compilemessages
@@ -102,7 +106,7 @@ precommit_update:  ## Update pre_commit
 	python3 -m pre_commit autoupdate
 
 .PHONY: pytest
-pytest:  ## Run debugging test
+pytest: clearpybliometricscache ## Run debugging test
 	python3 -m pytest --capture=no --dc=Testing --durations 10
 
 .PHONY: remote
@@ -127,13 +131,13 @@ ifeq (simpletest,$(firstword $(MAKECMDGOALS)))
 endif
 
 .PHONY: simpletest
-simpletest:  ## Run debugging test
+simpletest: clearpybliometricscache ## Run debugging test
 	# You can pass more arguments as follows:
 	# make simpletest -- --debug-sql --failfast --keepdb --pdb --verbosity 2 path.to.TestClass
 	PYB_CONFIG_FILE="./scopus/tests/config/pybliometrics.cfg" python3 -m manage test --configuration=Testing --shuffle --timing $(simpletestargs)
 
 .PHONY: test
-test:  ## Run test
+test: clearpybliometricscache ## Run test
 	./scripts/test.sh
 
 .PHONY: update
