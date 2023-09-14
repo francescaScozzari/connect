@@ -1,10 +1,13 @@
 """Scopus models."""
 
+from json.decoder import JSONDecodeError
 from typing import ValuesView
 
 from django.db import models
-from pybliometrics.scopus import AuthorRetrieval
+from pybliometrics.scopus import AuthorSearch, ScopusSearch
 from pybliometrics.scopus.exception import ScopusException
+
+from scopus.utils import is_orcid_id
 
 
 class ScopusAuthor(models.Model):
@@ -18,31 +21,33 @@ class ScopusAuthor(models.Model):
         return f"{self.author_id}"
 
     @classmethod
-    def retrieve_author(cls, author_id: int):
-        """Retrieve an author."""
+    def fetch_authors_results(cls, _id: str | int):
+        """Fetch authors results by provided id."""
+        query_func = "ORCID" if is_orcid_id(_id) else "AU-ID"
         try:
-            return AuthorRetrieval(int(author_id))
-        except (ScopusException, ValueError):
-            return None
+            return AuthorSearch(query=f"{query_func}({_id})")._json
+        except (ScopusException, JSONDecodeError):
+            return []
 
     @classmethod
-    def populate_authors(cls, author_ids: list[int], populate_documents: bool = False):
+    def populate_authors(cls, ids: list[int | str], populate_documents: bool = False):
         """Populate authors."""
-        authors: list[ScopusAuthor] = []
+        authors: dict = {}
         documents: dict = {}
-        for author_id in set(author_ids):
-            if (author := cls.retrieve_author(author_id)) is not None:
-                authors.append(cls(author_id=author_id, data=author._json))
-                if populate_documents and (author_documents := author.get_documents()):
+        for _id in set(ids):
+            for result in cls.fetch_authors_results(_id):
+                identifier = int(result["dc:identifier"].split(":")[-1])
+                authors[identifier] = cls(author_id=identifier, data=result)
+                if populate_documents and (
+                    author_documents := cls.fetch_documents_results(identifier)
+                ):
                     documents |= {
-                        document.doi: ScopusDocument(
-                            doi=document.doi, data=document._asdict()
-                        )
+                        prism_doi: ScopusDocument(doi=prism_doi, data=document)
                         for document in author_documents
-                        if document.doi
+                        if (prism_doi := document.get("prism:doi"))
                     }
         created_authors = cls.objects.bulk_create(
-            authors,
+            authors.values(),
             update_conflicts=True,
             update_fields=("data",),
             unique_fields=("author_id",),
@@ -50,9 +55,10 @@ class ScopusAuthor(models.Model):
         created_documents = ScopusDocument.populate_documents(documents.values())
         return created_authors, created_documents
 
-    def get_documents(self):
-        """Get author's documents."""
-        return self.retrieve_author(self.author_id).get_documents()
+    @classmethod
+    def fetch_documents_results(cls, _id: int):
+        """Fetch documents results by provided author id."""
+        return ScopusSearch(f"AU-ID({_id})")._json
 
 
 class ScopusDocument(models.Model):
@@ -68,10 +74,9 @@ class ScopusDocument(models.Model):
     @classmethod
     def populate_documents(cls, documents: ValuesView):
         """Populate author's documents."""
-        BATCH_SIZE = 1000
         return documents and cls.objects.bulk_create(
             documents,
-            batch_size=BATCH_SIZE,
+            batch_size=1000,
             update_conflicts=True,
             update_fields=("data",),
             unique_fields=("doi",),
@@ -79,7 +84,7 @@ class ScopusDocument(models.Model):
 
     @property
     def author_ids(self):
-        """Retrun the list of author ids."""
+        """Return the list of author ids."""
         try:
             return self.data.get("author_ids").split(";")
         except AttributeError:

@@ -1,17 +1,19 @@
 """Test the Scopus app models."""
 
 import json
+from unittest.mock import patch
 
 import requests_mock
 from django.test import TestCase
-from pybliometrics.scopus import AuthorRetrieval
+from pybliometrics.scopus.exception import ScopusException
 
 from scopus.models import ScopusAuthor, ScopusDocument
 from scopus.tests import (
+    AUTHOR_1_SEARCH_JSON,
     AUTHOR_11111111111_DOCUMENTS_JSON,
-    AUTHOR_11111111111_JSON,
-    AUTHOR_BASE_URL,
-    SEARCH_AUTHOR_11111111111_URL,
+    AUTHOR_11111111111_SEARCH_JSON,
+    AUTHOR_SEARCH_BASE_URL,
+    SCOPUS_SEARCH_BASE_URL,
 )
 
 
@@ -19,144 +21,137 @@ from scopus.tests import (
 class ScopusAuthorTest(TestCase):
     """Test the ScopusAuthor model."""
 
-    def test_str(self, m):
-        """Test str method."""
-        author_11111111111 = ScopusAuthor(
-            author_id=11111111111, data={"orcid": "0001-0002-0003-0004"}
-        )
-        self.assertEqual(author_11111111111.__str__(), "11111111111")
+    author_1_id = 1
+    author_11111111111_id = 11111111111
+    author_11111111111_orcid_id = "1111-1111-1111-111X"
 
-    def test_retrieve_author(self, m):
-        """Test retrieving an author."""
+    def test_str(self, m):
+        """Test returning the string representation of an instance."""
+        author_retrieval_11111111111 = ScopusAuthor(
+            author_id=self.author_11111111111_id, data={"orcid": "0001-0002-0003-0004"}
+        )
+        self.assertEqual(author_retrieval_11111111111.__str__(), "11111111111")
+
+    def test_fetch_authors_results(self, m):
+        """Test fetching authors results."""
+        with self.subTest("Catch Scopus exception"):
+            m.get(
+                AUTHOR_SEARCH_BASE_URL.format("AU-ID", self.author_1_id),
+                json=json.loads(AUTHOR_1_SEARCH_JSON.read_text()),
+            )
+            with patch("scopus.models.AuthorSearch", side_effect=(ScopusException,)):
+                self.assertEqual(
+                    ScopusAuthor.fetch_authors_results(self.author_1_id), []
+                )
         with self.subTest("Resource not found"):
-            author_id = 1
             m.get(
-                f"{AUTHOR_BASE_URL}/{author_id}",
-                status_code=404,
-                json={
-                    "service-error": {
-                        "status": {
-                            "statusCode": "RESOURCE_NOT_FOUND",
-                            "statusText": "The resource specified cannot be found.",
-                        }
-                    }
-                },
+                AUTHOR_SEARCH_BASE_URL.format("AU-ID", self.author_1_id),
+                json=json.loads(AUTHOR_1_SEARCH_JSON.read_text()),
             )
-            self.assertIsNone(ScopusAuthor.retrieve_author(author_id))
+            self.assertEqual(ScopusAuthor.fetch_authors_results(self.author_1_id), [])
         with self.subTest("Resource found"):
-            author_id = 11111111111
             m.get(
-                f"{AUTHOR_BASE_URL}/{author_id}",
-                json={
-                    "author-retrieval-response": [
-                        json.loads(AUTHOR_11111111111_JSON.read_text())
-                    ]
-                },
+                AUTHOR_SEARCH_BASE_URL.format("AU-ID", self.author_11111111111_id),
+                json=json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text()),
             )
-            processed_obj = ScopusAuthor.retrieve_author(author_id)
-            self.assertIsInstance(processed_obj, AuthorRetrieval)
+            processed_objs = ScopusAuthor.fetch_authors_results(
+                self.author_11111111111_id
+            )
             self.assertEqual(
-                processed_obj._json, json.loads(AUTHOR_11111111111_JSON.read_text())
+                processed_objs[0],
+                json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text())[
+                    "search-results"
+                ]["entry"][0],
             )
-        with self.subTest("Resource id not numerical"):
-            self.assertIsNone(ScopusAuthor.retrieve_author("A"))
 
     def test_populate_authors(self, m):
         """Test populating authors."""
         with self.subTest("Resource not found"):
-            author_id = 1
             m.get(
-                f"{AUTHOR_BASE_URL}/{author_id}",
-                status_code=404,
-                json={
-                    "service-error": {
-                        "status": {
-                            "statusCode": "RESOURCE_NOT_FOUND",
-                            "statusText": "The resource specified cannot be found.",
-                        }
-                    }
-                },
+                AUTHOR_SEARCH_BASE_URL.format("AU-ID", self.author_1_id),
+                json=json.loads(AUTHOR_1_SEARCH_JSON.read_text()),
             )
-            processed_objs = ScopusAuthor.populate_authors([author_id])[0]
+            processed_objs = ScopusAuthor.populate_authors([self.author_1_id])[0]
             self.assertEqual([(o.author_id, o.data) for o in processed_objs], [])
             self.assertQuerySetEqual(
                 ScopusAuthor.objects.values_list("author_id", flat=True),
                 [],
             )
-        author_id = 11111111111
         m.get(
-            f"{AUTHOR_BASE_URL}/{author_id}",
-            json={
-                "author-retrieval-response": [
-                    json.loads(AUTHOR_11111111111_JSON.read_text())
-                ]
-            },
+            AUTHOR_SEARCH_BASE_URL.format("ORCID", self.author_11111111111_orcid_id),
+            json=json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text()),
+        )
+        m.get(
+            AUTHOR_SEARCH_BASE_URL.format("AU-ID", self.author_11111111111_id),
+            json=json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text()),
         )
         with self.subTest("Create objects"):
-            processed_objs = ScopusAuthor.populate_authors([author_id])[0]
+            processed_objs = ScopusAuthor.populate_authors(
+                [self.author_11111111111_id, self.author_11111111111_orcid_id]
+            )[0]
             self.assertEqual(
                 [(o.author_id, o.data) for o in processed_objs],
                 [
                     (
-                        11111111111,
-                        json.loads(AUTHOR_11111111111_JSON.read_text()),
+                        self.author_11111111111_id,
+                        json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text())[
+                            "search-results"
+                        ]["entry"][0],
                     )
                 ],
             )
             self.assertQuerySetEqual(
                 ScopusAuthor.objects.values_list("author_id", flat=True),
-                [11111111111],
+                [self.author_11111111111_id],
             )
         with self.subTest("Update objects"):
-            processed_objs = ScopusAuthor.populate_authors([author_id])[0]
+            processed_objs = ScopusAuthor.populate_authors(
+                [self.author_11111111111_id]
+            )[0]
             self.assertEqual(
                 [(o.author_id, o.data) for o in processed_objs],
                 [
                     (
-                        11111111111,
-                        json.loads(AUTHOR_11111111111_JSON.read_text()),
+                        self.author_11111111111_id,
+                        json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text())[
+                            "search-results"
+                        ]["entry"][0],
                     )
                 ],
             )
             self.assertQuerySetEqual(
                 ScopusAuthor.objects.values_list("author_id", flat=True),
-                [11111111111],
+                [self.author_11111111111_id],
             )
         with self.subTest("Update objects with duplicated input author ids"):
-            processed_objs = ScopusAuthor.populate_authors([author_id, author_id])[0]
+            processed_objs = ScopusAuthor.populate_authors(
+                [self.author_11111111111_id, self.author_11111111111_orcid_id]
+            )[0]
             self.assertEqual(
                 [(o.author_id, o.data) for o in processed_objs],
                 [
                     (
-                        11111111111,
-                        json.loads(AUTHOR_11111111111_JSON.read_text()),
+                        self.author_11111111111_id,
+                        json.loads(AUTHOR_11111111111_SEARCH_JSON.read_text())[
+                            "search-results"
+                        ]["entry"][0],
                     )
                 ],
             )
             self.assertQuerySetEqual(
                 ScopusAuthor.objects.values_list("author_id", flat=True),
-                [11111111111],
+                [self.author_11111111111_id],
             )
 
-    def test_get_documents(self, m):
-        """Test get_documents method."""
-        author_id = 11111111111
+    def test_fetch_documents_results(self, m):
+        """Test fetching documents results."""
         m.get(
-            SEARCH_AUTHOR_11111111111_URL,
+            SCOPUS_SEARCH_BASE_URL.format("AU-ID", self.author_11111111111_id),
             json=json.loads(AUTHOR_11111111111_DOCUMENTS_JSON.read_text()),
         )
-        m.get(
-            f"{AUTHOR_BASE_URL}/{author_id}",
-            json={
-                "author-retrieval-response": [
-                    json.loads(AUTHOR_11111111111_JSON.read_text())
-                ]
-            },
+        documents_response = ScopusAuthor.fetch_documents_results(
+            self.author_11111111111_id
         )
-        documents_response = ScopusAuthor(
-            author_id=author_id, data={"author_id": author_id}
-        ).get_documents()
-        self.assertIsNotNone(documents_response)
         self.assertEqual(len(documents_response), 4)
 
 
@@ -164,7 +159,7 @@ class ScopusDocumentTest(TestCase):
     """Test the ScopusDocument model."""
 
     def test_str(self):
-        """Test str method."""
+        """Test returning the string representation of an instance."""
         document = ScopusDocument(
             doi="99.9999/999-9-999-99999-9_99",
             data={
@@ -174,7 +169,7 @@ class ScopusDocumentTest(TestCase):
                 "the BEC vacuum theory, is an approach in theoretical physics and "
                 "quantum mechanics where the fundamental physical vacuum "
                 "(non-removable background) is considered as a superfluid or as a "
-                "Bose–Einstein condensate (BEC).",
+                "Bose-Einstein condensate (BEC).",
             },
         )
         self.assertEqual(document.__str__(), "99.9999/999-9-999-99999-9_99")

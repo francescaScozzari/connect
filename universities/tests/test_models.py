@@ -9,7 +9,7 @@ class UniversityTest(SimpleTestCase):
     """Test the University model."""
 
     def test_str(self):
-        """Test str method."""
+        """Test returning the string representation of an instance."""
         self.princeton = University(name="Princeton University")
         self.assertEqual(self.princeton.__str__(), "Princeton University")
 
@@ -18,7 +18,7 @@ class AuthorTest(SimpleTestCase):
     """Test the Author model."""
 
     def test_str(self):
-        """Test str method."""
+        """Test returning the string representation of an instance."""
         self.princeton = University(name="Princeton University")
         self.leonard = Author(
             orcid="0000-0000-0000-0001",
@@ -59,7 +59,7 @@ class DocumentTest(TestCase):
         cls.svt.authors.add(cls.leonard, cls.sheldon)
 
     def test_str(self):
-        """Test str method."""
+        """Test returning the string representation of an instance."""
         self.assertEqual(self.svt.__str__(), "The superfluid vacuum theory")
 
     def test_authors_names(self):

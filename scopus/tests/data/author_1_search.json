@@ -1,0 +1,21 @@
+{
+  "search-results": {
+    "opensearch:totalResults": "0",
+    "opensearch:startIndex": "0",
+    "opensearch:itemsPerPage": "0",
+    "opensearch:Query": {
+      "@role": "request",
+      "@searchTerms": "AU-ID(1)",
+      "@startPage": "0"
+    },
+    "link": [
+      {
+        "@_fa": "true",
+        "@ref": "self",
+        "@href": "https://api.elsevier.com/content/search/author?start=0&count=200&query=AU-ID%281%29&view=STANDARD",
+        "@type": "application/json"
+      }
+    ],
+    "entry": [{ "@_fa": "true", "error": "Result set was empty" }]
+  }
+}
