@@ -59,7 +59,7 @@ loaduniversities:  ## Django load universities data
 	python3 -m manage loaddata universities/fixtures/universities.json
 
 .PHONY: local
-local: pip_update  ## Install local requirements and dependencies
+local: pip_local  ## Install local requirements and dependencies
 	python3 -m piptools sync requirements/local.txt
 
 .PHONY: messages
@@ -83,11 +83,14 @@ endif
 outdated:  ## Check outdated requirements and dependencies
 	python3 -m pip list --outdated
 
+.PHONY: pip_local
+pip_local:  pip_update ## Update requirements for local
+	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/local.txt requirements/local.in
+
 .PHONY: pip
-pip: pip_update  ## Compile requirements
+pip: pip_local  ## Compile requirements
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/base.txt requirements/base.in
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/common.txt requirements/common.in
-	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/local.txt requirements/local.in
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/remote.txt requirements/remote.in
 	python3 -m piptools compile --generate-hashes --no-header --quiet --resolver=backtracking --upgrade --strip-extras --output-file requirements/test.txt requirements/test.in
 
