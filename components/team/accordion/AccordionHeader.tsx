@@ -4,31 +4,39 @@ import * as Accordion from '@radix-ui/react-accordion'
 
 import { Text } from '@/components/commons/Typography'
 import { IconArrowBack } from '@/components/commons/Icons'
+import type { AuthorData } from '@/models/Authors'
 
-const AccordionHeader = React.forwardRef<
-  HTMLButtonElement,
-  Accordion.AccordionTriggerProps
->(({ children, ...props }, forwardedRef) => (
-  <CustomAccordionHeader>
-    <AuthorData>
-      <Text.NormalBold>Riesgo Fernandez Gonzalo</Text.NormalBold>
-      <Separator />
-      <Container>
-        <Text.Normal>University Name</Text.Normal>
-        <Text.Normal>
-          ORCID:{' '}
-          <Text.NormalBold as="span">0000-0001-5683-4248</Text.NormalBold>
-        </Text.Normal>
-      </Container>
-    </AuthorData>
-    <CustomAccordionTrigger {...props} ref={forwardedRef}>
-      <IconArrowBack title="open" aria-hidden />
-    </CustomAccordionTrigger>
-  </CustomAccordionHeader>
-))
+const AccordionHeader = React.forwardRef<HTMLButtonElement, AuthorData>(
+  ({ fullName, university, orcid }, forwardedRef) => (
+    <CustomAccordionHeader>
+      <AuthorData>
+        <Text.NormalBold>{fullName}</Text.NormalBold>
+        <Separator />
+        <Container>
+          <ShortText>{university}</ShortText>
+          <Text.Normal>
+            ORCID:{' '}
+            <Text.NormalBold as="span">{orcid ? orcid : '-'}</Text.NormalBold>
+          </Text.Normal>
+        </Container>
+      </AuthorData>
+      <CustomAccordionTrigger ref={forwardedRef}>
+        <IconArrowBack title="open" aria-hidden />
+      </CustomAccordionTrigger>
+    </CustomAccordionHeader>
+  )
+)
+
+const ShortText = styled(Text.Normal)`
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 20em;
+`
 
 const Container = styled.div`
   display: flex;
+  flex-flow: nowrap;
   justify-content: space-between;
 `
 

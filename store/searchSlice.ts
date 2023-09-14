@@ -15,10 +15,6 @@ const searchSlice = createSlice({
     setTeam: (state, action) => {
       state.authors = action.payload.authors
       state.q = action.payload.q
-    },
-    resetTeam: state => {
-      state.authors = []
-      state.q = ''
     }
   }
 })

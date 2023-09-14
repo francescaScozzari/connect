@@ -8,7 +8,7 @@ import { useAppSelector } from '@/store'
 import { Card } from '@/components/team/Card'
 
 const Team: NextPage = () => {
-  const { authors } = useAppSelector(state => state.search)
+  const { authors, q } = useAppSelector(state => state.search)
 
   return (
     <>
@@ -22,16 +22,14 @@ const Team: NextPage = () => {
             <Text.NormalBold>
               Why we’re suggesting these researches for your research project
             </Text.NormalBold>
-            <Text.Normal>
-              “Capacity building for cultural operators to manage digital and
-              green transition.”
-            </Text.Normal>
+            <Text.Normal>{q.length ? q : '-'}</Text.Normal>
           </Sidebar>
           <CardsContainer>
             <Label>
-              <Bold as="span">5</Bold> researchers identified
+              <Bold as="span">{authors?.length ?? '0'}</Bold> researchers
+              identified
             </Label>
-            <Card />
+            <Card authors={authors} />
           </CardsContainer>
         </MainSection>
       </Container>
@@ -67,7 +65,7 @@ const CardsContainer = styled.div`
 `
 
 const Label = styled(Text.Normal)`
-  font-size: 0.75em;
+  font-size: 0.8125em;
 `
 
 const Bold = styled(Label)`

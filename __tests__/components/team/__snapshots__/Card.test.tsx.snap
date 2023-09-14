@@ -17,8 +17,16 @@ exports[`Card component Card renders correctly 1`] = `
   font-weight: 700;
 }
 
+.c7 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 20em;
+}
+
 .c5 {
   display: flex;
+  flex-flow: nowrap;
   justify-content: space-between;
 }
 
@@ -52,7 +60,7 @@ exports[`Card component Card renders correctly 1`] = `
   border-radius: 1.875em;
 }
 
-.c7 {
+.c8 {
   all: unset;
   padding: 0.25em;
   height: 1.375em;
@@ -61,31 +69,34 @@ exports[`Card component Card renders correctly 1`] = `
   border-radius: 50%;
 }
 
-.c7 svg {
+.c8 svg {
   transform: rotate(-90deg);
 }
 
-.c7[data-state='open']>svg {
+.c8[data-state='open']>svg {
   transform: rotate(90deg);
+}
+
+.c10 {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 2em;
+  width: 100%;
+  background-color: #F4F7F8;
+  border-bottom: 2px solid black;
 }
 
 .c9 {
   display: flex;
   flex-direction: column;
-  gap: 1em;
-  padding: 2em;
-  background-color: #F4F7F8;
-}
-
-.c8 {
-  display: flex;
-  flex-direction: column;
   align-items: center;
   border: 2px solid black;
   border-top: 0;
+  border-bottom: 0;
 }
 
-.c8[data-state='closed'] {
+.c9[data-state='closed'] {
   border: 0;
 }
 
@@ -107,7 +118,7 @@ exports[`Card component Card renders correctly 1`] = `
         <p
           class="c2 c3"
         >
-          Riesgo Fernandez Gonzalo
+          Leonard Hofstadter
         </p>
         <div
           class="c4"
@@ -116,9 +127,9 @@ exports[`Card component Card renders correctly 1`] = `
           class="c5"
         >
           <p
-            class="c2 c6"
+            class="c2 c6 c7"
           >
-            University Name
+            Princeton University
           </p>
           <p
             class="c2 c6"
@@ -128,7 +139,7 @@ exports[`Card component Card renders correctly 1`] = `
             <span
               class="c2 c3"
             >
-              0000-0001-5683-4248
+              0000-0000-0000-0001
             </span>
           </p>
         </div>
@@ -136,7 +147,7 @@ exports[`Card component Card renders correctly 1`] = `
       <button
         aria-controls="radix-:r1:"
         aria-expanded="true"
-        class="c7"
+        class="c8"
         data-orientation="vertical"
         data-radix-collection-item=""
         data-state="open"
@@ -164,7 +175,7 @@ exports[`Card component Card renders correctly 1`] = `
     </h3>
     <div
       aria-labelledby="radix-:r0:"
-      class="c8"
+      class="c9"
       data-orientation="vertical"
       data-state="open"
       id="radix-:r1:"
@@ -172,506 +183,20 @@ exports[`Card component Card renders correctly 1`] = `
       style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
     >
       <div
-        class="c9"
+        class="c10"
       >
         <p
           class="c2 c3"
         >
-          Donec luctus eget lorem non hendrerit vestibulum in mi facilisis
+          test title
         </p>
         <p
           class="c2 c6"
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut non purus nunc. Aliquam erat volutpat. Suspendisse blandit ex id velit iaculis, a pellentesque tellus bibendum. Mauris accumsan ex in feugiat vehicula. [...] na sit amet est euismod dictum at at ligula. Nunc sed arcu in turpis faucibus imperdiet. Mauris vehicula est urna, eget sagittis sapien vestibulum dapibus [...] hendrerit ac eros eu porta aliquet dapibus rhoncus.
+          test description
         </p>
       </div>
     </div>
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:r3:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:r2:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:r2:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:r3:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:r5:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:r4:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:r4:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:r5:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:r7:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:r6:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:r6:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:r7:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:r9:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:r8:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:r8:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:r9:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:rb:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:ra:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:ra:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:rb:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
-  </div>
-  <div
-    data-orientation="vertical"
-    data-state="closed"
-  >
-    <h3
-      class="c0"
-      data-orientation="vertical"
-      data-state="closed"
-    >
-      <div
-        class="c1"
-      >
-        <p
-          class="c2 c3"
-        >
-          Riesgo Fernandez Gonzalo
-        </p>
-        <div
-          class="c4"
-        />
-        <div
-          class="c5"
-        >
-          <p
-            class="c2 c6"
-          >
-            University Name
-          </p>
-          <p
-            class="c2 c6"
-          >
-            ORCID:
-             
-            <span
-              class="c2 c3"
-            >
-              0000-0001-5683-4248
-            </span>
-          </p>
-        </div>
-      </div>
-      <button
-        aria-controls="radix-:rd:"
-        aria-expanded="false"
-        class="c7"
-        data-orientation="vertical"
-        data-radix-collection-item=""
-        data-state="closed"
-        id="radix-:rc:"
-        type="button"
-      >
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="26"
-          width="26"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            open
-          </title>
-          <g>
-            <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </button>
-    </h3>
-    <div
-      aria-labelledby="radix-:rc:"
-      class="c8"
-      data-orientation="vertical"
-      data-state="closed"
-      hidden=""
-      id="radix-:rd:"
-      role="region"
-      style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width);"
-    />
   </div>
 </div>
 `;
