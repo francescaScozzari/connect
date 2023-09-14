@@ -18,6 +18,7 @@ services:
     volumes:
       - ./backend:/app
       - .cache/pybliometrics:/home/${USER:-appuser}/.cache/pybliometrics/
+    platform: linux/amd64
 
   frontend:
     build:
