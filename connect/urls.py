@@ -47,11 +47,11 @@ urlpatterns = [
         include(
             (
                 [
-                    path("", include("universities.urls")),
+                    path("", include("xai.urls", "api:xai")),
                     *api_docs_urlpatterns,
                 ],
                 "api",
-            )
+            ),
         ),
     ),
     path(

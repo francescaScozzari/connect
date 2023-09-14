@@ -15,11 +15,18 @@ from xai.facade import WriteEmbeddingFacade
 class Command(BaseCommand):
     """A command for load documents points to Qdrant."""
 
-    def handle(self, verbosity, **kwargs):
+    def add_arguments(self, parser):
+        """Add custom arguments."""
+        parser.add_argument("--limit", dest="limit", type=int, required=False)
+
+    def handle(self, limit, verbosity, **kwargs):
         """Load documents points to qdrant."""
         verbose = verbosity >= 2
         facade = WriteEmbeddingFacade()
-        all_documents = ScopusDocument.objects.order_by("id").all()
+        all_documents = ScopusDocument.objects.order_by("id").all()[:limit]
+        verbose and self.stdout.write(
+            f"Start loading {all_documents.count()} documents to qdrant."
+        )
         loaded_points = 0
         connect_author_ids = ScopusAuthor.objects.all().values_list(
             "author_id", flat=True

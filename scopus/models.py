@@ -60,6 +60,53 @@ class ScopusAuthor(models.Model):
         """Fetch documents results by provided author id."""
         return ScopusSearch(f"AU-ID({_id})")._json
 
+    @property
+    def full_name(self):
+        """Return the full name."""
+        try:
+            data = self.data["author-profile"]
+        except KeyError:
+            data = self.data
+        preferred_name_data = data.get("preferred-name", {})
+        given_name = preferred_name_data.get("given-name", "")
+        surname = preferred_name_data.get("surname", "")
+        return f"{given_name} {surname}".strip()
+
+    @property
+    def university(self):
+        """Return the university."""
+        try:
+            affiliation_name = self.data["affiliation-current"]["affiliation-name"]
+        except KeyError:
+            affiliation_name = ""
+        if not affiliation_name:
+            affiliation_data = (
+                self.data.get("author-profile", {})
+                .get("affiliation-current", {})
+                .get("affiliation", {})
+            )
+            try:
+                affiliation_name = affiliation_data.get("ip-doc", {}).get(
+                    "afdispname", ""
+                )
+            except AttributeError:
+                affiliation_name = " / ".join(
+                    sorted(
+                        a.get("ip-doc", {}).get("afdispname", "")
+                        for a in affiliation_data
+                    )
+                )
+        return affiliation_name
+
+    @property
+    def orcid(self):
+        """Return the orcid."""
+        try:
+            data = self.data["coredata"]
+        except KeyError:
+            data = self.data
+        return data.get("orcid", "")
+
 
 class ScopusDocument(models.Model):
     """A Scopus document."""

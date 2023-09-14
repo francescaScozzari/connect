@@ -9,7 +9,9 @@ from scopus.models import ScopusAuthor, ScopusDocument
 class ScopusAuthorAdmin(admin.ModelAdmin):
     """Scopus author's admin."""
 
-    list_display = ("author_id",)
+    list_display = ("author_id", "full_name", "university", "orcid")
+    search_fields = ("author_id",)
+    readonly_fields = ("author_id", "data", "full_name", "university", "orcid")
 
 
 @admin.register(ScopusDocument)
@@ -17,3 +19,5 @@ class ScopusDocumentAdmin(admin.ModelAdmin):
     """Scopus document's admin."""
 
     list_display = ("doi",)
+    search_fields = ("doi",)
+    readonly_fields = ("doi", "data")

@@ -4,6 +4,7 @@ import datetime
 import itertools
 import logging
 
+import numpy as np
 from django.conf import settings
 from qdrant_client.http import models
 
@@ -167,11 +168,14 @@ class SearchMostSimilarFacade:
                 }
                 for document in author_documents
             ]
+            scores_vector = np.array(author_scores)
+            _normalized_score = scores_vector / np.sqrt(np.sum(scores_vector))
+            normalized_score = _normalized_score[~np.isnan(_normalized_score)]
             authors.append(
                 {
                     "author_id": author_id,
                     "documents": author_documents_data,
-                    "score": round(sum(author_scores), 5),
+                    "score": round(float(np.sum(normalized_score)), 5),
                 }
             )
         total_end = datetime.datetime.now()

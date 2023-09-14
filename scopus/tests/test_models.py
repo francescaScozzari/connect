@@ -25,8 +25,62 @@ class ScopusAuthorTest(TestCase):
     author_11111111111_id = 11111111111
     author_11111111111_orcid_id = "1111-1111-1111-111X"
 
+    @classmethod
+    def setUpTestData(cls):
+        """Prepare initial data for testing."""
+        cls.scopus_author1 = ScopusAuthor(
+            author_id="11111111111",
+            data={
+                "coredata": {
+                    "orcid": "0000-0000-0000-0001",
+                },
+                "author-profile": {
+                    "preferred-name": {
+                        "given-name": "Sheldon Lee",
+                        "indexed-name": "Cooper S. L.",
+                        "initials": "S.",
+                        "surname": "Cooper",
+                    },
+                    "affiliation-current": {
+                        "affiliation": {
+                            "ip-doc": {
+                                "@id": "333333333",
+                                "afdispname": "East Texas Tech University",
+                            },
+                        }
+                    },
+                },
+            },
+        )
+        cls.scopus_author2 = ScopusAuthor(
+            author_id="22222222222",
+            data={
+                "author-profile": {
+                    "preferred-name": {
+                        "given-name": "Leonard",
+                        "indexed-name": "Hofstadter L.",
+                        "initials": "L.",
+                        "surname": "Hofstadter",
+                    },
+                }
+            },
+        )
+        cls.scopus_author3 = ScopusAuthor(
+            author_id="33333333333",
+            data={
+                "eid": "0-s0.0-33333333333",
+                "orcid": "0000-0000-0000-0003",
+                "dc:identifier": "AUTHOR_ID:33333333333",
+                "preferred-name": {"surname": "Wolowitz", "given-name": "Howard"},
+                "affiliation-current": {
+                    "affiliation-name": "Massachusetts Institute of Technology",
+                },
+            },
+        )
+
     def test_str(self, m):
         """Test returning the string representation of an instance."""
+        self.assertEqual(self.scopus_author1.__str__(), "11111111111")
         author_retrieval_11111111111 = ScopusAuthor(
             author_id=self.author_11111111111_id, data={"orcid": "0001-0002-0003-0004"}
         )
@@ -153,6 +207,26 @@ class ScopusAuthorTest(TestCase):
             self.author_11111111111_id
         )
         self.assertEqual(len(documents_response), 4)
+
+    def test_full_name(self, m):
+        """Test full_name property."""
+        self.assertEqual(self.scopus_author1.full_name, "Sheldon Lee Cooper")
+        self.assertEqual(self.scopus_author2.full_name, "Leonard Hofstadter")
+        self.assertEqual(self.scopus_author3.full_name, "Howard Wolowitz")
+
+    def test_university(self, m):
+        """Test univeresity property."""
+        self.assertEqual(self.scopus_author1.university, "East Texas Tech University")
+        self.assertEqual(self.scopus_author2.university, "")
+        self.assertEqual(
+            self.scopus_author3.university, "Massachusetts Institute of Technology"
+        )
+
+    def test_orcid(self, m):
+        """Test orcid property."""
+        self.assertEqual(self.scopus_author1.orcid, "0000-0000-0000-0001")
+        self.assertEqual(self.scopus_author2.orcid, "")
+        self.assertEqual(self.scopus_author3.orcid, "0000-0000-0000-0003")
 
 
 class ScopusDocumentTest(TestCase):

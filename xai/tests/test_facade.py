@@ -312,7 +312,7 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                         "score": 0.04815,
                     },
                 ],
-                "score": 0.3756,
+                "score": 0.61286,
             },
             {
                 "author_id": "22222222222",
@@ -329,7 +329,7 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                         "score": 0.16714,
                     }
                 ],
-                "score": 0.16714,
+                "score": 0.40883,
             },
         ]
         self.assertEqual(len(response), 2)

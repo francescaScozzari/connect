@@ -6,7 +6,7 @@ from universities.models import Author, Document, University
 
 
 @admin.register(University)
-class Universitydmin(admin.ModelAdmin):
+class UniversityAdmin(admin.ModelAdmin):
     """University's admin."""
 
     list_display = ("name",)
