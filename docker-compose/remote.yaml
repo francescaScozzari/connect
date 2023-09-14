@@ -11,6 +11,9 @@ services:
       - .cache/pybliometrics:/home/appuser/.cache/pybliometrics/
 
   frontend:
+    environment:
+      - SENTRY_ENVIRONMENT
+      - SENTRY_DSN=${FRONTEND_SENTRY_DSN}
     image: ${FRONTEND_IMAGE}
 
   traefik:
