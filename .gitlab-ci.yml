@@ -138,6 +138,10 @@ test_build:
       --tag=${SERVICE_IMAGE_NAME}:${SERVICE_IMAGE_TAG}
       --file=${SERVICE_DOCKER_FILE}
       --target=${SERVICE_BUILD_TARGET}
+      --build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+      --build-arg SENTRY_ORG=$SENTRY_ORG
+      --build-arg SENTRY_PROJECT_NAME=$SENTRY_PROJECT_NAME
+      --build-arg SENTRY_URL=$SENTRY_URL
       --pull .
     - mkdir trivy
     - >
@@ -182,6 +186,10 @@ pages:
       --tag=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
       --file=docker/remote.Dockerfile
       --target=remote
+      --build-arg SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN
+      --build-arg SENTRY_ORG=$SENTRY_ORG
+      --build-arg SENTRY_PROJECT_NAME=$SENTRY_PROJECT_NAME
+      --build-arg SENTRY_URL=$SENTRY_URL
       --pull .
     - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
   after_script:
