@@ -1,39 +1,68 @@
 import React from 'react'
-import { styled } from 'styled-components'
+import * as Accordion from '@radix-ui/react-accordion'
 
-import { Text } from '@/components/commons/Typography'
-import { IconArrowCircle } from '@/components/commons/Icons'
+import { AccordionHeader } from './accordion/AccordionHeader'
+import { AccordionContent } from './accordion/AccordionContent'
 
-type Props = {
-  fullName: string
-  university: string
-}
-
-const Card = ({ fullName, university }: Props) => {
+const Card = () => {
   return (
-    <Container>
-      <Text.NormalBold>{fullName}</Text.NormalBold>
-      <Text.Normal>{university}</Text.Normal>
-      <IconArrowCircle title="Author details" width={24} height={24} />
-    </Container>
+    <Accordion.Root type="single" defaultValue="item-1" collapsible>
+      <Accordion.Item value="item-1">
+        <AccordionHeader />
+        <AccordionContent>
+          Yes. It adheres to the WAI-ARIA design pattern.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-2">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-3">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-4">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-5">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-6">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+
+      <Accordion.Item value="item-7">
+        <AccordionHeader>Is it unstyled?</AccordionHeader>
+        <AccordionContent>
+          Yes. It's unstyled by default, giving you freedom over the look and
+          feel.
+        </AccordionContent>
+      </Accordion.Item>
+    </Accordion.Root>
   )
 }
-
-const Container = styled.div`
-  display: flex;
-  width: 20em;
-  flex-direction: column;
-  align-content: start;
-  padding: 1.5em 1em 3em;
-  border: 2px solid black;
-  border-radius: 1em;
-  gap: 0.5em;
-
-  svg {
-    margin-top: 1em;
-    align-self: end;
-    transform: rotate(90deg);
-  }
-`
 
 export { Card }

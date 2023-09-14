@@ -93,6 +93,26 @@ const IconTarget = ({ title, ...props }: Props) => {
   )
 }
 
+const IconArrowBack = ({ title, ...props }: Props) => {
+  return (
+    <svg
+      width="26"
+      height="26"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <title>{title}</title>
+      <g>
+        <path
+          d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
+          fill="#000"
+        />
+      </g>
+    </svg>
+  )
+}
+
 const IconSearch = ({ title, ...props }: Props) => {
   const svgStyle = {
     fill: 'none',
@@ -117,6 +137,7 @@ const IconSearch = ({ title, ...props }: Props) => {
 }
 
 export {
+  IconArrowBack,
   IconArrowCircle,
   IconArrowSubmit,
   IconCrossReset,

@@ -3,13 +3,13 @@ import styled from 'styled-components'
 import type { NextPage } from 'next'
 
 import { SearchForm } from '@/components/home/SearchForm'
-import { Logo } from '@/components/home/Logo'
+import { BigLogo } from '@/components/home/Logo'
 import { SearchTips } from '@/components/home/SearchTips'
 
 const Home: NextPage = () => {
   return (
     <Container>
-      <Logo title="BI4E" />
+      <BigLogo title="BI4E" />
       <SearchForm />
       <SearchTips />
     </Container>

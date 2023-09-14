@@ -1,8 +1,9 @@
-import { expect } from '@jest/globals'
+import { jest, expect } from '@jest/globals'
 import React from 'react'
 
 import Layout from '@/components/layout/Base'
 import { renderWithWrappers } from '@/__tests__/functions'
+import { screen, fireEvent } from '@testing-library/react'
 
 const setup = () =>
   renderWithWrappers(

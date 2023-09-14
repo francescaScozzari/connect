@@ -80,7 +80,7 @@ const SearchForm = () => {
             </Text.NormalBold>
           ) : null}
           <Placeholder isFilled={textAreaRef?.current?.value} title="search" />
-          <ClearButton  
+          <ClearButton
             type="button"
             role="reset"
             isFilled={textAreaRef?.current?.value}
@@ -129,7 +129,7 @@ const HeightKeeper = styled.div`
 
 const ClearButton = styled.button<{ isFilled: string | undefined }>`
   all: unset;
-  display: ${({ isFilled }) => (isFilled?.length  ? 'block' : 'none')};
+  display: ${({ isFilled }) => (isFilled?.length ? 'block' : 'none')};
   position: absolute;
   top: calc(6em / 2);
   left: 5%;

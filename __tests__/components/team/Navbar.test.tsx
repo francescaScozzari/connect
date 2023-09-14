@@ -11,6 +11,5 @@ describe('Navbar component', () => {
   test('Navbar renders correctly', () => {
     const container = setup()
     expect(container.firstChild).toMatchSnapshot()
-    screen.getByText('Lorem Ipsum')
   })
 })

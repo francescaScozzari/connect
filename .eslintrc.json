@@ -33,6 +33,7 @@
     "prettier/prettier": "warn",
     "react/no-unescaped-entities": 0,
     "react/prop-types": 0,
-    "security/detect-object-injection": 0
+    "security/detect-object-injection": 0,
+    "react/display-name": "off"
   }
 }

@@ -2,31 +2,41 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 
-import { InputWithErrors } from '@/components/commons/Input'
-import { H3 } from '@/components/commons/Typography'
-import { useAppSelector } from '@/store'
+import { Text } from '@/components/commons/Typography'
+import { SmallLogo } from '@/components/home/Logo'
+import { Button } from '@/components//commons/Button'
+import { IconArrowBack } from '../commons/Icons'
 
 const Navbar = () => {
-  const { q } = useAppSelector(state => state.search)
-
   return (
     <Nav>
-      <H3.Normal>
-        <Link href="/">Lorem Ipsum</Link>
-      </H3.Normal>
-      <InputWithErrors placeholder={q} />
+      <Link href="/">
+        <SmallLogo title="BI4E" />
+      </Link>
+
+      <Link href="/">
+        <Button>
+          <IconArrowBack title="back" />
+          <Label as="span" uppercase>
+            Back to the search page
+          </Label>
+        </Button>
+      </Link>
     </Nav>
   )
 }
 
+const Label = styled(Text.Normal)``
+
 const Nav = styled.nav`
   width: 100%;
-  background-color: ${({ theme }) => theme.colors.neutrals[100]};
+  background-color: white;
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   padding: 2em 3em;
+  border-bottom: 1px solid black;
 
   a {
     color: black;

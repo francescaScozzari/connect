@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@next/font": "^13.4.19",
+    "@radix-ui/react-accordion": "^1.1.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@sentry/nextjs": "^7.64.0",
     "axios": "^1.4.0",

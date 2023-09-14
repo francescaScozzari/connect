@@ -2,11 +2,10 @@ import React from 'react'
 import styled from 'styled-components'
 import type { NextPage } from 'next'
 
-import { H2, Text } from '@/components/commons/Typography'
-import { Button } from '@/components/commons/Button'
+import { H3, Text } from '@/components/commons/Typography'
 import { Navbar } from '@/components/team/Navbar'
-import { Card } from '@/components/team/Card'
 import { useAppSelector } from '@/store'
+import { Card } from '@/components/team/Card'
 
 const Team: NextPage = () => {
   const { authors } = useAppSelector(state => state.search)
@@ -15,59 +14,80 @@ const Team: NextPage = () => {
     <>
       <Navbar />
       <Container>
-        <TeamSection>
-          <H2.Normal>Team</H2.Normal>
-          <Text.NormalBold>
-            Abbiamo individuato per te un team multidisciplinare di 9 profili in
-            linea con il tuo progetto di ricerca
-          </Text.NormalBold>
+        <TitleSection>
+          <H3.Normal>Your research team</H3.Normal>
+        </TitleSection>
+        <MainSection>
+          <Sidebar>
+            <Text.NormalBold>
+              Why we’re suggesting these researches for your research project
+            </Text.NormalBold>
+            <Text.Normal>
+              “Capacity building for cultural operators to manage digital and
+              green transition.”
+            </Text.Normal>
+          </Sidebar>
           <CardsContainer>
-            {authors?.map(author => {
-              return (
-                <Card
-                  key={author.orcid}
-                  fullName={author.fullName}
-                  university={author.university}
-                />
-              )
-            })}
+            <Label>
+              <Bold as="span">5</Bold> researchers identified
+            </Label>
+            <Card />
           </CardsContainer>
-          <SuggestionButton>Perchè ti suggeriamo questo team</SuggestionButton>
-        </TeamSection>
+        </MainSection>
       </Container>
     </>
   )
 }
 
-const TeamSection = styled.section`
+const MainSection = styled.section`
+  width: 100%;
+  padding: 2.5em;
+  display: grid;
+  column-gap: 3em;
+  grid-template-columns: 0.5fr 0.8fr;
+  grid-auto-flow: column;
+`
+
+const Sidebar = styled.div`
+  grid-column: 1;
   display: flex;
-  align-items: start;
-  justify-content: center;
+  flex-direction: column;
+  height: fit-content;
+  gap: 1em;
+  position: sticky;
+  top: 2em;
+`
+
+const CardsContainer = styled.div`
+  grid-column: 2;
+  display: flex;
   flex-direction: column;
   gap: 1em;
+  width: 100%;
+`
+
+const Label = styled(Text.Normal)`
+  font-size: 0.75em;
+`
+
+const Bold = styled(Label)`
+  font-weight: bold;
+`
+
+const TitleSection = styled.section`
+  width: 100%;
+  padding: 2.5em;
+  display: flex;
+  justify-content: start;
+  background-color: ${({ theme }) => theme.colors.neutrals[100]};
 `
 
 const Container = styled.div`
   display: flex;
-  padding: 2.5em;
-  gap: 3em;
   min-height: calc(100vh - 80px);
   align-items: center;
   justify-content: start;
   flex-direction: column;
-`
-
-const CardsContainer = styled.div`
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-around;
-  margin-top: 1.5em;
-  gap: 1.5em;
-`
-
-const SuggestionButton = styled(Button)`
-  align-self: end;
-  background-color: black;
 `
 
 export default Team

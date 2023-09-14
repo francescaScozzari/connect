@@ -7,13 +7,12 @@ import { renderWithWrappers } from '@/__tests__/functions'
 
 const setup = () =>
   renderWithWrappers(
-    <Card fullName="Marco Foschi" university="Università d'Annunzio" />
+    <Card />
   )
 
 describe('Card component', () => {
   test('Card renders correctly', () => {
     const container = setup()
     expect(container.firstChild).toMatchSnapshot()
-    screen.getByText('Marco Foschi')
   })
 })

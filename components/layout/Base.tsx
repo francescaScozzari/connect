@@ -4,7 +4,7 @@ import { ToastContainer } from 'react-toastify'
 
 import { GlobalStyle } from '@/styles/GlobalStyle'
 import { Theme } from '@/models/Utils'
-import { Footer } from '@/components/home/Footer'
+import { Footer } from '@/components/layout/Footer'
 import themes from '@/styles/themes'
 
 type Props = {
