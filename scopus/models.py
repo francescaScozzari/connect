@@ -80,22 +80,26 @@ class ScopusAuthor(models.Model):
         except KeyError:
             affiliation_name = ""
         if not affiliation_name:
-            affiliation_data = (
+            affiliation = (
                 self.data.get("author-profile", {})
                 .get("affiliation-current", {})
                 .get("affiliation", {})
             )
             try:
-                affiliation_name = affiliation_data.get("ip-doc", {}).get(
-                    "afdispname", ""
-                )
+                ipdocs = [affiliation.get("ip-doc", {})]
             except AttributeError:
-                affiliation_name = " / ".join(
-                    sorted(
-                        a.get("ip-doc", {}).get("afdispname", "")
-                        for a in affiliation_data
-                    )
+                ipdocs = [i for a in affiliation if (i := a.get("ip-doc", {}))]
+            names = []
+            for ipdoc in ipdocs:
+                name = (
+                    ipdoc.get("parent-preferred-name", {}).get("$", "")
+                    or ipdoc.get("preferred-name", {}).get("$", "")
+                    or ipdoc.get("sort-name", "")
+                    or ipdoc.get("afdispname", "")
                 )
+                if name:
+                    names.append(name)
+            affiliation_name = " / ".join(sorted(names))
         return affiliation_name
 
     @property
@@ -136,3 +140,13 @@ class ScopusDocument(models.Model):
             return self.data.get("author_ids").split(";")
         except AttributeError:
             return []
+
+    @property
+    def title(self):
+        """Return the title."""
+        return self.data.get("title", "") or self.data.get("dc:title", "")
+
+    @property
+    def description(self):
+        """Return the description."""
+        return self.data.get("description", "") or self.data.get("dc:description", "")

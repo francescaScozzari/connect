@@ -18,6 +18,6 @@ class ScopusAuthorAdmin(admin.ModelAdmin):
 class ScopusDocumentAdmin(admin.ModelAdmin):
     """Scopus document's admin."""
 
-    list_display = ("doi",)
+    list_display = ("doi", "title")
     search_fields = ("doi",)
-    readonly_fields = ("doi", "data")
+    readonly_fields = ("doi", "data", "title", "description")

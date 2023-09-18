@@ -67,7 +67,7 @@ class Command(BaseCommand):
             ids, populate_documents
         )
         processed_ids = [
-            author.author_id if author.author_id in ids else author.data["orcid"]
+            author.author_id if author.author_id in ids else author.orcid
             for author in processed_authors
         ]
         unprocessed_ids = set(ids).difference(processed_ids)

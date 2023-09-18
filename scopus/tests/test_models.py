@@ -221,6 +221,89 @@ class ScopusAuthorTest(TestCase):
         self.assertEqual(
             self.scopus_author3.university, "Massachusetts Institute of Technology"
         )
+        parent_uni = ScopusAuthor(
+            data={
+                "author-profile": {
+                    "affiliation-current": {
+                        "affiliation": {
+                            "ip-doc": {
+                                "sort-name": "Massachusetts Institute of Technology",
+                                "afdispname": "MIT - Computer Science Department",
+                                "preferred-name": {"$": "Computer Science Department"},
+                                "parent-preferred-name": {"$": "MIT"},
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        self.assertEqual(parent_uni.university, "MIT")
+        preferred_uni = ScopusAuthor(
+            data={
+                "author-profile": {
+                    "affiliation-current": {
+                        "affiliation": {
+                            "ip-doc": {
+                                "sort-name": "Massachusetts Institute of Technology",
+                                "afdispname": "MIT - Computer Science Department",
+                                "preferred-name": {"$": "Computer Science Department"},
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        self.assertEqual(preferred_uni.university, "Computer Science Department")
+        sort_uni = ScopusAuthor(
+            data={
+                "author-profile": {
+                    "affiliation-current": {
+                        "affiliation": {
+                            "ip-doc": {
+                                "sort-name": "Massachusetts Institute of Technology",
+                                "afdispname": "MIT - Computer Science Department",
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        self.assertEqual(sort_uni.university, "Massachusetts Institute of Technology")
+        afdispname_uni = ScopusAuthor(
+            data={
+                "author-profile": {
+                    "affiliation-current": {
+                        "affiliation": {
+                            "ip-doc": {
+                                "afdispname": "MIT - Computer Science Department",
+                            }
+                        }
+                    }
+                }
+            }
+        )
+        self.assertEqual(afdispname_uni.university, "MIT - Computer Science Department")
+        multiple_uni = ScopusAuthor(
+            data={
+                "author-profile": {
+                    "affiliation-current": {
+                        "affiliation": [
+                            {
+                                "ip-doc": {
+                                    "afdispname": "MIT",
+                                }
+                            },
+                            {
+                                "ip-doc": {
+                                    "afdispname": "Harvard",
+                                }
+                            },
+                        ]
+                    }
+                }
+            }
+        )
+        self.assertEqual(multiple_uni.university, "Harvard / MIT")
 
     def test_orcid(self, m):
         """Test orcid property."""
@@ -234,19 +317,15 @@ class ScopusDocumentTest(TestCase):
 
     def test_str(self):
         """Test returning the string representation of an instance."""
-        document = ScopusDocument(
+        document_99 = ScopusDocument(
             doi="99.9999/999-9-999-99999-9_99",
             data={
                 "doi": "99.9999/999-9-999-99999-9_99",
                 "title": "The superfluid vacuum theory",
-                "description": "Superfluid vacuum theory (SVT), sometimes known as "
-                "the BEC vacuum theory, is an approach in theoretical physics and "
-                "quantum mechanics where the fundamental physical vacuum "
-                "(non-removable background) is considered as a superfluid or as a "
-                "Bose-Einstein condensate (BEC).",
+                "description": "Superfluid vacuum theory (SVT), or BEC vacuum theory.",
             },
         )
-        self.assertEqual(document.__str__(), "99.9999/999-9-999-99999-9_99")
+        self.assertEqual(document_99.__str__(), "99.9999/999-9-999-99999-9_99")
 
     def test_populate_documents(self):
         """Test popluate_documents method."""
@@ -256,39 +335,31 @@ class ScopusDocumentTest(TestCase):
                 data={
                     "doi": "99.9999/999-9-999-99999-8_88",
                     "title": "Lorem ipsum",
-                    "description": "Lorem ipsum dolor sit amet, consectetur "
-                    "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                    "et dolore magna aliqua.",
+                    "description": "Dolor sit amet.",
                 },
             ),
             ScopusDocument(
                 doi="99.9999/999-9-999-99999-7_77",
                 data={
                     "doi": "99.9999/999-9-999-99999-7_77",
-                    "title": "Lorem ipsum",
-                    "description": "Lorem ipsum dolor sit amet, consectetur "
-                    "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                    "et dolore magna aliqua.",
+                    "title": "Consectetur adipiscing",
+                    "description": "Elit sed do eiusmodtempor.",
                 },
             ),
             ScopusDocument(
                 doi="99.9999/999-9-999-99999-6_66",
                 data={
                     "doi": "99.9999/999-9-999-99999-6_66",
-                    "title": "Lorem ipsum",
-                    "description": "Lorem ipsum dolor sit amet, consectetur "
-                    "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                    "et dolore magna aliqua.",
+                    "title": "Incididunt ut labore",
+                    "description": "Et dolore magna aliqua.",
                 },
             ),
             ScopusDocument(
                 doi="99.9999/999-9-999-99999-5_55",
                 data={
                     "doi": "99.9999/999-9-999-99999-5_55",
-                    "title": "Lorem ipsum",
-                    "description": "Lorem ipsum dolor sit amet, consectetur "
-                    "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                    "et dolore magna aliqua.",
+                    "title": "Ut enim ad minim veniam",
+                    "description": ",Quis nostrud exercitation ullamco.",
                 },
             ),
         ]
@@ -297,29 +368,71 @@ class ScopusDocumentTest(TestCase):
 
     def test_author_ids(self):
         """Test author_ids property."""
-        document = ScopusDocument(
-            doi="99.9999/999-9-999-99999-8_88",
+        document_44 = ScopusDocument(
+            doi="99.9999/999-9-999-99999-4_44",
             data={
-                "doi": "99.9999/999-9-999-99999-8_88",
-                "title": "Lorem ipsum",
-                "description": "Lorem ipsum dolor sit amet, consectetur "
-                "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                "et dolore magna aliqua.",
+                "doi": "99.9999/999-9-999-99999-4_44",
+                "title": "Laboris nisi",
+                "description": "Ut aliquip ex ea commodo consequat.",
                 "author_ids": "11111111111;22222222222;33333333333",
             },
         )
         self.assertEqual(
-            document.author_ids, ["11111111111", "22222222222", "33333333333"]
+            document_44.author_ids, ["11111111111", "22222222222", "33333333333"]
         )
-        document = ScopusDocument(
-            doi="99.9999/999-9-999-99999-8_88",
+        document_33 = ScopusDocument(
+            doi="99.9999/999-9-999-99999-3_33",
             data={
-                "doi": "99.9999/999-9-999-99999-8_88",
-                "title": "Lorem ipsum",
-                "description": "Lorem ipsum dolor sit amet, consectetur "
-                "adipiscing elit, sed do eiusmod tempor incididunt ut labore "
-                "et dolore magna aliqua.",
+                "doi": "99.9999/999-9-999-99999-3_33",
+                "title": "Duis aute",
+                "description": "Irure dolor in reprehenderit.",
                 "author_ids": None,
             },
         )
-        self.assertEqual(document.author_ids, [])
+        self.assertEqual(document_33.author_ids, [])
+
+    def test_title(self):
+        """Test title property."""
+        document_22_a = ScopusDocument(
+            doi="99.9999/999-9-999-99999-2_22",
+            data={
+                "doi": "99.9999/999-9-999-99999-2_22",
+                "title": "In voluptate",
+                "description": "Velit esse cillum dolore.",
+            },
+        )
+        self.assertEqual(document_22_a.title, "In voluptate")
+        document_22_b = ScopusDocument(
+            doi="99.9999/999-9-999-99999-2_22",
+            data={
+                "doi": "99.9999/999-9-999-99999-2_22",
+                "dc:title": "In voluptate",
+                "dc:description": "Velit esse cillum dolore.",
+            },
+        )
+        self.assertEqual(document_22_b.title, "In voluptate")
+        document_22_c = ScopusDocument(doi="99.9999/999-9-999-99999-2_22", data={})
+        self.assertEqual(document_22_c.title, "")
+
+    def test_description(self):
+        """Test description property."""
+        document_11_a = ScopusDocument(
+            doi="99.9999/999-9-999-99999-1_11",
+            data={
+                "doi": "99.9999/999-9-999-99999-1_11",
+                "title": "Eu fugiat",
+                "description": "Nulla pariatur. Excepteur sint.",
+            },
+        )
+        self.assertEqual(document_11_a.description, "Nulla pariatur. Excepteur sint.")
+        document_11_b = ScopusDocument(
+            doi="99.9999/999-9-999-99999-1_11",
+            data={
+                "doi": "99.9999/999-9-999-99999-1_11",
+                "dc:title": "Eu fugiat",
+                "dc:description": "Nulla pariatur. Excepteur sint.",
+            },
+        )
+        self.assertEqual(document_11_b.description, "Nulla pariatur. Excepteur sint.")
+        document_11_c = ScopusDocument(doi="99.9999/999-9-999-99999-1_11", data={})
+        self.assertEqual(document_11_c.description, "")
