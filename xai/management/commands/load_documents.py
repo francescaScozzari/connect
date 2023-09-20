@@ -5,7 +5,8 @@ This command handle the embedding generation
 and load points to qdrant the vector database.
 """
 
-from django.conf import settings
+from datetime import datetime
+
 from django.core.management import BaseCommand
 
 from scopus.models import ScopusAuthor, ScopusDocument
@@ -21,8 +22,8 @@ class Command(BaseCommand):
 
     def handle(self, limit, verbosity, **kwargs):
         """Load documents points to qdrant."""
+        started_at = datetime.now()
         verbose = verbosity >= 2
-        facade = WriteEmbeddingFacade()
         all_documents = ScopusDocument.objects.order_by("id").all()[:limit]
         verbose and self.stdout.write(
             f"Start loading {all_documents.count()} documents to qdrant."
@@ -32,21 +33,25 @@ class Command(BaseCommand):
             "author_id", flat=True
         )
         for document in all_documents:
-            document_point = facade.generate_document_point(
-                document, connect_author_ids
+            facade = WriteEmbeddingFacade(document)
+            tokens_embeddings = facade.create_document_tokens_embeddings()
+            verbose and bool(tokens_embeddings) and self.stdout.write(
+                f"TokensEmbeddings for document {document.doi} generated successfully."
             )
+            document_point = facade.generate_document_point(connect_author_ids)
             verbose and bool(document_point) and self.stdout.write(
-                f"Point for document {document.id} generated successfully."
+                f"Point for document {document.doi} generated successfully."
             )
-            load_response = facade.load_document_point(
+            load_response = WriteEmbeddingFacade.load_document_point(
                 point=document_point,
-                collection_name=settings.QDRANT_DOCUMENTS_COLLECTION,
             )
             if load_response.status == "completed":
                 verbose and self.stdout.write(
                     f"Point {document.id} loaded successfully."
                 )
                 loaded_points += 1
-        self.stdout.write(
+        total_time = datetime.now() - started_at
+        verbose and self.stdout.write(
             self.style.SUCCESS(f"TOT {loaded_points} points loaded successfully.")
         )
+        verbose and self.stdout.write(f"TOTAL execution time: {total_time}")

@@ -1,6 +1,5 @@
-"""Test the universities app views."""
+"""Test the xai app views."""
 
-from django.conf import settings
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -125,25 +124,26 @@ class AuthorViewSetTest(SetUpQdrantMixin, APITestCase):
                 },
             ),
         ]
-        cls.facade = SearchMostSimilarFacade(sentence="test sentence")
-        cls.point1 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[0], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point1, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
-        cls.point2 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[1], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point2, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
-        cls.point3 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[1], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point3, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
+        ScopusDocument.objects.bulk_create(cls.scopus_documents)
+        cls.facade = SearchMostSimilarFacade(sentence="test has sentence.")
+        cls.document_tokens_embeddings1 = WriteEmbeddingFacade(
+            cls.scopus_documents[0]
+        ).create_document_tokens_embeddings()
+        cls.point1 = WriteEmbeddingFacade(
+            cls.scopus_documents[0]
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point1)
+        cls.document_tokens_embeddings2 = WriteEmbeddingFacade(
+            cls.scopus_documents[1]
+        ).create_document_tokens_embeddings()
+        cls.point2 = WriteEmbeddingFacade(
+            cls.scopus_documents[1]
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point2)
+        cls.point3 = WriteEmbeddingFacade(
+            cls.scopus_documents[1]
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point3)
 
     def test_endpoint_url_path(self):
         """Test author endpoint url path."""
@@ -158,58 +158,67 @@ class AuthorViewSetTest(SetUpQdrantMixin, APITestCase):
         expected_response = []
         self.assertJSONEqual(response.content, expected_response)
         response = self.client.get(
-            self.api_author_url, {"team_size": "2", "q": "test sentence"}
+            self.api_author_url, {"team_size": "2", "q": "test has sentence."}
         )
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        expected_response = [
-            {
-                "authorId": "11111111111",
-                "documents": [
-                    {
-                        "doi": "99.9999/999-9-999-99999-1_11",
-                        "title": "The Evaluation of Family Support Programmes "
-                        "in Spain. An Analysis of their Quality Standards",
-                        "description": "Since the well-known publication of the "
-                        "Society for Prevention Research about standards for evidence "
-                        "related to research on prevention interventions, a rigorous "
-                        "evaluation is considered one of the main requirements for "
-                        "evidence-based programmes.",
-                        "score": 0.16714,
-                    },
-                    {
-                        "doi": "99.9999/999-9-999-99999-2_22",
-                        "title": "Introduction to the monographic issue Emotional "
-                        "Education in Diversity Contexts",
-                        "description": None,
-                        "score": 0.04815,
-                    },
-                ],
-                "score": 0.464,
-                "fullName": "Sheldon Lee Cooper",
-                "university": "East Texas Tech University",
-                "orcid": "0000-0000-0000-0001",
+        expected_response = {
+            "authors": [
+                {
+                    "authorId": "11111111111",
+                    "documents": [
+                        {
+                            "doi": "99.9999/999-9-999-99999-1_11",
+                            "title": "The Evaluation of Family Support Programmes "
+                            "in Spain. An Analysis of their Quality Standards",
+                            "description": "Since the well-known publication of the "
+                            "Society for Prevention Research about standards for "
+                            "evidence related to research on prevention interventions, "
+                            "a rigorous evaluation is considered one of the main "
+                            "requirements for evidence-based programmes.",
+                            "score": 0.19869,
+                            "highlights": ["evaluation", "requirements"],
+                        },
+                        {
+                            "doi": "99.9999/999-9-999-99999-2_22",
+                            "title": "Introduction to the monographic issue Emotional "
+                            "Education in Diversity Contexts",
+                            "description": "",
+                            "score": 0.05844,
+                            "highlights": ["contexts", "education"],
+                        },
+                    ],
+                    "score": 0.50708,
+                    "fullName": "Sheldon Lee Cooper",
+                    "university": "East Texas Tech University",
+                    "orcid": "0000-0000-0000-0001",
+                },
+                {
+                    "authorId": "22222222222",
+                    "documents": [
+                        {
+                            "doi": "99.9999/999-9-999-99999-1_11",
+                            "title": "The Evaluation of Family Support Programmes "
+                            "in Spain. An Analysis of their Quality Standards",
+                            "description": "Since the well-known publication of the "
+                            "Society for Prevention Research about standards for "
+                            "evidence related to research on prevention interventions, "
+                            "a rigorous evaluation is considered one of the main "
+                            "requirements for evidence-based programmes.",
+                            "score": 0.19869,
+                            "highlights": ["evaluation", "requirements"],
+                        }
+                    ],
+                    "score": 0.44575,
+                    "fullName": "Leonard Hofstadter",
+                    "university": "Princeton University / University of California",
+                    "orcid": "0000-0000-0000-0002",
+                },
+            ],
+            "givenSentence": {
+                "highlights": ["test", "sentence"],
+                "text": "test has sentence.",
             },
-            {
-                "authorId": "22222222222",
-                "documents": [
-                    {
-                        "doi": "99.9999/999-9-999-99999-1_11",
-                        "title": "The Evaluation of Family Support Programmes "
-                        "in Spain. An Analysis of their Quality Standards",
-                        "description": "Since the well-known publication of the "
-                        "Society for Prevention Research about standards for evidence "
-                        "related to research on prevention interventions, a rigorous "
-                        "evaluation is considered one of the main requirements for "
-                        "evidence-based programmes.",
-                        "score": 0.16714,
-                    }
-                ],
-                "score": 0.40883,
-                "fullName": "Leonard Hofstadter",
-                "university": "Princeton University / University of California",
-                "orcid": "0000-0000-0000-0002",
-            },
-        ]
+        }
         self.assertJSONEqual(
             response.content,
             expected_response,

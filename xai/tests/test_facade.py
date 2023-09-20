@@ -1,6 +1,5 @@
 """Test the xai app facade."""
 
-from django.conf import settings
 from django.test import TestCase, override_settings
 
 from connect.tests.utils import SetUpQdrantMixin
@@ -14,7 +13,7 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
     @classmethod
     def setUpTestData(cls):
         """Set up test case."""
-        cls.facade = WriteEmbeddingFacade()
+        cls.facade = WriteEmbeddingFacade
         cls.scopus_authors = [
             ScopusAuthor(
                 author_id="11111111111",
@@ -44,7 +43,7 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
             ),
         ]
         ScopusAuthor.objects.bulk_create(cls.scopus_authors)
-        scopus_documents = [
+        cls.scopus_documents = [
             ScopusDocument(
                 id=1,
                 doi="99.9999/999-9-999-99999-1_11",
@@ -93,40 +92,52 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
                 },
             ),
         ]
-        cls.point1 = cls.facade.generate_document_point(
-            scopus_documents[0], [11111111111, 22222222222]
+        ScopusDocument.objects.bulk_create(cls.scopus_documents)
+        cls.point1 = cls.facade(cls.scopus_documents[0]).generate_document_point(
+            [11111111111, 22222222222]
         )
-        cls.point2 = cls.facade.generate_document_point(
-            scopus_documents[1], [11111111111, 22222222222]
+        cls.point2 = cls.facade(cls.scopus_documents[1]).generate_document_point(
+            [11111111111, 22222222222]
         )
-        cls.point3 = cls.facade.generate_document_point(
-            scopus_documents[2], [11111111111, 22222222222]
+        cls.point3 = cls.facade(cls.scopus_documents[2]).generate_document_point(
+            [11111111111, 22222222222]
         )
 
     def test_load_document_point(self):
         """Test load_document_point method."""
-        res = self.facade.load_document_point(
-            point=self.point1, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
+        res = self.facade.load_document_point(point=self.point1)
         self.assertEqual(res.status, "completed")
 
     def test_merge_title_and_description(self):
         """Test merge_title_and_description method."""
-        title = (
-            "Score vs. Winrate in Score-Based Games: Which Reward for "
-            "Reinforcement Learning?"
-        )
-        description = (
-            "In the last years, DeepMind algorithm AlphaZero has become the "
-            "state of the art to efficiently tackle perfect information two-player "
-            "zero-sum games with a win/lose outcome."
-        )
-        merged_text = self.facade.merge_title_and_description(title, description)
+        merged_text = self.facade(
+            self.scopus_documents[0]
+        ).merge_title_and_description()
         expected_result = (
-            "Score vs. Winrate in Score-Based Games: Which Reward for Reinforcement "
-            "Learning?. In the last years, DeepMind algorithm AlphaZero has become "
-            "the state of the art to efficiently tackle perfect information "
-            "two-player zero-sum games with a win/lose outcome."
+            "The Evaluation of Family Support Programmes in Spain. "
+            "An Analysis of their Quality Standards. Since the well-known publication "
+            "of the Society for Prevention Research about standards for evidence "
+            "related to research on prevention interventions, a rigorous evaluation is "
+            "considered one of the main requirements for evidence-based programmes."
+        )
+        self.assertEqual(merged_text, expected_result)
+        merged_text = self.facade(
+            self.scopus_documents[1]
+        ).merge_title_and_description()
+        expected_result = (
+            "Introduction to the monographic issue Emotional Education "
+            "in Diversity Contexts."
+        )
+        self.assertEqual(merged_text, expected_result)
+        merged_text = self.facade(
+            self.scopus_documents[2]
+        ).merge_title_and_description()
+        expected_result = (
+            "Comparison of parental competences in fathers and mothers "
+            "with adolescent childrenEducation in Diversity Contexts. Parenting "
+            "adolescents requires personal, emotional and social competencies from the "
+            "parents. There are few gender studies that analyze these competencies in "
+            "the father and the mother in the same family."
         )
         self.assertEqual(merged_text, expected_result)
 
@@ -142,6 +153,15 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
             self.point1.payload["doi"],
             "99.9999/999-9-999-99999-1_11",
         )
+
+    def test_create_document_tokens_embeddings(self):
+        """Test create_document_tokens_embeddings method."""
+        self.facade(self.scopus_documents[0]).create_document_tokens_embeddings()
+        self.assertEqual(len(self.scopus_documents[0].tokens.data[0]["embedding"]), 384)
+        self.assertEqual(self.scopus_documents[0].tokens.data[0]["token"], "[CLS]")
+        self.assertEqual(self.scopus_documents[0].tokens.data[1]["token"], "the")
+        self.assertEqual(self.scopus_documents[0].tokens.data[2]["token"], "evaluation")
+        self.assertEqual(self.scopus_documents[0].tokens.data[-1]["token"], "[SEP]")
 
 
 @override_settings(QDRANT_VECTOR_SIZE=384)
@@ -229,25 +249,26 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                 },
             ),
         ]
-        cls.facade = SearchMostSimilarFacade(sentence="test sentence")
-        cls.point1 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[0], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point1, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
-        cls.point2 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[1], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point2, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
-        cls.point3 = WriteEmbeddingFacade().generate_document_point(
-            cls.scopus_documents[2], [11111111111, 22222222222]
-        )
-        WriteEmbeddingFacade().load_document_point(
-            point=cls.point3, collection_name=settings.QDRANT_DOCUMENTS_COLLECTION
-        )
+        ScopusDocument.objects.bulk_create(cls.scopus_documents)
+        cls.facade = SearchMostSimilarFacade(sentence="test has sentence.")
+        cls.document_tokens_embeddings1 = WriteEmbeddingFacade(
+            cls.scopus_documents[0]
+        ).create_document_tokens_embeddings()
+        cls.point1 = WriteEmbeddingFacade(
+            cls.scopus_documents[0]
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point1)
+        cls.document_tokens_embeddings2 = WriteEmbeddingFacade(
+            cls.scopus_documents[1]
+        ).create_document_tokens_embeddings()
+        cls.point2 = WriteEmbeddingFacade(
+            cls.scopus_documents[1],
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point2)
+        cls.point3 = WriteEmbeddingFacade(
+            cls.scopus_documents[2]
+        ).generate_document_point([11111111111, 22222222222])
+        WriteEmbeddingFacade.load_document_point(point=cls.point3)
 
     def test_search_most_similar(self):
         """Test search_most_similar method."""
@@ -291,7 +312,8 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                         "related to research on prevention interventions, a rigorous "
                         "evaluation is considered one of the main requirements for "
                         "evidence-based programmes.",
-                        "score": 0.16714,
+                        "score": 0.19869,
+                        "highlights": ["evaluation", "requirements"],
                     },
                     {
                         "doi": "99.9999/999-9-999-99999-3_33",
@@ -299,20 +321,22 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                         "mothers with adolescent childrenEducation in "
                         "Diversity Contexts",
                         "description": "Parenting adolescents requires personal, "
-                        "emotional and social competencies from the parents. There are "
-                        "few gender studies that analyze these competencies in the "
+                        "emotional and social competencies from the parents. There "
+                        "are few gender studies that analyze these competencies in the "
                         "father and the mother in the same family.",
-                        "score": 0.1603,
+                        "score": 0.18156,
+                        "highlights": [],
                     },
                     {
                         "doi": "99.9999/999-9-999-99999-2_22",
                         "title": "Introduction to the monographic issue Emotional "
                         "Education in Diversity Contexts",
-                        "description": None,
-                        "score": 0.04815,
+                        "description": "",
+                        "score": 0.05844,
+                        "highlights": ["contexts", "education"],
                     },
                 ],
-                "score": 0.61286,
+                "score": 0.66234,
             },
             {
                 "author_id": "22222222222",
@@ -326,11 +350,53 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
                         "related to research on prevention interventions, a rigorous "
                         "evaluation is considered one of the main requirements for "
                         "evidence-based programmes.",
-                        "score": 0.16714,
+                        "score": 0.19869,
+                        "highlights": ["evaluation", "requirements"],
                     }
                 ],
-                "score": 0.40883,
+                "score": 0.44575,
             },
         ]
         self.assertEqual(len(response), 2)
         self.assertEqual(response, expected_response)
+
+    def test_get_author_normalized_score(self):
+        """Test get_author_normalized_score method."""
+        author_scores = [0.16714162873705102, 0.16030469109159676, 0.04759527616166713]
+        normalized_score = SearchMostSimilarFacade(
+            sentence=""
+        ).get_author_normalized_score(author_scores)
+        self.assertEqual(normalized_score, 0.61241)
+
+    def test_get_document_explainability(self):
+        """Test get_document_explainability method."""
+        document_explainability = self.facade.get_document_explainability(
+            self.scopus_documents[0].doi
+        )
+        expected_result = [
+            {
+                "given_word": "test",
+                "restored_word": "evaluation",
+                "score": 0.3064,
+            },
+            {
+                "given_word": "sentence",
+                "restored_word": "requirements",
+                "score": 0.22269,
+            },
+        ]
+        self.assertEqual(document_explainability, expected_result)
+
+    def test_get_document_restored_word(self):
+        """Test get_document_restored_word method."""
+        document_explainability = self.facade.get_document_highlights(
+            self.scopus_documents[0].doi
+        )
+        expected_result = ["evaluation", "requirements"]
+        self.assertEqual(document_explainability, expected_result)
+
+    def test_get_sentence_highlights(self):
+        """Test get_sentence_highlights method."""
+        sentence_highlights = self.facade.get_sentence_highlights()
+        expected_result = ["test", "sentence"]
+        self.assertEqual(sentence_highlights, expected_result)

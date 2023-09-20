@@ -42,18 +42,18 @@ class LLMEmbedder:
         :param attention_mask: Attention mask given by the tokenizer
         :return: Mean pooling of a text given tokens list.
         """
-        token_embeddings = model_output[0]
+        tokens_embeddings = model_output[0]
         # Create an attention mask for each expanded token
         # with 384 dimension for each token
         input_mask_expanded = (
-            attention_mask.unsqueeze(-1).expand(token_embeddings.size()).float()
+            attention_mask.unsqueeze(-1).expand(tokens_embeddings.size()).float()
         )
-        # token_embeddings * input_mask_expanded
+        # tokens_embeddings * input_mask_expanded
         # -> element wise multiplication (not mat mul)
         # torch.sum, sums elements (in this code is a col sum)
         # in order to have a single tensor for sentence
         sum_embeddings = torch.sum(
-            token_embeddings * input_mask_expanded, 1
+            tokens_embeddings * input_mask_expanded, 1
         )  # Sum columns
         # input_mask_expanded.sum(1) for each row of input_mask_expanded,
         # sum its elements and put them in a single row tensor

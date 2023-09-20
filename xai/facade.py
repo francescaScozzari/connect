@@ -1,17 +1,20 @@
 """Explainable Artificial Intelligence facade."""
 
-import datetime
 import itertools
 import logging
+from datetime import datetime
 
 import numpy as np
 from django.conf import settings
+from django.utils.decorators import classonlymethod
 from qdrant_client.http import models
 
 from connect.qdrant import cli as qdrant_cli
 from scopus.models import ScopusDocument
-from xai import logger
+from xai import STOP_WORDS, logger
 from xai.embedder import LLMEmbedder
+from xai.explainability import ExplainabilityComputing
+from xai.models import TokensEmbeddings
 from xai.textprocessor import process_text
 
 if settings.DEBUG:  # pragma: no cover
@@ -21,9 +24,23 @@ if settings.DEBUG:  # pragma: no cover
 class WriteEmbeddingFacade:
     """The write embedding xai class."""
 
-    def merge_title_and_description(
-        self, title: str, description: str, merging_sym: str = "."
-    ) -> str:
+    def __init__(
+        self,
+        document: ScopusDocument,
+    ) -> None:
+        """Initialize the write embedding facade class."""
+        self.document = document
+        self.embedder = LLMEmbedder(
+            text=process_text(self.merge_title_and_description())
+        )
+        self.document_embeddings = (
+            self.embedder.get_sentence_embeddings() if document else []
+        )
+        self.document_tokens_embeddings = (
+            self.embedder.get_tokens_embeddings() if document else []
+        )
+
+    def merge_title_and_description(self, merging_sym: str = ".") -> str:
         """
         Merge two strings into a single one with this pattern.
 
@@ -33,45 +50,44 @@ class WriteEmbeddingFacade:
         :param title: String on the left of the result
         :return: merged string.
         """
-        return f"{title}{merging_sym} {description}"
+        return (
+            f"{self.document.title}{merging_sym} {self.document.description}".rstrip()
+        )
 
-    def generate_document_point(
-        self, document: ScopusDocument, connect_author_ids: list[int]
-    ):
+    def create_document_tokens_embeddings(self):
+        """Create a TokensEmbeddings for given document."""
+        return TokensEmbeddings.objects.get_or_create(
+            document_id=self.document.doi, data=self.document_tokens_embeddings
+        )
+
+    def generate_document_point(self, connect_author_ids: list[int]):
         """
         Generate document point.
 
         :param documents: scopus.ScopusDocument
         :return: qdrant_client.http.models.PointStruct
         """
-        embedding = LLMEmbedder(
-            text=process_text(
-                self.merge_title_and_description(
-                    document.data.get("title"), document.data.get("description")
-                )
-            )
-        ).get_sentence_embeddings()
         point = models.PointStruct(
-            id=document.pk,
+            id=self.document.pk,
             payload={
                 "author_ids": [
                     author_id
-                    for author_id in document.author_ids
+                    for author_id in self.document.author_ids
                     if int(author_id) in connect_author_ids
                 ],
-                "doi": document.doi,
-                "title": document.data.get("title"),
-                "description": document.data.get("description"),
+                "doi": self.document.doi,
+                "title": self.document.title,
+                "description": self.document.description,
             },
-            vector=embedding,
+            vector=self.document_embeddings,
         )
         return point
 
+    @classonlymethod
     def load_document_point(
-        self,
+        cls,
         point: models.PointStruct,
-        collection_name: str,
-    ) -> bool:
+    ):
         """
         Load given data to Qdrant.
 
@@ -80,7 +96,7 @@ class WriteEmbeddingFacade:
         :return: True if data are correctly wrote, False otherwise.
         """
         return qdrant_cli.upsert(
-            collection_name=collection_name,
+            collection_name=settings.QDRANT_DOCUMENTS_COLLECTION,
             points=[point],
         )
 
@@ -90,9 +106,22 @@ class SearchMostSimilarFacade:
 
     def __init__(self, sentence: str) -> None:
         """Initialize the search most similar instance by given sentence."""
-        self.sentence_embeddings = LLMEmbedder(
-            text=process_text(text=sentence)
-        ).get_sentence_embeddings()
+        embedder = LLMEmbedder(text=process_text(text=sentence))
+        self.sentence = sentence
+        self.sentence_embeddings = (
+            embedder.get_sentence_embeddings() if sentence else []
+        )
+        self.sentence_tokens_embeddings = (
+            embedder.get_tokens_embeddings() if sentence else []
+        )
+
+    @classmethod
+    def get_author_normalized_score(cls, author_scores):
+        """Return normalized author score."""
+        scores_vector = np.array(author_scores)
+        _normalized_score = scores_vector / np.sqrt(np.sum(scores_vector))
+        normalized_score = _normalized_score[~np.isnan(_normalized_score)]
+        return round(float(np.sum(normalized_score)), 5)
 
     def search_most_similar(self, limit: int = 50) -> dict:
         """
@@ -141,23 +170,47 @@ class SearchMostSimilarFacade:
         )
         return results
 
+    def get_document_explainability(self, document_doi):
+        """Return document explainability."""
+        try:
+            document_tokens_embeddings = TokensEmbeddings.objects.get(
+                document_id=document_doi
+            ).data
+        except TokensEmbeddings.DoesNotExist:
+            return None
+        else:
+            return ExplainabilityComputing.explain_result(
+                self.sentence_tokens_embeddings,
+                document_tokens_embeddings,
+            )
+
+    def get_document_highlights(self, document_doi):
+        """Return flat list of highlights word for given document doi."""
+        explain_results = self.get_document_explainability(document_doi)
+        return (
+            sorted(
+                {explain_result["restored_word"] for explain_result in explain_results}
+            )
+            if explain_results
+            else []
+        )
+
     def get_authors_from_similar_search(
         self, limit_authors: int = 6, limit_documents: int = 100
     ):
         """Get authors from similar search."""
-        total_start = datetime.datetime.now()
+        total_started_at = datetime.now()
         result = self.search_most_similar(limit=limit_documents)
         authors = []
         logger.debug(f"start search by each {len(result['author_ids'])} authors")
         for author_id in result["author_ids"]:
             logger.debug(f"search most similar for author {author_id}")
-            start = datetime.datetime.now()
+            started_at = datetime.now()
             author_documents = self.search_most_similar_filtered_by_author_id(
                 str(author_id)
             )
-            end = datetime.datetime.now()
-            total_time = end - start
-            logger.debug(f"search execution time: {total_time}")
+            search_execution_time = datetime.now() - started_at
+            logger.debug(f"search execution time: {search_execution_time}")
             author_scores = [document.score for document in author_documents]
             author_documents_data = [
                 {
@@ -165,20 +218,24 @@ class SearchMostSimilarFacade:
                     "title": document.payload["title"],
                     "description": document.payload["description"],
                     "score": round(document.score, 5),
+                    "highlights": self.get_document_highlights(document.payload["doi"]),
                 }
                 for document in author_documents
             ]
-            scores_vector = np.array(author_scores)
-            _normalized_score = scores_vector / np.sqrt(np.sum(scores_vector))
-            normalized_score = _normalized_score[~np.isnan(_normalized_score)]
             authors.append(
                 {
                     "author_id": author_id,
                     "documents": author_documents_data,
-                    "score": round(float(np.sum(normalized_score)), 5),
+                    "score": self.get_author_normalized_score(author_scores),
                 }
             )
-        total_end = datetime.datetime.now()
-        total_time = total_end - total_start
+        total_time = datetime.now() - total_started_at
         logger.debug(f"TOTAL execution time: {total_time}")
         return sorted(authors, key=lambda x: x["score"], reverse=True)[:limit_authors]
+
+    def get_sentence_highlights(self):
+        """Return given sentence highlights."""
+        tokens, _embeddings = ExplainabilityComputing.split_tokens_and_embeddings(
+            self.sentence_tokens_embeddings
+        )
+        return [token for token in tokens if token not in STOP_WORDS]
