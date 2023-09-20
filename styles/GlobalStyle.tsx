@@ -2,27 +2,23 @@ import { createGlobalStyle } from 'styled-components'
 import { normalize } from 'styled-normalize'
 import 'react-toastify/dist/ReactToastify.css'
 
-import {
-  Open_Sans as OpenSans,
-  Hepta_Slab as HeptaSlab,
-  Poppins
-} from '@next/font/google'
+import { Open_Sans as OpenSans, Poppins, Roboto } from '@next/font/google'
 
-const baseFont = OpenSans({
+const baseFont = Poppins({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '500', '600', '700'],
   style: ['normal', 'italic']
 })
 
-const titleFont = HeptaSlab({
+const secondaryFont = OpenSans({
   subsets: ['latin'],
-  weight: ['400', '500', '700'],
+  weight: ['400', '700'],
   style: ['normal']
 })
 
-const linkFont = Poppins({
+const tertiaryFont = Roboto({
   subsets: ['latin'],
-  weight: ['400'],
+  weight: ['900'],
   style: ['normal']
 })
 
@@ -45,16 +41,23 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   a {
-    font-family: ${linkFont.style.fontFamily};
+    text-decoration: none;
+  }
+
+  span {
+    font-family: ${baseFont.style.fontFamily};
     font-weight: 400;
   }
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: ${titleFont.style.fontFamily};
+  p {
+    font-family: ${secondaryFont.style.fontFamily};
+    font-weight: 400;
   }
+
+  strong {
+    font-family: ${tertiaryFont.style.fontFamily};
+    font-weight: 900;
+  }
+
+
 `

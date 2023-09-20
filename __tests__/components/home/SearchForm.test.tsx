@@ -1,25 +1,26 @@
 import React from 'react'
-import { expect } from '@jest/globals'
+import { expect, jest } from '@jest/globals'
 import { fireEvent, screen } from '@testing-library/react'
 
 import { SearchForm } from '@/components/home/SearchForm'
 import { renderWithWrappers } from '@/__tests__/functions'
 
-jest.mock('next/router', () => require('next-router-mock'))
-
 describe('<SearchForm />', () => {
+
+  const mockHandleSubmit = jest.fn()
+
   it('SearchForm renders correctly', () => {
-    const container = renderWithWrappers(<SearchForm />)
+    const container = renderWithWrappers(<SearchForm handleSubmit={mockHandleSubmit}/>)
     expect(container.firstChild).toMatchSnapshot()
   })
 
   it('submit button should be disabled when input is empty', async () => {
-    renderWithWrappers(<SearchForm />)
+    renderWithWrappers(<SearchForm handleSubmit={mockHandleSubmit}/>)
     expect(await screen.findByRole('submit')).toBeDisabled()
   })
 
   it('submit button should not be enabled when input is not empty', async () => {
-    renderWithWrappers(<SearchForm />)
+    renderWithWrappers(<SearchForm handleSubmit={mockHandleSubmit}/>)
 
     fireEvent.input(await screen.getByRole('textarea'), {
       target: {
@@ -32,7 +33,7 @@ describe('<SearchForm />', () => {
   })
 
   it('clear search input', async () => {
-    renderWithWrappers(<SearchForm />)
+    renderWithWrappers(<SearchForm handleSubmit={mockHandleSubmit}/>)
 
     fireEvent.input(await screen.getByRole('textarea'), {
       target: {

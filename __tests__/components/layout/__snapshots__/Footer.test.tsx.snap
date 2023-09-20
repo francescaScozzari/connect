@@ -1,0 +1,87 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Footer /> Footer renders correctly 1`] = `
+.c0 {
+  min-height: 4.5em;
+  padding: 2em 4.5em;
+  display: flex;
+  justify-content: space-between;
+  background-color: #2B2D42;
+}
+
+.c2 {
+  display: flex;
+  gap: 2em;
+}
+
+.c1 {
+  color: white;
+  font-size: 0.75rem;
+  text-transform: capitalize;
+}
+
+.c3 {
+  color: #c9d2ec;
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+@media (max-width: 1280px) {
+  .c0 {
+    padding: 2em 3.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .c0 {
+    padding: 2em 2em;
+  }
+}
+
+@media (max-width: 1280px) {
+  .c2 {
+    gap: 1.5em;
+  }
+}
+
+@media (max-width: 768px) {
+  .c2 {
+    gap: 0.5em;
+  }
+}
+
+<footer
+  class="c0"
+>
+  <a
+    class="c1"
+    data-cy="uda"
+    href="https://en.unich.it/"
+  >
+    © 2023 All rights reserved Ud'A - D’Annunzio University of Chieti-Pescara
+  </a>
+  <footer
+    class="c2"
+  >
+    <a
+      class="c1 c3"
+    >
+      Privacy Policy
+    </a>
+    <a
+      class="c1 c3"
+      data-cy="ingenium"
+      href="https://ingenium-eu.education/"
+    >
+      Ingenium University
+    </a>
+    <a
+      class="c1 c3"
+      data-cy="bi4e"
+      href="https://boosting-ingenium.com/"
+    >
+      BI4E
+    </a>
+  </footer>
+</footer>
+`;

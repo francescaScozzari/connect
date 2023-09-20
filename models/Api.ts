@@ -6,3 +6,7 @@ export interface SearchRequest {
   teamSize: number
   prompt: string
 }
+
+export interface SearchResponse {
+  q: string
+}

@@ -1,6 +1,5 @@
 import React from 'react'
 import { expect } from '@jest/globals'
-import { screen } from '@testing-library/react'
 
 import { Navbar } from '@/components/team/Navbar'
 import { renderWithWrappers } from '@/__tests__/functions'

@@ -1,14 +1,14 @@
 import { expect } from '@jest/globals'
 import React from 'react'
 
-import { Button } from '@/components/commons/Button'
+import { BackButton } from '@/components/commons/BackButton'
 import { renderWithWrappers } from '@/__tests__/functions'
 
-const setup = () => renderWithWrappers(<Button />)
+const setup = () => renderWithWrappers(<BackButton />)
 
 describe('Button components', () => {
-  describe('<Button />', () => {
-    test('Button primary ui renders correctly', () => {
+  describe('<BackButton />', () => {
+    test('BackButton renders correctly', () => {
       const container = setup()
       expect(container.firstChild).toMatchSnapshot()
     })

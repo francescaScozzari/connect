@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { Author } from '@/models/Authors'
+import type { Author } from '@/models/Authors'
 
 interface SearchState {
   authors: Author[]

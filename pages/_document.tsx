@@ -32,11 +32,15 @@ export default class MyDocument extends Document {
   }
 
   render() {
-    const { locale } = this.props
     return (
-      <Html lang={(locale && locale.split('-')[0]) || 'en'}>
+      <Html lang="en">
         <Head>
-          <link rel="icon" href="/favicon.ico" />
+          <link
+            rel="icon"
+            href="/favicon.svg"
+            type="image/svg+xml"
+            sizes="24x24"
+          />
         </Head>
         <body>
           <Main />

@@ -2,10 +2,8 @@ import React from 'react'
 import styled from 'styled-components'
 import Link from 'next/link'
 
-import { Text } from '@/components/commons/Typography'
-import { SmallLogo } from '@/components/home/Logo'
-import { Button } from '@/components//commons/Button'
-import { IconArrowBack } from '../commons/Icons'
+import { SmallLogo } from '@/components/commons/Logo'
+import { BackButton } from '@/components//commons/BackButton'
 
 const Navbar = () => {
   return (
@@ -15,33 +13,21 @@ const Navbar = () => {
       </Link>
 
       <Link href="/">
-        <Button>
-          <IconArrowBack title="back" />
-          <Label as="span" uppercase>
-            Back to the search page
-          </Label>
-        </Button>
+        <BackButton />
       </Link>
     </Nav>
   )
 }
 
-const Label = styled(Text.Normal)``
-
 const Nav = styled.nav`
   width: 100%;
-  background-color: white;
+  background-color: ${({ theme }) => theme.colors.primary[0]};
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
   padding: 2em 3em;
-  border-bottom: 1px solid black;
-
-  a {
-    color: black;
-    text-decoration: none;
-  }
+  border-bottom: 1px solid #c9d2ec;
 
   div {
     margin: 0 auto;

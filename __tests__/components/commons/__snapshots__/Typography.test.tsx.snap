@@ -51,7 +51,7 @@ exports[`Text Medium Medium Text renders correctly with style props 1`] = `
 }
 
 .c1 {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 400;
 }
 
@@ -72,8 +72,8 @@ exports[`Text Medium MediumBold Text renders correctly with style props 1`] = `
 }
 
 .c1 {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 <p
@@ -178,7 +178,7 @@ exports[`Titles H1 Big H1 renders correctly with style props 1`] = `
 
 .c1 {
   font-size: 50px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 <h1
@@ -198,8 +198,8 @@ exports[`Titles H1 Medium H1 renders correctly with style props 1`] = `
 }
 
 .c1 {
-  font-size: 40px;
-  font-weight: 500;
+  font-size: 49px;
+  font-weight: 700;
 }
 
 <h1
@@ -220,7 +220,7 @@ exports[`Titles H1 Normal H1 renders correctly with style props 1`] = `
 
 .c1 {
   font-size: 35px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 <h1
@@ -241,7 +241,7 @@ exports[`Titles H2 Normal H2 renders correctly with style props 1`] = `
 
 .c1 {
   font-size: 32px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 <h2
@@ -262,7 +262,7 @@ exports[`Titles H3 H3 renders correctly with style props 1`] = `
 
 .c1 {
   font-size: 24px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 <h3
@@ -283,7 +283,7 @@ exports[`Titles H4 H4 renders correctly with style props 1`] = `
 
 .c1 {
   font-size: 20px;
-  font-weight: 500;
+  font-weight: 700;
 }
 
 <h4

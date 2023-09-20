@@ -164,12 +164,12 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
         <circle
           cx="9"
           cy="9"
-          r="8"
-          style="fill: none; stroke: #000; stroke-width: 2px;"
+          r="7"
+          style="fill: none; stroke: white; stroke-width: 2px;"
         />
         <path
-          d="m15 15 8 8"
-          style="fill: none; stroke: #000; stroke-width: 2px;"
+          d="m14 14 8 8"
+          style="fill: none; stroke: white; stroke-width: 2px;"
         />
       </g>
     </svg>
@@ -178,24 +178,22 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
       role="reset"
       type="button"
     >
-      <div>
-        <svg
-          fill="none"
-          height="31"
-          width="31"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <title>
-            reset
-          </title>
-          <g>
-            <path
-              d="m24.5417 8.27962-1.8212-1.82125L15.5 13.6788 8.27962 6.45837 6.45837 8.27962 13.6788 15.5l-7.22043 7.2205 1.82125 1.8212L15.5 17.3213l7.2205 7.2204 1.8212-1.8212L17.3213 15.5l7.2204-7.22038Z"
-              fill="#000"
-            />
-          </g>
-        </svg>
-      </div>
+      <svg
+        fill="none"
+        height="31"
+        width="31"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>
+          reset
+        </title>
+        <g>
+          <path
+            d="m24.5417 8.27962-1.8212-1.82125L15.5 13.6788 8.27962 6.45837 6.45837 8.27962 13.6788 15.5l-7.22043 7.2205 1.82125 1.8212L15.5 17.3213l7.2205 7.2204 1.8212-1.8212L17.3213 15.5l7.2204-7.22038Z"
+            fill="#000"
+          />
+        </g>
+      </svg>
     </button>
     <button
       class="c6"

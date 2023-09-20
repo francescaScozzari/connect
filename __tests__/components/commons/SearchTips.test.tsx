@@ -1,7 +1,7 @@
 import { expect } from '@jest/globals'
 import React from 'react'
 
-import { SearchTips } from '@/components/home/SearchTips'
+import { SearchTips } from '@/components/commons/SearchTips'
 import { renderWithWrappers } from '@/__tests__/functions'
 
 const setup = () => renderWithWrappers(<SearchTips />)

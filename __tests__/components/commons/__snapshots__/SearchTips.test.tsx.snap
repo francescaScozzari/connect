@@ -1,0 +1,126 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SearchTips components <SearchTips /> SearchTips renders correctly 1`] = `
+.c2 {
+  color: #1C1C1C;
+  margin: 0;
+  text-transform: none;
+}
+
+.c3 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.c0 {
+  display: flex;
+  gap: 2em;
+  max-width: 67em;
+  margin: 4em 0;
+}
+
+.c1 {
+  display: flex;
+  gap: 0.5em;
+  padding: 1.5em;
+  align-items: start;
+  border: 1px solid #7a83ab;
+  border-radius: 1.25em;
+}
+
+.c1 svg {
+  flex-shrink: 0;
+}
+
+.c4 {
+  line-height: 1.5;
+  color: #242424;
+}
+
+.c5 {
+  display: inline-block;
+  color: #2B2D42;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+@media (max-width: 1280px) {
+  .c0 {
+    max-width: 46em;
+  }
+}
+
+@media (max-width: 768px) {
+  .c0 {
+    max-width: 37.5em;
+  }
+}
+
+<div
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <svg
+      fill="none"
+      height="40"
+      width="40"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>
+        note
+      </title>
+      <g>
+        <path
+          d="M31.667 8.333v15h-8.334v8.334h-15V8.333h23.334Zm0-3.333H8.333A3.343 3.343 0 0 0 5 8.333v23.334C5 33.5 6.5 35 8.333 35H25l10-10V8.333C35 6.5 33.5 5 31.667 5ZM20 23.333h-8.333V20H20v3.333Zm8.333-6.666H11.667v-3.334h16.666v3.334Z"
+          fill="#2B2D42"
+        />
+      </g>
+    </svg>
+    <p
+      class="c2 c3 c4"
+    >
+      <span
+        class="c5"
+      >
+        Start from the the research call
+      </span>
+      <br />
+       If you are working or will have to work on a research paper for a call, you might report in the search field the title or objectives of that
+    </p>
+  </div>
+  <div
+    class="c1"
+  >
+    <svg
+      fill="white"
+      height="40"
+      width="40"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>
+        target
+      </title>
+      <g>
+        <path
+          d="M20 13.333A6.665 6.665 0 0 0 13.333 20 6.665 6.665 0 0 0 20 26.667 6.665 6.665 0 0 0 26.666 20 6.665 6.665 0 0 0 20 13.333Zm14.9 5c-.767-6.95-6.284-12.466-13.233-13.233V1.667h-3.334V5.1c-6.95.767-12.466 6.283-13.233 13.233H1.667v3.334H5.1c.767 6.95 6.283 12.466 13.233 13.233v3.433h3.334V34.9c6.95-.767 12.466-6.283 13.233-13.233h3.433v-3.334H34.9ZM20 31.667A11.658 11.658 0 0 1 8.333 20C8.333 13.55 13.55 8.333 20 8.333S31.666 13.55 31.666 20 26.45 31.667 20 31.667Z"
+          fill="#2B2D42"
+        />
+      </g>
+    </svg>
+    <p
+      class="c2 c3 c4"
+    >
+      <span
+        class="c5"
+      >
+        More detail for greater match
+      </span>
+      <br />
+       Enter as much information, don't limit yourself to a single word, that way we can narrow it down and suggest the researchers best suited to your need
+    </p>
+  </div>
+</div>
+`;

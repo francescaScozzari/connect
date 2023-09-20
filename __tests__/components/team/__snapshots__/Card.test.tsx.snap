@@ -2,38 +2,74 @@
 
 exports[`Card component Card renders correctly 1`] = `
 .c2 {
-  color: #1C1C1C;
+  color: white;
   margin: 0;
   text-transform: none;
 }
 
+.c3 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
 .c6 {
+  color: white;
+  margin: 0;
+  text-transform: none;
+}
+
+.c16 {
+  color: #242424;
+  margin: 0;
+  text-transform: none;
+}
+
+.c17 {
   font-size: 16px;
   font-weight: 400;
 }
 
-.c3 {
+.c9 {
   font-size: 16px;
   font-weight: 700;
 }
 
 .c7 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  max-width: 20em;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.c10 {
+  padding: 0.375em 0.5em;
+  background-color: #2B2D42;
+  border-radius: 1.25em;
+}
+
+.c11 {
+  text-transform: uppercase;
+  font-size: normal;
+  color: white;
 }
 
 .c5 {
   display: flex;
-  flex-flow: nowrap;
-  justify-content: space-between;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.c8 {
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 38em;
 }
 
 .c4 {
-  width: 100%;
-  height: 1px;
-  background-color: black;
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: space-between;
 }
 
 .c1 {
@@ -50,54 +86,76 @@ exports[`Card component Card renders correctly 1`] = `
   align-items: center;
   gap: 1.5em;
   padding: 1.5em;
-  border: 2px solid black;
-  border-top-left-radius: 1.875em;
-  border-top-right-radius: 1.875em;
+  border: 1px solid #c9d2ec;
+  border-top-left-radius: 1.25em;
+  border-top-right-radius: 1.25em;
+  background-color: #434660;
   margin-bottom: 0;
 }
 
 .c0[data-state='closed'] {
-  border-radius: 1.875em;
+  border-radius: 1.25em;
 }
 
-.c8 {
+.c12 {
   all: unset;
-  padding: 0.25em;
+  padding: 0.375em;
   height: 1.375em;
   width: 1.375em;
-  border: 2px solid black;
+  border: 2px solid #c9d2ec;
   border-radius: 50%;
 }
 
-.c8 svg {
-  transform: rotate(-90deg);
+.c12[data-state='open']>svg {
+  transform: rotate(180deg);
 }
 
-.c8[data-state='open']>svg {
-  transform: rotate(90deg);
+.c15 {
+  display: inline-block;
+  color: #2B2D42;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.5;
 }
 
-.c10 {
+.c18 {
+  line-height: 2.25;
+  text-align: start;
+}
+
+.c14 {
   display: flex;
   flex-direction: column;
   gap: 1em;
   padding: 2em;
   width: 100%;
   background-color: #F4F7F8;
-  border-bottom: 2px solid black;
+  border-bottom: 1px solid #c9d2ec;
 }
 
-.c9 {
+.c13 {
   display: flex;
   flex-direction: column;
   align-items: center;
-  border: 2px solid black;
+  border: 1px solid #c9d2ec;
   border-top: 0;
   border-bottom: 0;
 }
 
-.c9[data-state='closed'] {
+.c13[data-state='closed'] {
   border: 0;
+}
+
+@media (max-width: 1600px) {
+  .c8 {
+    max-width: 28em;
+  }
+}
+
+@media (max-width: 1440px) {
+  .c8 {
+    max-width: 16em;
+  }
 }
 
 <div
@@ -115,39 +173,58 @@ exports[`Card component Card renders correctly 1`] = `
       <div
         class="c1"
       >
-        <p
+        <h3
           class="c2 c3"
+          color="white"
         >
           Leonard Hofstadter
-        </p>
+        </h3>
         <div
           class="c4"
-        />
-        <div
-          class="c5"
         >
-          <p
-            class="c2 c6 c7"
+          <div
+            class="c5"
           >
-            Princeton University
-          </p>
+            <svg
+              fill="none"
+              height="26"
+              width="27"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <title>
+                author
+              </title>
+              <g>
+                <path
+                  d="M13.5 11.917c1.44 0 4.333.726 4.333 2.166v.174A5.724 5.724 0 0 1 13.5 16.25a5.724 5.724 0 0 1-4.334-1.993v-.174c0-1.44 2.893-2.166 4.334-2.166Zm0-1.084a2.173 2.173 0 0 1-2.167-2.166c0-1.192.975-2.167 2.167-2.167 1.191 0 2.166.975 2.166 2.167a2.173 2.173 0 0 1-2.166 2.166Zm6.5.217c0-3.932-2.871-6.717-6.5-6.717-3.63 0-6.5 2.785-6.5 6.717 0 2.535 2.112 5.893 6.5 9.902 4.387-4.009 6.5-7.367 6.5-9.902Zm-6.5-8.883c4.55 0 8.666 3.488 8.666 8.883 0 3.597-2.892 7.854-8.666 12.783-5.774-4.929-8.667-9.186-8.667-12.783 0-5.395 4.117-8.883 8.667-8.883Z"
+                  fill="#fff"
+                />
+              </g>
+            </svg>
+            <p
+              class="c6 c7 c8"
+              color="white"
+            >
+              Princeton University
+            </p>
+          </div>
           <p
-            class="c2 c6"
+            class="c6 c9 c10"
+            color="white"
           >
-            ORCID:
-             
-            <span
-              class="c2 c3"
+            ORCID 
+            <strong
+              class="c11"
             >
               0000-0000-0000-0001
-            </span>
+            </strong>
           </p>
         </div>
       </div>
       <button
         aria-controls="radix-:r1:"
         aria-expanded="true"
-        class="c8"
+        class="c12"
         data-orientation="vertical"
         data-radix-collection-item=""
         data-state="open"
@@ -155,19 +232,15 @@ exports[`Card component Card renders correctly 1`] = `
         type="button"
       >
         <svg
-          aria-hidden="true"
           fill="none"
-          height="26"
-          width="26"
+          height="24"
+          width="25"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <title>
-            open
-          </title>
           <g>
             <path
-              d="M21.6673 11.9167H8.48315L14.539 5.86087l-1.5383-1.5275L4.33398 13l8.66672 8.6667 1.5275-1.5275-6.04505-6.0558H21.6673v-2.1667Z"
-              fill="#000"
+              d="m7.91 15.41 4.59-4.58 4.59 4.58L18.5 14l-6-6-6 6 1.41 1.41Z"
+              fill="#C9D2EC"
             />
           </g>
         </svg>
@@ -175,7 +248,7 @@ exports[`Card component Card renders correctly 1`] = `
     </h3>
     <div
       aria-labelledby="radix-:r0:"
-      class="c9"
+      class="c13"
       data-orientation="vertical"
       data-state="open"
       id="radix-:r1:"
@@ -183,15 +256,16 @@ exports[`Card component Card renders correctly 1`] = `
       style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
     >
       <div
-        class="c10"
+        class="c14"
       >
-        <p
-          class="c2 c3"
+        <span
+          class="c15"
         >
           test title
-        </p>
+        </span>
         <p
-          class="c2 c6"
+          class="c16 c17 c18"
+          color="#242424"
         >
           test description
         </p>

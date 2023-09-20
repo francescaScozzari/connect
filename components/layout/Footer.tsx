@@ -4,7 +4,10 @@ import { styled } from 'styled-components'
 const Footer = () => {
   return (
     <OuterWrapper>
-      <FooterLink>© 2023 all rights reserved UDA CONNECT (TBD)</FooterLink>
+      <FooterLink data-cy="uda" href="https://en.unich.it/">
+        © 2023 All rights reserved Ud'A - D’Annunzio University of
+        Chieti-Pescara
+      </FooterLink>
       <InnerWrapper>
         <FooterLinkVariant>Privacy Policy</FooterLinkVariant>
         <FooterLinkVariant
@@ -26,6 +29,7 @@ const OuterWrapper = styled.footer`
   padding: 2em 4.5em;
   display: flex;
   justify-content: space-between;
+  background-color: ${({ theme }) => theme.colors.primary[0]};
 
   @media (max-width: 1280px) {
     padding: 2em 3.5em;
@@ -50,12 +54,15 @@ const InnerWrapper = styled.footer`
 `
 
 const FooterLink = styled.a`
-  color: black;
+  color: white;
   font-size: 0.75rem;
   text-transform: capitalize;
 `
+
 const FooterLinkVariant = styled(FooterLink)`
+  color: #c9d2ec;
   text-decoration: underline;
+  font-weight: 500;
 `
 
 export { Footer }

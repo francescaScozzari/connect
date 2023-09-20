@@ -15,16 +15,10 @@ const theme: DefaultTheme = {
     successLabel: '#B0FFD9',
     errorLabel: '#FFD0D0',
     primary: {
-      0: '#D7F3FF',
-      100: '#94D5F2',
-      200: '#4D96DC',
-      300: '#098BC5',
-      400: '#00529E',
-      500: '#002E5C'
+      0: '#2B2D42'
     },
     secondary: {
-      0: '#34A853',
-      100: '#FBBA03'
+      0: '#CE2F7C'
     },
     status: {
       info: '#007AFF',
@@ -47,33 +41,33 @@ const theme: DefaultTheme = {
     h1: {
       normal: {
         fontSize: '35px',
-        fontWeight: 500
+        fontWeight: 700
       },
       big: {
         fontSize: '50px',
-        fontWeight: 500
+        fontWeight: 700
       },
       medium: {
-        fontSize: '40px',
-        fontWeight: 500
+        fontSize: '49px',
+        fontWeight: 700
       }
     },
     h2: {
       normal: {
         fontSize: '32px',
-        fontWeight: 500
+        fontWeight: 700
       }
     },
     h3: {
       normal: {
         fontSize: '24px',
-        fontWeight: 500
+        fontWeight: 700
       }
     },
     h4: {
       normal: {
         fontSize: '20px',
-        fontWeight: 500
+        fontWeight: 700
       }
     }
   },
@@ -95,12 +89,12 @@ const theme: DefaultTheme = {
       fontWeight: 700
     },
     medium: {
-      fontSize: '12px',
+      fontSize: '14px',
       fontWeight: 400
     },
     mediumBold: {
-      fontSize: '12px',
-      fontWeight: 700
+      fontSize: '14px',
+      fontWeight: 600
     },
     small: {
       fontSize: '10px',

@@ -7,6 +7,13 @@ context('Homepage', () => {
     it('User can click footer links', () => {
       cy.visit('/')
 
+      cy.contains(/all rights reserved/i)
+      cy.get('[data-cy="uda"]').should(
+        'have.attr',
+        'href',
+        'https://en.unich.it/'
+      )
+
       cy.contains(/ingenium university/i)
       cy.get('[data-cy="ingenium"]').should(
         'have.attr',

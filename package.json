@@ -62,7 +62,6 @@
     "jest-environment-jsdom": "^29.6.3",
     "jest-junit": "^16.0.0",
     "jest-styled-components": "^7.1.1",
-    "next-router-mock": "^0.9.9",
     "prettier": "^3.0.2",
     "typescript": "^5.1.6",
     "webpack": "^5.88.2"

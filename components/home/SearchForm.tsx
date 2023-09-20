@@ -1,34 +1,31 @@
 import React, { useRef } from 'react'
 import { styled } from 'styled-components'
-import { useRouter } from 'next/router'
-import { AxiosError } from 'axios'
-import { toast } from 'react-toastify'
 import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 
 import { Text } from '@/components/commons/Typography'
-import { searchAuthors } from '@/utils/api/search'
-import { useAppDispatch } from '@/store'
-import { setTeam } from '@/store/searchSlice'
 import { IconArrowSubmit, IconCrossReset, IconSearch } from '../commons/Icons'
 import { useDynamicHeight } from '@/hooks'
+import { SearchResponse } from '@/models/Api'
 
 type FormValues = {
   q: string
 }
 
-const SearchForm = () => {
+type Props = {
+  handleSubmit: (body: SearchResponse) => void
+}
+
+const SearchForm = ({ handleSubmit }: Props) => {
   const {
     register,
     reset,
-    handleSubmit,
+    handleSubmit: handleHookFormSubmit,
     formState: { errors, isSubmitting, isValid }
   } = useForm<FormValues>({ mode: 'onChange' })
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
   const heightKeeperRef = useRef<HTMLDivElement | null>(null)
-  const { push } = useRouter()
-  const dispatch = useAppDispatch()
   const { ref, ...rest } = register('q', {
     required: 'A search prompt is required',
     maxLength: 1024
@@ -37,77 +34,54 @@ const SearchForm = () => {
   useDynamicHeight(textAreaRef?.current, heightKeeperRef?.current)
 
   const onSubmit: SubmitHandler<FormValues> = async body => {
-    const { q } = body
-
-    searchAuthors({}, { teamSize: 6, prompt: q })
-      .then(({ data }) => {
-        dispatch(setTeam({ authors: data, q: q }))
-        push('/team')
-      })
-      .catch(err => {
-        if (err instanceof AxiosError) {
-          toast.error(
-            err.response
-              ? `Oops! Something went wrong while fetching data. Please check your internet connection and try again`
-              : null
-          ),
-            {
-              position: toast.POSITION.TOP_CENTER,
-              autoClose: 5000
-            }
-        }
-      })
+    handleSubmit({ ...body })
   }
 
   return (
-    <>
-      <Form onSubmit={handleSubmit(onSubmit)} role="search">
-        <Wrapper>
-          <HeightKeeper ref={heightKeeperRef} />
-          <Input
-            id="q"
-            placeholder="Search here to find your research team"
-            role="textarea"
-            ref={e => {
-              ref(e)
-              textAreaRef.current = e
-            }}
-            {...rest}
-          />
-          {errors.q?.type === 'maxLength' ? (
-            <Text.NormalBold role="alert">
-              Search prompt too long
-            </Text.NormalBold>
-          ) : null}
-          <Placeholder isFilled={textAreaRef?.current?.value} title="search" />
-          <ClearButton
-            type="button"
-            role="reset"
-            isFilled={textAreaRef?.current?.value}
-            onClick={() => {
-              reset()
-              textAreaRef?.current?.dispatchEvent(new Event('input'))
-            }}
-          >
-            <div>
-              <IconCrossReset title="reset" />
-            </div>
-          </ClearButton>
-          <SubmitButton
-            type="submit"
-            role="submit"
-            disabled={isSubmitting || !isValid}
-          >
-            <IconArrowSubmit title="submit" />
-          </SubmitButton>
-        </Wrapper>
-      </Form>
-    </>
+    <Form onSubmit={handleHookFormSubmit(onSubmit)} role="search">
+      <Wrapper>
+        <HeightKeeper ref={heightKeeperRef} />
+        <Input
+          id="q"
+          placeholder="Search here to find your research team"
+          role="textarea"
+          ref={e => {
+            ref(e)
+            textAreaRef.current = e
+          }}
+          {...rest}
+        />
+        {errors.q?.type === 'maxLength' ? (
+          <Text.NormalBold role="alert">Search prompt too long</Text.NormalBold>
+        ) : null}
+        <Placeholder $isFilled={textAreaRef?.current?.value} title="search" />
+        <ClearButton
+          type="button"
+          role="reset"
+          $isFilled={textAreaRef?.current?.value}
+          onClick={() => {
+            reset()
+            textAreaRef?.current?.dispatchEvent(new Event('input'))
+          }}
+        >
+          <>
+            <IconCrossReset title="reset" />
+          </>
+        </ClearButton>
+        <SubmitButton
+          type="submit"
+          role="submit"
+          disabled={isSubmitting || !isValid}
+        >
+          <IconArrowSubmit title="submit" />
+        </SubmitButton>
+      </Wrapper>
+    </Form>
   )
 }
 
-const Placeholder = styled(IconSearch)<{ isFilled: string | undefined }>`
-  display: ${({ isFilled }) => (isFilled?.length ? 'none' : 'block')};
+const Placeholder = styled(IconSearch)<{ $isFilled: string | undefined }>`
+  display: ${({ $isFilled }) => ($isFilled?.length ? 'none' : 'block')};
   position: absolute;
   top: calc(6em / 2);
   left: 5%;
@@ -127,9 +101,9 @@ const HeightKeeper = styled.div`
   display: none;
 `
 
-const ClearButton = styled.button<{ isFilled: string | undefined }>`
+const ClearButton = styled.button<{ $isFilled: string | undefined }>`
   all: unset;
-  display: ${({ isFilled }) => (isFilled?.length ? 'block' : 'none')};
+  display: ${({ $isFilled }) => ($isFilled?.length ? 'block' : 'none')};
   position: absolute;
   top: calc(6em / 2);
   left: 5%;

@@ -1,16 +1,48 @@
 import React from 'react'
 import styled from 'styled-components'
+import { toast } from 'react-toastify'
+import { useRouter } from 'next/router'
+import { AxiosError } from 'axios'
 import type { NextPage } from 'next'
 
 import { SearchForm } from '@/components/home/SearchForm'
-import { BigLogo } from '@/components/home/Logo'
-import { SearchTips } from '@/components/home/SearchTips'
+import { BigLogo } from '@/components/commons/Logo'
+import { SearchTips } from '@/components/commons/SearchTips'
+import { searchAuthors } from '@/utils/api'
+import { useAppDispatch } from '@/store'
+import { setTeam } from '@/store/searchSlice'
 
 const Home: NextPage = () => {
+  const dispatch = useAppDispatch()
+  const { push } = useRouter()
+
   return (
     <Container>
       <BigLogo title="BI4E" />
-      <SearchForm />
+      <SearchForm
+        handleSubmit={async body => {
+          const { q } = body
+
+          searchAuthors({}, { teamSize: 6, prompt: q })
+            .then(({ data }) => {
+              dispatch(setTeam({ authors: data, q: q }))
+              push('/team')
+            })
+            .catch(err => {
+              if (err instanceof AxiosError) {
+                toast.error(
+                  err.response
+                    ? `Oops! Something went wrong while fetching data. Please check your internet connection and try again`
+                    : null
+                ),
+                  {
+                    position: toast.POSITION.TOP_CENTER,
+                    autoClose: 5000
+                  }
+              }
+            })
+        }}
+      />
       <SearchTips />
     </Container>
   )

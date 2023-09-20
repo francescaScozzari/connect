@@ -2,48 +2,71 @@ import React from 'react'
 import { styled } from 'styled-components'
 import * as Accordion from '@radix-ui/react-accordion'
 
-import { Text } from '@/components/commons/Typography'
-import { IconArrowBack } from '@/components/commons/Icons'
+import { H3, Text } from '@/components/commons/Typography'
+import { IconChevron, IconUni } from '@/components/commons/Icons'
 import type { AuthorData } from '@/models/Authors'
 
 const AccordionHeader = React.forwardRef<HTMLButtonElement, AuthorData>(
   ({ fullName, university, orcid }, forwardedRef) => (
     <CustomAccordionHeader>
       <AuthorData>
-        <Text.NormalBold>{fullName}</Text.NormalBold>
-        <Separator />
+        <H3.Normal color="white">{fullName}</H3.Normal>
         <Container>
-          <ShortText>{university}</ShortText>
-          <Text.Normal>
-            ORCID:{' '}
-            <Text.NormalBold as="span">{orcid ? orcid : '-'}</Text.NormalBold>
-          </Text.Normal>
+          <SubContainer>
+            <IconUni title="author" />
+            <ShortText color="white">{university}</ShortText>
+          </SubContainer>
+          <Paragraph color="white">
+            ORCID <OrcidCode>{orcid ? orcid : '-'}</OrcidCode>
+          </Paragraph>
         </Container>
       </AuthorData>
       <CustomAccordionTrigger ref={forwardedRef}>
-        <IconArrowBack title="open" aria-hidden />
+        <IconChevron title="open" aria-hidden />
       </CustomAccordionTrigger>
     </CustomAccordionHeader>
   )
 )
 
-const ShortText = styled(Text.Normal)`
+const Paragraph = styled(Text.NormalBold)`
+  padding: 0.375em 0.5em;
+  background-color: ${({ theme }) => theme.colors.primary[0]};
+  border-radius: 1.25em;
+`
+
+const OrcidCode = styled.strong`
+  text-transform: uppercase;
+  font-size: normal;
+  color: white;
+`
+
+const SubContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+`
+
+const ShortText = styled(Text.MediumBold)`
+  text-transform: uppercase;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 20em;
+  max-width: 38em;
+
+  @media (max-width: 1600px) {
+    max-width: 28em;
+  }
+
+  @media (max-width: 1440px) {
+    max-width: 16em;
+  }
 `
 
 const Container = styled.div`
   display: flex;
   flex-flow: nowrap;
   justify-content: space-between;
-`
-
-const Separator = styled.div`
-  width: 100%;
-  height: 1px;
-  background-color: black;
 `
 
 const AuthorData = styled.div`
@@ -60,30 +83,27 @@ const CustomAccordionHeader = styled(Accordion.Header)`
   align-items: center;
   gap: 1.5em;
   padding: 1.5em;
-  border: 2px solid black;
-  border-top-left-radius: 1.875em;
-  border-top-right-radius: 1.875em;
+  border: 1px solid #c9d2ec;
+  border-top-left-radius: 1.25em;
+  border-top-right-radius: 1.25em;
+  background-color: #434660;
   margin-bottom: 0;
 
   &[data-state='closed'] {
-    border-radius: 1.875em;
+    border-radius: 1.25em;
   }
 `
 
 const CustomAccordionTrigger = styled(Accordion.Trigger)`
   all: unset;
-  padding: 0.25em;
+  padding: 0.375em;
   height: 1.375em;
   width: 1.375em;
-  border: 2px solid black;
+  border: 2px solid #c9d2ec;
   border-radius: 50%;
 
-  svg {
-    transform: rotate(-90deg);
-  }
-
   &[data-state='open'] > svg {
-    transform: rotate(90deg);
+    transform: rotate(180deg);
   }
 `
 export { AccordionHeader }
