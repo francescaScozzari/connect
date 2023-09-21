@@ -18,13 +18,14 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         """Add custom arguments."""
-        parser.add_argument("--limit", dest="limit", type=int, required=False)
+        parser.add_argument("--from", dest="_from", type=int, required=False)
+        parser.add_argument("--to", dest="_to", type=int, required=False)
 
-    def handle(self, limit, verbosity, **kwargs):
+    def handle(self, _from, _to, verbosity, **kwargs):
         """Load documents points to qdrant."""
         started_at = datetime.now()
         verbose = verbosity >= 2
-        all_documents = ScopusDocument.objects.order_by("id").all()[:limit]
+        all_documents = ScopusDocument.objects.order_by("id").all()[_from:_to]
         verbose and self.stdout.write(
             f"Start loading {all_documents.count()} documents to qdrant."
         )
