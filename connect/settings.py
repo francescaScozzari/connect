@@ -245,6 +245,8 @@ class ProjectDefault(Configuration):
 
     QDRANT_VECTOR_SIZE = 384
 
+    QDRANT_TIMEOUT = values.Value(5.0)
+
 
 class Local(ProjectDefault):
     """The local settings."""

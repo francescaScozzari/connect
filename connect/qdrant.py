@@ -7,6 +7,7 @@ cli = QdrantClient(
     url=settings.QDRANT_URL,
     api_key=settings.QDRANT_API_KEY,
     location=settings.QDRANT_LOCATION or None,
+    timeout=settings.QDRANT_TIMEOUT,
 )
 
 
