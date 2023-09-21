@@ -4,16 +4,15 @@ import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 
 import { Text } from '@/components/commons/Typography'
-import { IconArrowSubmit, IconCrossReset, IconSearch } from '../commons/Icons'
+import { IconArrowSubmit, IconCrossReset, IconSearchVariant } from '@/components/commons/Icons'
 import { useDynamicHeight } from '@/hooks'
-import { SearchResponse } from '@/models/Api'
 
 type FormValues = {
-  q: string
+  givenSentence: string
 }
 
 type Props = {
-  handleSubmit: (body: SearchResponse) => void
+  handleSubmit: (body: FormValues) => void
 }
 
 const SearchForm = ({ handleSubmit }: Props) => {
@@ -26,7 +25,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
   const heightKeeperRef = useRef<HTMLDivElement | null>(null)
-  const { ref, ...rest } = register('q', {
+  const { ref, ...rest } = register('givenSentence', {
     required: 'A search prompt is required',
     maxLength: 1024
   })
@@ -51,7 +50,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
           }}
           {...rest}
         />
-        {errors.q?.type === 'maxLength' ? (
+        {errors.givenSentence?.type === 'maxLength' ? (
           <Text.NormalBold role="alert">Search prompt too long</Text.NormalBold>
         ) : null}
         <Placeholder $isFilled={textAreaRef?.current?.value} title="search" />
@@ -80,7 +79,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
   )
 }
 
-const Placeholder = styled(IconSearch)<{ $isFilled: string | undefined }>`
+const Placeholder = styled(IconSearchVariant)<{ $isFilled: string | undefined }>`
   display: ${({ $isFilled }) => ($isFilled?.length ? 'none' : 'block')};
   position: absolute;
   top: calc(6em / 2);

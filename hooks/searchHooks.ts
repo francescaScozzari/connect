@@ -1,4 +1,6 @@
 import { useCallback, useEffect } from 'react'
+import { Author } from '@/models/Authors'
+import { SearchResponse } from '@/models/Api'
 
 export function useDynamicHeight(
   element: HTMLTextAreaElement | null,

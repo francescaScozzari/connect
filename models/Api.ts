@@ -1,3 +1,5 @@
+import { Author } from './Authors'
+
 export interface ApiOptions {
   serverSide: boolean
 }
@@ -8,5 +10,6 @@ export interface SearchRequest {
 }
 
 export interface SearchResponse {
-  q: string
+  authors: {authors: Author[]}
+  givenSentence: string
 }

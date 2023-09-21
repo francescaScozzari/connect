@@ -2,10 +2,14 @@ export interface Author {
   authorId: string
   documents: {
     description: string
+    doi: string
+    highligths: string[]
+    score: number
     title: string
   }[]
   fullName: string
-  orcid: string | null
+  orcid: string
+  score: number
   university: string
 }
 
