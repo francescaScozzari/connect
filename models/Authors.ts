@@ -3,7 +3,7 @@ export interface Author {
   documents: {
     description: string
     doi: string
-    highligths: string[]
+    highlights: string[]
     score: number
     title: string
   }[]

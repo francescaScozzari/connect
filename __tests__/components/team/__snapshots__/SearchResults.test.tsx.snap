@@ -265,9 +265,12 @@ exports[`Search results component All search results renders correctly 1`] = `
         Why we’re suggesting these researches for your research project
       </span>
       <br />
-      "
-      Exploring the Role of Microbiota in Gut-Brain Axis Communication
-      "
+      <span>
+        Exploring the Role of Microbiota in Gut-Brain Axis 
+        <mark>
+          Communication
+        </mark>
+      </span>
     </p>
   </div>
   <div
@@ -376,13 +379,19 @@ exports[`Search results component All search results renders correctly 1`] = `
             <span
               class="c24"
             >
-              test title
+              <mark>
+                test
+              </mark>
+               title
             </span>
             <p
               class="c25 c5 c26"
               color="#242424"
             >
-              test description
+              <mark>
+                test
+              </mark>
+               description
             </p>
           </div>
         </div>

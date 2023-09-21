@@ -4,15 +4,28 @@ import { styled } from 'styled-components'
 
 import { Text } from '@/components/commons/Typography'
 import type { AuthorDocs } from '@/models/Authors'
+import { highlightSentence } from '@/utils/utils'
 
 const AccordionContent = React.forwardRef<HTMLDivElement, AuthorDocs>(
   ({ documents }, forwardedRef) => (
     <CustomAccordionContent ref={forwardedRef}>
       {documents.map(doc => {
+        const title = highlightSentence(doc.title, doc.highlights) ?? ''
+        const description =
+          highlightSentence(doc.description, doc.highlights) ?? ''
         return (
           <Container key={doc.title}>
-            <Title>{doc.title}</Title>
-            <Paragraph color="#242424">{doc.description}</Paragraph>
+            <Title
+              dangerouslySetInnerHTML={{
+                __html: title
+              }}
+            />
+            <Paragraph
+              color="#242424"
+              dangerouslySetInnerHTML={{
+                __html: description
+              }}
+            />
           </Container>
         )
       })}

@@ -2,16 +2,20 @@ import React from 'react'
 import { styled } from 'styled-components'
 
 import { Text } from '@/components/commons/Typography'
-import { Author } from '@/models/Authors'
 import { Card } from './Card'
 import { AuthorsCounter } from './AuthorsCounter'
+import type { Author } from '@/models/Authors'
+import { highlightSentence } from '@/utils/utils'
 
 type Props = {
   authors: Author[]
-  q: string
+  givenSentence: { text: string; highlights: string[] }
 }
 
-const SearchResults = ({ authors, q }: Props) => {
+const SearchResults = ({ authors, givenSentence }: Props) => {
+  const sentence =
+    highlightSentence(givenSentence.text, givenSentence.highlights) ?? ''
+
   return (
     <MainSection>
       <Sidebar>
@@ -20,7 +24,12 @@ const SearchResults = ({ authors, q }: Props) => {
           <Title>
             Why we’re suggesting these researches for your research project
           </Title>
-          <br />"{q}"
+          <br />
+          <span
+            dangerouslySetInnerHTML={{
+              __html: sentence
+            }}
+          ></span>
         </Paragraph>
       </Sidebar>
       <CardsContainer>

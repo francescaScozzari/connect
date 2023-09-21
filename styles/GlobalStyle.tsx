@@ -59,5 +59,13 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: 900;
   }
 
+  mark {
+    background-color: #e8f5fb;
+    padding: 4px 2px;
+    text-decoration-skip-ink: none;
+    text-decoration: underline #1B9BD9 4px;
+    text-underline-position: under;
+  }
+
 
 `

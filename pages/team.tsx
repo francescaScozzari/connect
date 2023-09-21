@@ -27,7 +27,10 @@ const Team: NextPage = () => {
           <H1.Medium color="white">Your research team</H1.Medium>
         </TitleSection>
         {data?.authors?.length ? (
-          <SearchResults authors={data.authors} q={data.givenSentence.text} />
+          <SearchResults
+            authors={data.authors}
+            givenSentence={data.givenSentence}
+          />
         ) : (
           <EmptyPlaceholder />
         )}

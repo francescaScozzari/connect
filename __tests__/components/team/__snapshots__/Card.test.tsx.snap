@@ -261,15 +261,11 @@ exports[`Card component Card renders correctly 1`] = `
       >
         <span
           class="c15"
-        >
-          test title
-        </span>
+        />
         <p
           class="c16 c17 c18"
           color="#242424"
-        >
-          test description
-        </p>
+        />
       </div>
     </div>
   </div>
