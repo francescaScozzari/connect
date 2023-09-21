@@ -9,24 +9,27 @@ services:
     user: appuser
     volumes:
       - .cache/pybliometrics:/home/appuser/.cache/pybliometrics/
+    restart: always
 
   frontend:
     environment:
       - SENTRY_ENVIRONMENT
       - SENTRY_DSN=${FRONTEND_SENTRY_DSN}
     image: ${FRONTEND_IMAGE}
+    restart: always
 
   traefik:
+    command:
+      - "--configFile=/traefik/conf/remote/static.yaml"
+      - "--certificatesResolvers.le-ssl.acme.email=${LETSENCRYPT_EMAIL}"
     environment:
       - BASIC_AUTH
       - LETSENCRYPT_EMAIL
       - PROJECT_HOST
-    command:
-      - "--configFile=/traefik/conf/remote/static.yaml"
-      - "--certificatesResolvers.le-ssl.acme.email=${LETSENCRYPT_EMAIL}"
     ports:
       - "${LOCAL_HTTPS_PORT:-80}:80"
       - "${LOCAL_HTTPS_PORT:-443}:443"
     volumes:
       - ./traefik/letsencrypt/:/letsencrypt/
       - /var/run/docker.sock:/var/run/docker.sock
+    restart: always

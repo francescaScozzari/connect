@@ -49,8 +49,6 @@ services:
     depends_on:
       - backend
       - frontend
-    volumes:
-      - ./traefik/:/traefik/:ro
     image: traefik:v2.10
     healthcheck:
       test: ["CMD", "traefik", "healthcheck", "--ping"]
@@ -58,3 +56,5 @@ services:
       timeout: 5s
       start_period: 5s
       retries: 5
+    volumes:
+      - ./traefik/:/traefik/:ro
