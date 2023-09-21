@@ -4,7 +4,11 @@ import { useForm } from 'react-hook-form'
 import type { SubmitHandler } from 'react-hook-form'
 
 import { Text } from '@/components/commons/Typography'
-import { IconArrowSubmit, IconCrossReset, IconSearchVariant } from '@/components/commons/Icons'
+import {
+  IconArrowSubmit,
+  IconCrossReset,
+  IconSearchVariant
+} from '@/components/commons/Icons'
 import { useDynamicHeight } from '@/hooks'
 
 type FormValues = {
@@ -79,7 +83,9 @@ const SearchForm = ({ handleSubmit }: Props) => {
   )
 }
 
-const Placeholder = styled(IconSearchVariant)<{ $isFilled: string | undefined }>`
+const Placeholder = styled(IconSearchVariant)<{
+  $isFilled: string | undefined
+}>`
   display: ${({ $isFilled }) => ($isFilled?.length ? 'none' : 'block')};
   position: absolute;
   top: calc(6em / 2);

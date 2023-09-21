@@ -110,10 +110,11 @@ exports[`Search results component All search results renders correctly 1`] = `
   width: 1.375em;
   border: 2px solid #c9d2ec;
   border-radius: 50%;
+  transform: rotate(180deg);
 }
 
 .c21[data-state='open']>svg {
-  transform: rotate(180deg);
+  transform: rotate(-180deg);
 }
 
 .c24 {
@@ -175,9 +176,11 @@ exports[`Search results component All search results renders correctly 1`] = `
   font-size: 1.125rem;
   line-height: 2.25;
   color: #242424;
-  height: 50vh;
+  height: fit-content;
+  max-height: 60vh;
   text-align: start;
   padding: 2em;
+  overflow: scroll;
   background-color: white;
   border-radius: 1.25em;
   border: 1px solid #c9d2ec;

@@ -10,6 +10,6 @@ export interface SearchRequest {
 }
 
 export interface SearchResponse {
-  authors: {authors: Author[]}
-  givenSentence: string
+  authors: { authors: Author[] }
+  givenSentence: { text: string; highlights: string[] }
 }

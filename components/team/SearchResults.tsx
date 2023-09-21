@@ -42,9 +42,11 @@ const Paragraph = styled(Text.Normal)`
   font-size: 1.125rem;
   line-height: 2.25;
   color: #242424;
-  height: 50vh;
+  height: fit-content;
+  max-height: 60vh;
   text-align: start;
   padding: 2em;
+  overflow: scroll;
   background-color: white;
   border-radius: 1.25em;
   border: 1px solid #c9d2ec;

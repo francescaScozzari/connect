@@ -26,10 +26,13 @@ const Home: NextPage = () => {
 
           searchAuthors({}, { teamSize: 20, prompt: givenSentence })
             .then(({ data }) => {
-
+              const { authors, givenSentence } = data
               localStorage.setItem(
                 'data',
-                JSON.stringify({ authors: data, givenSentence: givenSentence })
+                JSON.stringify({
+                  authors: authors,
+                  givenSentence: givenSentence
+                })
               )
               push('/team')
             })

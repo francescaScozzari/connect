@@ -101,9 +101,10 @@ const CustomAccordionTrigger = styled(Accordion.Trigger)`
   width: 1.375em;
   border: 2px solid #c9d2ec;
   border-radius: 50%;
+  transform: rotate(180deg);
 
   &[data-state='open'] > svg {
-    transform: rotate(180deg);
+    transform: rotate(-180deg);
   }
 `
 export { AccordionHeader }
