@@ -25,7 +25,7 @@ class Command(BaseCommand):
         """Load documents points to qdrant."""
         started_at = datetime.now()
         verbose = verbosity >= 2
-        all_documents = ScopusDocument.objects.order_by("id").all()[_from:_to]
+        all_documents = ScopusDocument.objects.order_by("id")[_from:_to]
         verbose and self.stdout.write(
             f"Start loading {all_documents.count()} documents to qdrant."
         )
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         connect_author_ids = ScopusAuthor.objects.all().values_list(
             "author_id", flat=True
         )
-        for document in all_documents:
+        for document in all_documents.iterator():
             facade = WriteEmbeddingFacade(document)
             tokens_embeddings = facade.create_document_tokens_embeddings()
             verbose and bool(tokens_embeddings) and self.stdout.write(
