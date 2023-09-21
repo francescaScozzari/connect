@@ -6,7 +6,10 @@
       "permissions": [
         ["add_user", "auth", "user"],
         ["change_user", "auth", "user"],
-        ["view_user", "auth", "user"]
+        ["view_user", "auth", "user"],
+        ["view_scopusauthor", "scopus", "scopusauthor"],
+        ["view_scopusdocument", "scopus", "scopusdocument"],
+        ["view_tokensembeddings", "xai", "tokensembeddings"]
       ]
     }
   }
