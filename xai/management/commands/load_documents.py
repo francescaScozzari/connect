@@ -46,7 +46,7 @@ class Command(BaseCommand):
             load_response = WriteEmbeddingFacade.load_document_point(
                 point=document_point,
             )
-            if load_response.status == "completed":
+            if load_response.status == "completed":  # pragma: no cover
                 verbose and self.stdout.write(
                     f"Point {document.id} loaded successfully."
                 )

@@ -237,15 +237,15 @@ class ProjectDefault(Configuration):
 
     QDRANT_API_KEY = values.Value()
 
-    QDRANT_URL = values.Value()
-
     QDRANT_DOCUMENTS_COLLECTION = values.Value("documents")
 
     QDRANT_LOCATION = None
 
-    QDRANT_VECTOR_SIZE = 384
-
     QDRANT_TIMEOUT = values.FloatValue(5.0)
+
+    QDRANT_URL = values.Value()
+
+    QDRANT_VECTOR_SIZE = 384
 
 
 class Local(ProjectDefault):

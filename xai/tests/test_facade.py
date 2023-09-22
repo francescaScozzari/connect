@@ -2,115 +2,21 @@
 
 from django.test import TestCase, override_settings
 
-from connect.tests.utils import SetUpQdrantMixin
-from scopus.models import ScopusAuthor, ScopusDocument
-from xai.facade import SearchMostSimilarFacade, WriteEmbeddingFacade
+from connect.tests.utils import SetUpQdrantMixin, XaiDataMixin, XaiSearchDataMixin
+from xai.facade import SearchMostSimilarFacade
 
 
-class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
+class TestWriteEmbeddingFacade(SetUpQdrantMixin, XaiDataMixin, TestCase):
     """Test write embedding facade."""
-
-    @classmethod
-    def setUpTestData(cls):
-        """Set up test case."""
-        cls.facade = WriteEmbeddingFacade
-        cls.scopus_authors = [
-            ScopusAuthor(
-                author_id="11111111111",
-                data={
-                    "author-profile": {
-                        "preferred-name": {
-                            "given-name": "Sheldon Lee",
-                            "indexed-name": "Cooper S. L.",
-                            "initials": "S.",
-                            "surname": "Cooper",
-                        },
-                    }
-                },
-            ),
-            ScopusAuthor(
-                author_id="22222222222",
-                data={
-                    "author-profile": {
-                        "preferred-name": {
-                            "given-name": "Leonard",
-                            "indexed-name": "Hofstadter L.",
-                            "initials": "L.",
-                            "surname": "Hofstadter",
-                        },
-                    }
-                },
-            ),
-        ]
-        ScopusAuthor.objects.bulk_create(cls.scopus_authors)
-        cls.scopus_documents = [
-            ScopusDocument(
-                id=1,
-                doi="99.9999/999-9-999-99999-1_11",
-                data={
-                    "doi": "99.9999/999-9-999-99999-1_11",
-                    "title": "The Evaluation of Family Support Programmes in Spain. "
-                    "An Analysis of their Quality Standards",
-                    "author_ids": "11111111111;22222222222;33333333333",
-                    "description": "Since the well-known publication of the Society "
-                    "for Prevention Research about standards for evidence related to "
-                    "research on prevention interventions, a rigorous evaluation is "
-                    "considered one of the main requirements for "
-                    "evidence-based programmes.",
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-            ScopusDocument(
-                id=2,
-                doi="99.9999/999-9-999-99999-2_22",
-                data={
-                    "doi": "99.9999/999-9-999-99999-2_22",
-                    "title": "Introduction to the monographic issue Emotional "
-                    "Education in Diversity Contexts",
-                    "author_ids": "11111111111;22222222222;33333333333",
-                    "description": None,
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-            ScopusDocument(
-                id=3,
-                doi="99.9999/999-9-999-99999-3_33",
-                data={
-                    "doi": "99.9999/999-9-999-99999-3_33",
-                    "title": "Comparison of parental competences in fathers and "
-                    "mothers with adolescent children"
-                    "Education in Diversity Contexts",
-                    "author_ids": "11111111111;22222222222;33333333333",
-                    "description": "Parenting adolescents requires personal, emotional "
-                    "and social competencies from the parents. There are few gender "
-                    "studies that analyze these competencies in the father and the "
-                    "mother in the same family.",
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-        ]
-        ScopusDocument.objects.bulk_create(cls.scopus_documents)
-        cls.point1 = cls.facade(cls.scopus_documents[0]).generate_document_point(
-            [11111111111, 22222222222]
-        )
-        cls.point2 = cls.facade(cls.scopus_documents[1]).generate_document_point(
-            [11111111111, 22222222222]
-        )
-        cls.point3 = cls.facade(cls.scopus_documents[2]).generate_document_point(
-            [11111111111, 22222222222]
-        )
 
     def test_load_document_point(self):
         """Test load_document_point method."""
-        res = self.facade.load_document_point(point=self.point1)
+        res = self.write_facade.load_document_point(point=self.point1)
         self.assertEqual(res.status, "completed")
 
     def test_merge_title_and_description(self):
         """Test merge_title_and_description method."""
-        merged_text = self.facade(
+        merged_text = self.write_facade(
             self.scopus_documents[0]
         ).merge_title_and_description()
         expected_result = (
@@ -121,7 +27,7 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
             "considered one of the main requirements for evidence-based programmes."
         )
         self.assertEqual(merged_text, expected_result)
-        merged_text = self.facade(
+        merged_text = self.write_facade(
             self.scopus_documents[1]
         ).merge_title_and_description()
         expected_result = (
@@ -129,7 +35,7 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
             "in Diversity Contexts."
         )
         self.assertEqual(merged_text, expected_result)
-        merged_text = self.facade(
+        merged_text = self.write_facade(
             self.scopus_documents[2]
         ).merge_title_and_description()
         expected_result = (
@@ -156,7 +62,7 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
 
     def test_create_document_tokens_embeddings(self):
         """Test create_document_tokens_embeddings method."""
-        self.facade(self.scopus_documents[0]).create_document_tokens_embeddings()
+        self.write_facade(self.scopus_documents[0]).create_document_tokens_embeddings()
         self.assertEqual(len(self.scopus_documents[0].tokens.data[0]["embedding"]), 384)
         self.assertEqual(self.scopus_documents[0].tokens.data[0]["token"], "[CLS]")
         self.assertEqual(self.scopus_documents[0].tokens.data[1]["token"], "the")
@@ -165,138 +71,36 @@ class TestWriteEmbeddingFacade(SetUpQdrantMixin, TestCase):
 
 
 @override_settings(QDRANT_VECTOR_SIZE=384)
-class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
+class TestSearchMostSimilarFacade(SetUpQdrantMixin, XaiSearchDataMixin, TestCase):
     """Test search most similar facade."""
-
-    @classmethod
-    def setUpTestData(cls):
-        """Prepare initial data for testing."""
-        cls.scopus_authors = [
-            ScopusAuthor(
-                author_id="11111111111",
-                data={
-                    "author-profile": {
-                        "preferred-name": {
-                            "given-name": "Sheldon Lee",
-                            "indexed-name": "Cooper S. L.",
-                            "initials": "S.",
-                            "surname": "Cooper",
-                        },
-                    }
-                },
-            ),
-            ScopusAuthor(
-                author_id="22222222222",
-                data={
-                    "author-profile": {
-                        "preferred-name": {
-                            "given-name": "Leonard",
-                            "indexed-name": "Hofstadter L.",
-                            "initials": "L.",
-                            "surname": "Hofstadter",
-                        },
-                    }
-                },
-            ),
-        ]
-        ScopusAuthor.objects.bulk_create(cls.scopus_authors)
-        cls.scopus_documents = [
-            ScopusDocument(
-                id=1,
-                doi="99.9999/999-9-999-99999-1_11",
-                data={
-                    "doi": "99.9999/999-9-999-99999-1_11",
-                    "title": "The Evaluation of Family Support Programmes in Spain. "
-                    "An Analysis of their Quality Standards",
-                    "author_ids": "11111111111;22222222222;33333333333",
-                    "description": "Since the well-known publication of the Society "
-                    "for Prevention Research about standards for evidence related to "
-                    "research on prevention interventions, a rigorous evaluation is "
-                    "considered one of the main requirements for "
-                    "evidence-based programmes.",
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-            ScopusDocument(
-                id=2,
-                doi="99.9999/999-9-999-99999-2_22",
-                data={
-                    "doi": "99.9999/999-9-999-99999-2_22",
-                    "title": "Introduction to the monographic issue Emotional "
-                    "Education in Diversity Contexts",
-                    "author_ids": "11111111111",
-                    "description": None,
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-            ScopusDocument(
-                id=3,
-                doi="99.9999/999-9-999-99999-3_33",
-                data={
-                    "doi": "99.9999/999-9-999-99999-3_33",
-                    "title": "Comparison of parental competences in fathers and "
-                    "mothers with adolescent children"
-                    "Education in Diversity Contexts",
-                    "author_ids": "11111111111;33333333333",
-                    "description": "Parenting adolescents requires personal, emotional "
-                    "and social competencies from the parents. There are few gender "
-                    "studies that analyze these competencies in the father and the "
-                    "mother in the same family.",
-                    "author_count": "3",
-                    "citedby_count": 0,
-                },
-            ),
-        ]
-        ScopusDocument.objects.bulk_create(cls.scopus_documents)
-        cls.facade = SearchMostSimilarFacade(sentence="test has sentence.")
-        cls.document_tokens_embeddings1 = WriteEmbeddingFacade(
-            cls.scopus_documents[0]
-        ).create_document_tokens_embeddings()
-        cls.point1 = WriteEmbeddingFacade(
-            cls.scopus_documents[0]
-        ).generate_document_point([11111111111, 22222222222])
-        WriteEmbeddingFacade.load_document_point(point=cls.point1)
-        cls.document_tokens_embeddings2 = WriteEmbeddingFacade(
-            cls.scopus_documents[1]
-        ).create_document_tokens_embeddings()
-        cls.point2 = WriteEmbeddingFacade(
-            cls.scopus_documents[1],
-        ).generate_document_point([11111111111, 22222222222])
-        WriteEmbeddingFacade.load_document_point(point=cls.point2)
-        cls.point3 = WriteEmbeddingFacade(
-            cls.scopus_documents[2]
-        ).generate_document_point([11111111111, 22222222222])
-        WriteEmbeddingFacade.load_document_point(point=cls.point3)
 
     def test_search_most_similar(self):
         """Test search_most_similar method."""
-        response = self.facade.search_most_similar(limit=1)
+        response = self.search_facade.search_most_similar(limit=1)
         self.assertEqual(len(response["results"]), 1)
         self.assertEqual(len(response["author_ids"]), 2)
-        response = self.facade.search_most_similar(limit=2)
+        response = self.search_facade.search_most_similar(limit=2)
         self.assertEqual(len(response["results"]), 2)
         self.assertEqual(len(response["author_ids"]), 2)
 
     def test_search_most_similar_filtered_by_author_id(self):
         """Test search_most_similar_filtered_by_author_id method."""
-        response = self.facade.search_most_similar_filtered_by_author_id(
+        response = self.search_facade.search_most_similar_filtered_by_author_id(
             author_id="11111111111", limit_documents=1
         )
         self.assertEqual(len(response), 1)
-        response = self.facade.search_most_similar_filtered_by_author_id(
+        response = self.search_facade.search_most_similar_filtered_by_author_id(
             author_id="11111111111", limit_documents=2
         )
         self.assertEqual(len(response), 2)
-        response = self.facade.search_most_similar_filtered_by_author_id(
+        response = self.search_facade.search_most_similar_filtered_by_author_id(
             author_id="22222222222", limit_documents=3
         )
         self.assertEqual(len(response), 1)
 
     def test_get_authors_from_similar_search(self):
         """Test get_authors_from_similar_search method."""
-        response = self.facade.get_authors_from_similar_search(
+        response = self.search_facade.get_authors_from_similar_search(
             limit_authors=2,
         )
         expected_response = [
@@ -370,7 +174,7 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
 
     def test_get_document_explainability(self):
         """Test get_document_explainability method."""
-        document_explainability = self.facade.get_document_explainability(
+        document_explainability = self.search_facade.get_document_explainability(
             self.scopus_documents[0].doi
         )
         expected_result = [
@@ -389,7 +193,7 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
 
     def test_get_document_restored_word(self):
         """Test get_document_restored_word method."""
-        document_explainability = self.facade.get_document_highlights(
+        document_explainability = self.search_facade.get_document_highlights(
             self.scopus_documents[0].doi
         )
         expected_result = ["evaluation", "requirements"]
@@ -397,6 +201,6 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, TestCase):
 
     def test_get_sentence_highlights(self):
         """Test get_sentence_highlights method."""
-        sentence_highlights = self.facade.get_sentence_highlights()
+        sentence_highlights = self.search_facade.get_sentence_highlights()
         expected_result = ["test", "sentence"]
         self.assertEqual(sentence_highlights, expected_result)
