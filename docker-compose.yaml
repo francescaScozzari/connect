@@ -38,6 +38,7 @@ services:
     environment:
       - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://backend:8000}
       - NEXT_PUBLIC_PROJECT_URL=${PROJECT_URL:-https://localhost:8443}
+      - NEXT_PUBLIC_PLAUSIBLE_URL=${PLAUSIBLE_URL:-https://plausible.io}
       - REACT_ENVIRONMENT=${REACT_ENVIRONMENT:-Development}
     healthcheck:
       test: curl --fail --head http://frontend:3000/frontend/health || exit 1
