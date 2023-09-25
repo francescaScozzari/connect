@@ -109,7 +109,43 @@ class ScopusDataMixin:
                     "doi": "99.9999/999-9-999-99999-1_11",
                     "title": "The Evaluation of Family Support Programmes in Spain. "
                     "An Analysis of their Quality Standards",
-                    "author_ids": "11111111111;22222222222;33333333333",
+                    "author": [
+                        {
+                            "@_fa": "true",
+                            "@seq": "1",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "11111111111",
+                            "authname": "Cooper S.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+                            "given-name": "Sheldon",
+                            "initials": "S.",
+                            "surname": "Cooper",
+                        },
+                        {
+                            "@_fa": "true",
+                            "@seq": "2",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "22222222222",
+                            "authname": "Hofstadter L.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/22222222222",
+                            "given-name": "Leonard",
+                            "initials": "L.",
+                            "orcid": "0000-0000-0000-0001",
+                            "surname": "Hofstadter",
+                        },
+                        {
+                            "@_fa": "true",
+                            "@seq": "2",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "33333333333",
+                            "authname": "Wolowitz H.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/33333333333",
+                            "given-name": "Howard",
+                            "initials": "H.",
+                            "orcid": "0000-0000-0000-0003",
+                            "surname": "Wolowitz",
+                        },
+                    ],
                     "description": "Since the well-known publication of the Society "
                     "for Prevention Research about standards for evidence related to "
                     "research on prevention interventions, a rigorous evaluation is "
@@ -126,9 +162,21 @@ class ScopusDataMixin:
                     "doi": "99.9999/999-9-999-99999-2_22",
                     "title": "Introduction to the monographic issue Emotional "
                     "Education in Diversity Contexts",
-                    "author_ids": "11111111111",
+                    "author": [
+                        {
+                            "@_fa": "true",
+                            "@seq": "1",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "11111111111",
+                            "authname": "Cooper S.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+                            "given-name": "Sheldon",
+                            "initials": "S.",
+                            "surname": "Cooper",
+                        },
+                    ],
                     "description": None,
-                    "author_count": "3",
+                    "author_count": "1",
                     "citedby_count": 0,
                 },
             ),
@@ -140,12 +188,36 @@ class ScopusDataMixin:
                     "title": "Comparison of parental competences in fathers and "
                     "mothers with adolescent children"
                     "Education in Diversity Contexts",
-                    "author_ids": "11111111111;33333333333",
+                    "author": [
+                        {
+                            "@_fa": "true",
+                            "@seq": "1",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "11111111111",
+                            "authname": "Cooper S.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+                            "given-name": "Sheldon",
+                            "initials": "S.",
+                            "surname": "Cooper",
+                        },
+                        {
+                            "@_fa": "true",
+                            "@seq": "2",
+                            "afid": [{"$": "444444444", "@_fa": "true"}],
+                            "authid": "33333333333",
+                            "authname": "Wolowitz H.",
+                            "author-url": "https://api.elsevier.com/content/author/author_id/33333333333",
+                            "given-name": "Howard",
+                            "initials": "H.",
+                            "orcid": "0000-0000-0000-0003",
+                            "surname": "Wolowitz",
+                        },
+                    ],
                     "description": "Parenting adolescents requires personal, emotional "
                     "and social competencies from the parents. There are few gender "
                     "studies that analyze these competencies in the father and the "
                     "mother in the same family.",
-                    "author_count": "3",
+                    "author_count": "2",
                     "citedby_count": 0,
                 },
             ),

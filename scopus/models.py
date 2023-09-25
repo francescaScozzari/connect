@@ -137,8 +137,12 @@ class ScopusDocument(models.Model):
     def author_ids(self):
         """Return the list of author ids."""
         try:
-            return self.data.get("author_ids").split(";")
-        except AttributeError:
+            return (
+                self.data.get("author_ids")
+                and self.data.get("author_ids").split(";")
+                or sorted({author.get("authid") for author in self.data.get("author")})
+            )
+        except (AttributeError, TypeError):
             return []
 
     @property

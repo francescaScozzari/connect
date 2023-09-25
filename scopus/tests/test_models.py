@@ -395,6 +395,40 @@ class ScopusDocumentTest(TestCase):
             },
         )
         self.assertEqual(document_33.author_ids, [])
+        document_22 = ScopusDocument(
+            doi="99.9999/999-9-999-99999-2_22",
+            data={
+                "doi": "99.9999/999-9-999-99999-2_2",
+                "title": "Duis aute",
+                "description": "Irure dolor in reprehenderit.",
+                "author": [
+                    {
+                        "@_fa": "true",
+                        "@seq": "1",
+                        "afid": [{"$": "444444444", "@_fa": "true"}],
+                        "authid": "11111111111",
+                        "authname": "Cooper S.",
+                        "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+                        "given-name": "Sheldon",
+                        "initials": "S.",
+                        "surname": "Cooper",
+                    },
+                    {
+                        "@_fa": "true",
+                        "@seq": "2",
+                        "afid": [{"$": "444444444", "@_fa": "true"}],
+                        "authid": "22222222222",
+                        "authname": "Hofstadter L.",
+                        "author-url": "https://api.elsevier.com/content/author/author_id/22222222222",
+                        "given-name": "Leonard",
+                        "initials": "L.",
+                        "orcid": "0000-0000-0000-0001",
+                        "surname": "Hofstadter",
+                    },
+                ],
+            },
+        )
+        self.assertEqual(document_22.author_ids, ["11111111111", "22222222222"])
 
     def test_title(self):
         """Test title property."""
