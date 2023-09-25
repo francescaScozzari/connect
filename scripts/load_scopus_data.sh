@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
 
 # Copy scopus app fixture into ./data/scopus.json.xz
-# Run ./scripts/load_scopus_data.sh
+# > ./scripts/load_scopus_data.sh
 
 set -euo pipefail
+
+export BACKEND_IMAGE=`docker images --format "{{.Repository}}:{{.Tag}}" | grep backend | sed -n 1p`
 
 date_timestamp=$(date +%Y%m%d%H%M)
 echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/load_scopus_data_$date_timestamp.logs
