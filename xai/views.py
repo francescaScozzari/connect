@@ -20,7 +20,7 @@ class AuthorsSearchView(APIView):
             xai_search_facade = SearchMostSimilarFacade(sentence=q)
             sentence_highlights = xai_search_facade.get_sentence_highlights()
             data["given_sentence"]["highlights"] = sentence_highlights
-            authors = xai_search_facade.get_authors_from_similar_search(
+            authors = xai_search_facade.get_authors_with_document_highlights(
                 limit_authors=team_size and int(team_size)
             )
             for author in authors:

@@ -123,7 +123,7 @@ class SearchMostSimilarFacade:
         normalized_score = _normalized_score[~np.isnan(_normalized_score)]
         return round(float(np.sum(normalized_score)), 5)
 
-    def search_most_similar(self, limit: int = 50) -> dict:
+    def search_most_similar(self, limit: int = 100) -> dict:
         """
         Search most similar documents by given sentence.
 
@@ -198,7 +198,7 @@ class SearchMostSimilarFacade:
     def get_authors_from_similar_search(
         self, limit_authors: int = 6, limit_documents: int = 100
     ):
-        """Get authors from similar search."""
+        """Return a list of authors from similar search."""
         total_started_at = datetime.now()
         result = self.search_most_similar(limit=limit_documents)
         authors = []
@@ -218,7 +218,6 @@ class SearchMostSimilarFacade:
                     "title": document.payload["title"],
                     "description": document.payload["description"],
                     "score": round(document.score, 5),
-                    "highlights": self.get_document_highlights(document.payload["doi"]),
                 }
                 for document in author_documents
             ]
@@ -232,6 +231,16 @@ class SearchMostSimilarFacade:
         total_time = datetime.now() - total_started_at
         logger.debug(f"TOTAL execution time: {total_time}")
         return sorted(authors, key=lambda x: x["score"], reverse=True)[:limit_authors]
+
+    def get_authors_with_document_highlights(
+        self, limit_authors: int = 6, limit_documents: int = 100
+    ):
+        """Return a list of authors with document highlights."""
+        authors = self.get_authors_from_similar_search(limit_authors, limit_documents)
+        for author in authors:
+            for document in author["documents"]:
+                document["highlights"] = self.get_document_highlights(document["doi"])
+        return authors
 
     def get_sentence_highlights(self):
         """Return given sentence highlights."""

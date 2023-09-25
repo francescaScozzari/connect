@@ -117,6 +117,68 @@ class TestSearchMostSimilarFacade(SetUpQdrantMixin, XaiSearchDataMixin, TestCase
                         "evaluation is considered one of the main requirements for "
                         "evidence-based programmes.",
                         "score": 0.19869,
+                    },
+                    {
+                        "doi": "99.9999/999-9-999-99999-3_33",
+                        "title": "Comparison of parental competences in fathers and "
+                        "mothers with adolescent childrenEducation in "
+                        "Diversity Contexts",
+                        "description": "Parenting adolescents requires personal, "
+                        "emotional and social competencies from the parents. There "
+                        "are few gender studies that analyze these competencies in the "
+                        "father and the mother in the same family.",
+                        "score": 0.18156,
+                    },
+                    {
+                        "doi": "99.9999/999-9-999-99999-2_22",
+                        "title": "Introduction to the monographic issue Emotional "
+                        "Education in Diversity Contexts",
+                        "description": "",
+                        "score": 0.05844,
+                    },
+                ],
+                "score": 0.66234,
+            },
+            {
+                "author_id": "22222222222",
+                "documents": [
+                    {
+                        "doi": "99.9999/999-9-999-99999-1_11",
+                        "title": "The Evaluation of Family Support Programmes "
+                        "in Spain. An Analysis of their Quality Standards",
+                        "description": "Since the well-known publication of the "
+                        "Society for Prevention Research about standards for evidence "
+                        "related to research on prevention interventions, a rigorous "
+                        "evaluation is considered one of the main requirements for "
+                        "evidence-based programmes.",
+                        "score": 0.19869,
+                    }
+                ],
+                "score": 0.44575,
+            },
+        ]
+        self.assertEqual(len(response), 2)
+        self.assertEqual(response, expected_response)
+
+    def test_get_authors_with_document_highlights(self):
+        """Test get_authors_with_document_highlights method."""
+        response = self.search_facade.get_authors_with_document_highlights(
+            limit_authors=2,
+        )
+        expected_response = [
+            {
+                "author_id": "11111111111",
+                "documents": [
+                    {
+                        "doi": "99.9999/999-9-999-99999-1_11",
+                        "title": "The Evaluation of Family Support Programmes "
+                        "in Spain. An Analysis of their Quality Standards",
+                        "description": "Since the well-known publication of the "
+                        "Society for Prevention Research about standards for evidence "
+                        "related to research on prevention interventions, a rigorous "
+                        "evaluation is considered one of the main requirements for "
+                        "evidence-based programmes.",
+                        "score": 0.19869,
                         "highlights": ["evaluation", "requirements"],
                     },
                     {
