@@ -10,6 +10,7 @@ import {
   IconSearchVariant
 } from '@/components/commons/Icons'
 import { useDynamicHeight } from '@/hooks'
+import { usePlausible } from 'next-plausible'
 
 type FormValues = {
   givenSentence: string
@@ -39,6 +40,8 @@ const SearchForm = ({ handleSubmit }: Props) => {
   const onSubmit: SubmitHandler<FormValues> = async body => {
     handleSubmit({ ...body })
   }
+
+  const plausible = usePlausible()
 
   return (
     <Form onSubmit={handleHookFormSubmit(onSubmit)} role="search">
@@ -75,6 +78,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
           type="submit"
           role="submit"
           disabled={isSubmitting || !isValid}
+          onClick={() => plausible('searchClick')}
         >
           <IconArrowSubmit title="submit" />
         </SubmitButton>

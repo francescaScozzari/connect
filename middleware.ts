@@ -33,6 +33,20 @@ export function middleware(req: NextRequest) {
    */
   const { pathname } = req.nextUrl
 
+  /**
+   * Prevent the sending of forwarded cookies to analytics.
+   * https://github.com/4lejandrito/next-plausible#proxy-the-analytics-script
+   */
+  if (pathname.startsWith('/proxy/api/event')) {
+    const requestHeaders = new Headers(req.headers)
+    requestHeaders.set('cookie', '')
+    return NextResponse.next({
+      request: {
+        headers: requestHeaders,
+      },
+    })
+  }
+
   if (
     pathname.startsWith('/api/health') ||
     pathname.startsWith('/frontend/health')

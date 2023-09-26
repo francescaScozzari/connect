@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 
+const { withPlausibleProxy } = require('next-plausible')
 const { withSentryConfig } = require('@sentry/nextjs')
 
 const { SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT_NAME, SENTRY_URL } =
   process.env
 
-const nextjsConfig = {
+const nextjsConfig = withPlausibleProxy()({
   compiler: { styledComponents: true },
   i18n: {
     defaultLocale: 'en-US',
@@ -20,7 +21,7 @@ const nextjsConfig = {
       destination: '/api/health'
     }
   ]
-}
+})
 
 // Sentry config. For all available options, see:
 // https://github.com/getsentry/sentry-webpack-plugin#options
