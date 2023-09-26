@@ -32,7 +32,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
   const heightKeeperRef = useRef<HTMLDivElement | null>(null)
   const { ref, ...rest } = register('givenSentence', {
     required: 'A search prompt is required',
-    maxLength: 1024
+    maxLength: 512
   })
 
   useDynamicHeight(textAreaRef?.current, heightKeeperRef?.current)
