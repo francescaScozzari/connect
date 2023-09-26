@@ -30,6 +30,7 @@ services:
       - EMAIL_URL
       - INTERNAL_SERVICE_PORT=${INTERNAL_SERVICE_PORT:-8000}
       - PYTHONBREAKPOINT
+      - QDRANT_LOCATION=${QDRANT_LOCATION:-:memory:}
     platform: linux/amd64
     ports:
       - "${BACKEND_PORT:-8000}:${INTERNAL_SERVICE_PORT:-8000}"

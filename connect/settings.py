@@ -235,15 +235,15 @@ class ProjectDefault(Configuration):
     # Qdrant
     # https://pypi.org/project/qdrant-client/
 
-    QDRANT_API_KEY = values.Value()
+    QDRANT_API_KEY = values.Value(environ_prefix="")
 
-    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents")
+    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents", environ_prefix="")
 
-    QDRANT_LOCATION = None
+    QDRANT_LOCATION: str | None = None
 
-    QDRANT_TIMEOUT = values.FloatValue(5.0)
+    QDRANT_TIMEOUT = values.FloatValue(5.0, environ_prefix="")
 
-    QDRANT_URL = values.Value()
+    QDRANT_URL = values.Value(environ_prefix="")
 
     QDRANT_VECTOR_SIZE = 384
 
@@ -352,7 +352,9 @@ class Local(ProjectDefault):
     # Qdrant
     # https://pypi.org/project/qdrant-client/
 
-    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents_local")
+    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents_local", environ_prefix="")
+
+    QDRANT_LOCATION = values.Value(None, environ_prefix="")
 
 
 class Testing(ProjectDefault):
@@ -406,9 +408,9 @@ class Testing(ProjectDefault):
     # Qdrant
     # https://pypi.org/project/qdrant-client/
 
-    QDRANT_DOCUMENTS_COLLECTION = values.Value("documents_test")
+    QDRANT_DOCUMENTS_COLLECTION = "documents_test"
 
-    QDRANT_LOCATION = values.Value(":memory:")
+    QDRANT_LOCATION = ":memory:"
 
     QDRANT_VECTOR_SIZE = 3
 
