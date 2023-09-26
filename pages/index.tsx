@@ -1,5 +1,6 @@
-import React, { useEffect } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import styled from 'styled-components'
+import GridLoader from 'react-spinners/GridLoader'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
@@ -9,9 +10,12 @@ import { SearchForm } from '@/components/home/SearchForm'
 import { BigLogo } from '@/components/commons/Logo'
 import { SearchTips } from '@/components/commons/SearchTips'
 import { searchAuthors } from '@/utils/api'
+import theme from '@/styles/themes'
 
 const Home: NextPage = () => {
   const { push } = useRouter()
+
+  const [spinnerLoading, setSpinnerLoading] = useState(false)
 
   useEffect(() => {
     localStorage.clear()
@@ -24,6 +28,8 @@ const Home: NextPage = () => {
         handleSubmit={async body => {
           const { givenSentence } = body
 
+          setSpinnerLoading(true)
+
           searchAuthors({}, { teamSize: 20, prompt: givenSentence })
             .then(({ data }) => {
               const { authors, givenSentence } = data
@@ -34,7 +40,6 @@ const Home: NextPage = () => {
                   givenSentence: givenSentence
                 })
               )
-              push('/team')
             })
             .catch(err => {
               if (err instanceof AxiosError) {
@@ -49,7 +54,16 @@ const Home: NextPage = () => {
                   }
               }
             })
+            .finally(() => {
+              setSpinnerLoading(false)
+              push('/team')
+            })
         }}
+      />
+      <GridLoader
+        color={theme.dark.colors.secondary[0]}
+        size={20}
+        loading={spinnerLoading}
       />
       <SearchTips />
     </Container>
