@@ -16,9 +16,9 @@ echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/import_authors_$date_ti
 docker run --rm \
     --entrypoint="/tmp/scripts/configure_scopus.sh" \
     --env-file .env \
-    --env DJANGO_QDRANT_API_KEY=$QDRANT_API_KEY \
-    --env DJANGO_QDRANT_TIMEOUT=$QDRANT_TIMEOUT \
-    --env DJANGO_QDRANT_URL=$QDRANT_URL \
+    --env QDRANT_API_KEY=$QDRANT_API_KEY \
+    --env QDRANT_TIMEOUT=$QDRANT_TIMEOUT \
+    --env QDRANT_URL=$QDRANT_URL \
     --env PYB_CONFIG_FILE="/app/scopus/tests/config/pybliometrics.cfg" \
     --env SENTRY_DSN=$BACKEND_SENTRY_DSN \
     --name connect_import_authors_$date_timestamp \

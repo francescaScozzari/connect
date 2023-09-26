@@ -18,10 +18,10 @@ echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/load_documents_$date_ti
 docker run --rm \
     --entrypoint="" \
     --env-file .env \
-    --env DJANGO_QDRANT_API_KEY=$QDRANT_API_KEY \
-    --env DJANGO_QDRANT_DOCUMENTS_COLLECTION=$QDRANT_DOCUMENTS_COLLECTION \
-    --env DJANGO_QDRANT_TIMEOUT=$QDRANT_TIMEOUT \
-    --env DJANGO_QDRANT_URL=$QDRANT_URL \
+    --env QDRANT_API_KEY=$QDRANT_API_KEY \
+    --env QDRANT_DOCUMENTS_COLLECTION=$QDRANT_DOCUMENTS_COLLECTION \
+    --env QDRANT_TIMEOUT=$QDRANT_TIMEOUT \
+    --env QDRANT_URL=$QDRANT_URL \
     --env PYB_CONFIG_FILE="/app/scopus/tests/config/pybliometrics.cfg" \
     --env SENTRY_DSN=$BACKEND_SENTRY_DSN \
     --name connect_load_documents_$date_timestamp \
