@@ -2,9 +2,9 @@
 
 import itertools
 import logging
+import math
 from datetime import datetime
 
-import numpy as np
 from django.conf import settings
 from django.utils.decorators import classonlymethod
 from qdrant_client.http import models
@@ -118,10 +118,7 @@ class SearchMostSimilarFacade:
     @classmethod
     def get_author_normalized_score(cls, author_scores):
         """Return normalized author score."""
-        scores_vector = np.array(author_scores)
-        _normalized_score = scores_vector / np.sqrt(np.sum(scores_vector))
-        normalized_score = _normalized_score[~np.isnan(_normalized_score)]
-        return round(float(np.sum(normalized_score)), 5)
+        return round(sum(author_scores) / math.sqrt(sum(author_scores)), 5)
 
     def search_most_similar(self, limit: int = 50) -> dict:
         """
