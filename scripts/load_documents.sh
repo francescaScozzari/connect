@@ -9,12 +9,13 @@ set -euo pipefail
 
 source .env
 
-export BACKEND_IMAGE=`docker images --format "{{.Repository}}:{{.Tag}}" | grep backend | sed -n 1p`
+BACKEND_IMAGE=$(docker images --format "{{.Repository}}:{{.Tag}}" | grep backend | sed -n 1p)
+export BACKEND_IMAGE
 
 from="${1-""}"
 to="${2-""}"
 date_timestamp=$(date +%Y%m%d%H%M)
-echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/load_documents_$date_timestamp.logs
+echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/load_documents_"$date_timestamp".logs
 docker run --rm \
     --entrypoint="" \
     --env-file .env \
@@ -24,12 +25,12 @@ docker run --rm \
     --env QDRANT_URL=$QDRANT_URL \
     --env PYB_CONFIG_FILE="/app/scopus/tests/config/pybliometrics.cfg" \
     --env SENTRY_DSN=$BACKEND_SENTRY_DSN \
-    --name connect_load_documents_$date_timestamp \
-    --volume=$(pwd)/data/:/app/data/ \
-    $BACKEND_IMAGE \
+    --name connect_load_documents_"$date_timestamp" \
+    --volume="$(pwd)"/data/:/app/data/ \
+    "$BACKEND_IMAGE" \
     /bin/bash -sc \
     "python3 -m manage load_documents -v 3 \
-    `if [ $from != "" ]; then echo "--from $from"; fi` \
-    `if [ $to != "" ]; then echo "--to $to"; fi` \
+    $(if [ "$from" != "" ]; then echo "--from $from"; fi) \
+    $(if [ "$to" != "" ]; then echo "--to $to"; fi) \
     >> /app/data/load_documents_$date_timestamp.logs"
-echo "FINISHED AT: $(date '+%Y-%m-%d %H:%M:%S')" >> ./data/load_documents_$date_timestamp.logs
+echo "FINISHED AT: $(date '+%Y-%m-%d %H:%M:%S')" >> ./data/load_documents_"$date_timestamp".logs
