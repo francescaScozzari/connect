@@ -1,6 +1,5 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
-import GridLoader from 'react-spinners/GridLoader'
 import { toast } from 'react-toastify'
 import { useRouter } from 'next/router'
 import { AxiosError } from 'axios'
@@ -10,7 +9,7 @@ import { SearchForm } from '@/components/home/SearchForm'
 import { BigLogo } from '@/components/commons/Logo'
 import { SearchTips } from '@/components/commons/SearchTips'
 import { searchAuthors } from '@/utils/api'
-import theme from '@/styles/themes'
+import { Spinner } from '@/components/home/Spinner'
 
 const Home: NextPage = () => {
   const { push } = useRouter()
@@ -24,6 +23,7 @@ const Home: NextPage = () => {
   return (
     <Container>
       <BigLogo title="BI4E" />
+      {spinnerLoading && <Spinner spinnerLoading={spinnerLoading} />}
       <SearchForm
         handleSubmit={async body => {
           const { givenSentence } = body
@@ -60,12 +60,7 @@ const Home: NextPage = () => {
             })
         }}
       />
-      <GridLoader
-        color={theme.dark.colors.secondary[0]}
-        size={20}
-        loading={spinnerLoading}
-      />
-      <SearchTips />
+      <SearchTips titleColor="#C9D2EC" textColor="white" />
     </Container>
   )
 }
@@ -77,6 +72,10 @@ const Container = styled.div`
   min-height: calc(100vh - 80px);
   align-items: center;
   justify-content: center;
+  background-color: ${({ theme }) => theme.colors.primary[0]};
+
+  svg {
+  }
 `
 
 export default Home

@@ -52,7 +52,7 @@ const ShortText = styled(Text.MediumBold)`
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 38em;
+  max-width: 50em;
 
   @media (max-width: 1600px) {
     max-width: 28em;

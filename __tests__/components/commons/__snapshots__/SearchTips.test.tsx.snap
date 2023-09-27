@@ -2,7 +2,7 @@
 
 exports[`SearchTips components <SearchTips /> SearchTips renders correctly 1`] = `
 .c2 {
-  color: #1C1C1C;
+  color: #242424;
   margin: 0;
   text-transform: none;
 }
@@ -24,6 +24,7 @@ exports[`SearchTips components <SearchTips /> SearchTips renders correctly 1`] =
   gap: 0.5em;
   padding: 1.5em;
   align-items: start;
+  max-width: 29.85em;
   border: 1px solid #7a83ab;
   border-radius: 1.25em;
 }
@@ -81,9 +82,11 @@ exports[`SearchTips components <SearchTips /> SearchTips renders correctly 1`] =
     </svg>
     <p
       class="c2 c3 c4"
+      color="#242424"
     >
       <span
         class="c5"
+        color="#2B2D42"
       >
         Start from the the research call
       </span>
@@ -112,9 +115,11 @@ exports[`SearchTips components <SearchTips /> SearchTips renders correctly 1`] =
     </svg>
     <p
       class="c2 c3 c4"
+      color="#242424"
     >
       <span
         class="c5"
+        color="#2B2D42"
       >
         More detail for greater match
       </span>

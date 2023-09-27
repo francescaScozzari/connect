@@ -4,9 +4,8 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
 .c4 {
   display: block;
   position: absolute;
-  top: calc(6em / 2);
-  left: 5%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 1.25em);
+  left: calc(4.5em - 2.25em);
 }
 
 .c2 {
@@ -17,24 +16,22 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
   all: unset;
   display: none;
   position: absolute;
-  top: calc(6em / 2);
-  left: 5%;
-  transform: translate(-50%, -50%);
+  top: calc(50% - 1.25em);
+  left: calc(4.5em - 2.25em);
 }
 
 .c6 {
-  width: 4.5em;
-  height: 4.5em;
-  border: 2px solid black;
+  border: 1px solid transparent;
   border-radius: 50%;
+  background-color: #CE2F7C;
   position: absolute;
-  top: calc(5.75em / 2);
-  right: 0;
-  transform: translate(-50%, -50%);
+  padding: 1.5em;
+  top: calc(50% - 3.125em);
+  right: 0.75em;
 }
 
 .c6:disabled {
-  opacity: 0.3;
+  opacity: 0.5;
 }
 
 .c1 {
@@ -61,71 +58,69 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
   flex-grow: 1;
   resize: none;
   overflow: hidden;
-  border: 2px solid black;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
   border-radius: 3.5em;
   box-sizing: border-box;
-  width: 52em;
-  padding: 1.75em 6.25em 0.75em 4.625em;
-  line-height: 1.375;
+  width: 47.5em;
+  padding: 2.75em 7.75em 2.75em 4.875em;
+  color: #242424;
   font-size: 1.125rem;
+  line-height: normal;
+  text-align: start;
 }
 
 .c3::placeholder {
-  opacity: 1;
+  opacity: 0.6;
 }
 
 @media (max-width: 1280px) {
   .c4 {
-    top: calc(6em / 2);
+    top: calc(50% - 1.25em);
   }
 }
 
 @media (max-width: 768px) {
   .c4 {
-    top: calc(6.125em / 2);
-    left: 7%;
+    top: calc(50% - 1.25em);
+    left: calc(4.5em - 2.25em);
   }
 }
 
 @media (max-width: 1280px) {
   .c5 {
-    top: calc(6em / 2);
+    top: calc(50% - 1.25em);
   }
 }
 
 @media (max-width: 768px) {
   .c5 {
-    top: calc(6.125em / 2);
-    left: 7%;
+    top: calc(50% - 1.25em);
+    left: calc(4.5em - 2.25em);
   }
 }
 
 @media (max-width: 1280px) {
   .c6 {
-    top: calc(5.5em / 2);
+    top: calc(50% - 3.125em);
   }
 }
 
 @media (max-width: 768px) {
   .c6 {
-    width: 4em;
-    height: 4em;
-    top: calc(5.5em / 2);
+    top: calc(50% - 3.125em);
   }
 }
 
 @media (max-width: 1280px) {
   .c3 {
     width: 42em;
-    padding: 1.625em 6.25em 0.75em 4.625em;
   }
 }
 
 @media (max-width: 768px) {
   .c3 {
-    font-size: 1em;
     width: 36em;
-    padding: 2em 6.25em 0.75em 4.625em;
   }
 }
 
@@ -145,31 +140,22 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
       name="givenSentence"
       placeholder="Search here to find your research team"
       role="textarea"
+      rows="1"
     />
     <svg
       class="c4"
-      height="24"
-      width="24"
+      fill="#242424"
+      height="40"
+      width="40"
       xmlns="http://www.w3.org/2000/svg"
     >
       <title>
         search
       </title>
-      <defs>
-        <style />
-      </defs>
-      <g
-        id="_21.search"
-      >
-        <circle
-          cx="9"
-          cy="9"
-          r="7"
-          style="fill: none; stroke: black; stroke-width: 2px;"
-        />
+      <g>
         <path
-          d="m14 14 8 8"
-          style="fill: none; stroke: black; stroke-width: 2px;"
+          d="M25.833 23.333h-1.316l-.467-.45a10.786 10.786 0 0 0 2.617-7.05C26.667 9.85 21.817 5 15.833 5 9.85 5 5 9.85 5 15.833c0 5.984 4.85 10.834 10.833 10.834 2.684 0 5.15-.984 7.05-2.617l.45.467v1.316l8.334 8.317 2.483-2.483-8.317-8.334Zm-10 0a7.49 7.49 0 0 1-7.5-7.5c0-4.15 3.35-7.5 7.5-7.5s7.5 3.35 7.5 7.5-3.35 7.5-7.5 7.5Z"
+          fill="#8F8F8F"
         />
       </g>
     </svg>
@@ -179,9 +165,9 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
       type="button"
     >
       <svg
-        fill="none"
-        height="31"
-        width="31"
+        fill="#242424"
+        height="40"
+        width="40"
         xmlns="http://www.w3.org/2000/svg"
       >
         <title>
@@ -189,8 +175,8 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
         </title>
         <g>
           <path
-            d="m24.5417 8.27962-1.8212-1.82125L15.5 13.6788 8.27962 6.45837 6.45837 8.27962 13.6788 15.5l-7.22043 7.2205 1.82125 1.8212L15.5 17.3213l7.2205 7.2204 1.8212-1.8212L17.3213 15.5l7.2204-7.22038Z"
-            fill="#000"
+            d="m31.666 10.683-2.35-2.35L20 17.65l-9.317-9.317-2.35 2.35L17.65 20l-9.317 9.317 2.35 2.35L20 22.35l9.316 9.317 2.35-2.35L22.35 20l9.316-9.317Z"
+            fill="#515151"
           />
         </g>
       </svg>
@@ -202,7 +188,7 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
       type="submit"
     >
       <svg
-        fill="none"
+        fill="white"
         height="45"
         viewBox="0 0 45 45"
         width="45"
@@ -211,13 +197,9 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
         <title>
           submit
         </title>
-        <g
-          id="Arrow forward"
-        >
+        <g>
           <path
             d="M22.5 7.5L19.8563 10.1437L30.3188 20.625H7.5V24.375H30.3188L19.8563 34.8563L22.5 37.5L37.5 22.5L22.5 7.5Z"
-            fill="black"
-            id="Vector"
           />
         </g>
       </svg>

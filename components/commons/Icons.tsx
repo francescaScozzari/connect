@@ -19,17 +19,13 @@ const IconArrowSubmit = ({ title, ...props }: Props) => {
       width="45"
       height="45"
       viewBox="0 0 45 45"
-      fill="none"
+      fill="white"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
     >
       <title>{title}</title>
-      <g id="Arrow forward">
-        <path
-          id="Vector"
-          d="M22.5 7.5L19.8563 10.1437L30.3188 20.625H7.5V24.375H30.3188L19.8563 34.8563L22.5 37.5L37.5 22.5L22.5 7.5Z"
-          fill="black"
-        />
+      <g>
+        <path d="M22.5 7.5L19.8563 10.1437L30.3188 20.625H7.5V24.375H30.3188L19.8563 34.8563L22.5 37.5L37.5 22.5L22.5 7.5Z" />
       </g>
     </svg>
   )
@@ -38,8 +34,8 @@ const IconArrowSubmit = ({ title, ...props }: Props) => {
 const IconCrossReset = ({ title, ...props }: Props) => {
   return (
     <svg
-      width="31"
-      height="31"
+      width="40"
+      height="40"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
       {...props}
@@ -47,15 +43,15 @@ const IconCrossReset = ({ title, ...props }: Props) => {
       <title>{title}</title>
       <g>
         <path
-          d="m24.5417 8.27962-1.8212-1.82125L15.5 13.6788 8.27962 6.45837 6.45837 8.27962 13.6788 15.5l-7.22043 7.2205 1.82125 1.8212L15.5 17.3213l7.2205 7.2204 1.8212-1.8212L17.3213 15.5l7.2204-7.22038Z"
-          fill="#000"
+          d="m31.666 10.683-2.35-2.35L20 17.65l-9.317-9.317-2.35 2.35L17.65 20l-9.317 9.317 2.35 2.35L20 22.35l9.316 9.317 2.35-2.35L22.35 20l9.316-9.317Z"
+          fill="#515151"
         />
       </g>
     </svg>
   )
 }
 
-const IconNote = ({ title, ...props }: Props) => {
+const IconNote = ({ title, color, ...props }: Props) => {
   return (
     <svg
       width="40"
@@ -68,14 +64,14 @@ const IconNote = ({ title, ...props }: Props) => {
       <g>
         <path
           d="M31.667 8.333v15h-8.334v8.334h-15V8.333h23.334Zm0-3.333H8.333A3.343 3.343 0 0 0 5 8.333v23.334C5 33.5 6.5 35 8.333 35H25l10-10V8.333C35 6.5 33.5 5 31.667 5ZM20 23.333h-8.333V20H20v3.333Zm8.333-6.666H11.667v-3.334h16.666v3.334Z"
-          fill="#2B2D42"
+          fill={color ?? '#2B2D42'}
         />
       </g>
     </svg>
   )
 }
 
-const IconTarget = ({ title, ...props }: Props) => {
+const IconTarget = ({ title, color, ...props }: Props) => {
   return (
     <svg
       width="40"
@@ -88,7 +84,7 @@ const IconTarget = ({ title, ...props }: Props) => {
       <g>
         <path
           d="M20 13.333A6.665 6.665 0 0 0 13.333 20 6.665 6.665 0 0 0 20 26.667 6.665 6.665 0 0 0 26.666 20 6.665 6.665 0 0 0 20 13.333Zm14.9 5c-.767-6.95-6.284-12.466-13.233-13.233V1.667h-3.334V5.1c-6.95.767-12.466 6.283-13.233 13.233H1.667v3.334H5.1c.767 6.95 6.283 12.466 13.233 13.233v3.433h3.334V34.9c6.95-.767 12.466-6.283 13.233-13.233h3.433v-3.334H34.9ZM20 31.667A11.658 11.658 0 0 1 8.333 20C8.333 13.55 13.55 8.333 20 8.333S31.666 13.55 31.666 20 26.45 31.667 20 31.667Z"
-          fill="#2B2D42"
+          fill={color ?? '#2B2D42'}
         />
       </g>
     </svg>
@@ -131,24 +127,21 @@ const IconSearch = ({ title, ...props }: Props) => {
   )
 }
 
-const IconSearchVariant = ({ title, ...props }: Props) => {
-  const svgStyle = {
-    fill: 'none',
-    stroke: 'black',
-    strokeLineCap: 'round',
-    strokeLineJoin: 'round',
-    strokeWidth: '2px'
-  }
-
+const IconSearchPlaceholder = ({ title, ...props }: Props) => {
   return (
-    <svg height="24" width="24" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <svg
+      width="40"
+      height="40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
       <title>{title}</title>
-      <defs>
-        <style></style>
-      </defs>
-      <g id="_21.search">
-        <circle style={svgStyle} cx="9" cy="9" r="7" />
-        <path style={svgStyle} d="m14 14 8 8" />
+      <g>
+        <path
+          d="M25.833 23.333h-1.316l-.467-.45a10.786 10.786 0 0 0 2.617-7.05C26.667 9.85 21.817 5 15.833 5 9.85 5 5 9.85 5 15.833c0 5.984 4.85 10.834 10.833 10.834 2.684 0 5.15-.984 7.05-2.617l.45.467v1.316l8.334 8.317 2.483-2.483-8.317-8.334Zm-10 0a7.49 7.49 0 0 1-7.5-7.5c0-4.15 3.35-7.5 7.5-7.5s7.5 3.35 7.5 7.5-3.35 7.5-7.5 7.5Z"
+          fill="#8F8F8F"
+        />
       </g>
     </svg>
   )
@@ -218,7 +211,7 @@ export {
   IconNote,
   IconTarget,
   IconSearch,
-  IconSearchVariant,
+  IconSearchPlaceholder,
   IconGroup,
   IconNoGroup,
   IconUni

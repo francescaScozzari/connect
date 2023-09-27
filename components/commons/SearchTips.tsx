@@ -4,13 +4,21 @@ import { styled } from 'styled-components'
 import { Text } from '@/components/commons/Typography'
 import { IconNote, IconTarget } from './Icons'
 
-const SearchTips = () => {
+type Props = {
+  titleColor?: string
+  textColor?: string
+}
+
+const SearchTips = ({
+  titleColor = '#2B2D42',
+  textColor = '#242424'
+}: Props) => {
   return (
     <Wrapper>
       <SubWrapper>
-        <IconNote title={'note'} />
-        <Paragraph>
-          <Title>Start from the the research call</Title>
+        <IconNote title={'note'} color={titleColor} />
+        <Paragraph color={textColor}>
+          <Title color={titleColor}>Start from the the research call</Title>
           <br /> If you are working or will have to work on a research paper for
           a call, you might report in the search field the title or objectives
           of that
@@ -18,9 +26,9 @@ const SearchTips = () => {
       </SubWrapper>
 
       <SubWrapper>
-        <IconTarget title={'target'} />
-        <Paragraph>
-          <Title>More detail for greater match</Title>
+        <IconTarget title={'target'} color={titleColor} />
+        <Paragraph color={textColor}>
+          <Title color={titleColor}>More detail for greater match</Title>
           <br /> Enter as much information, don't limit yourself to a single
           word, that way we can narrow it down and suggest the researchers best
           suited to your need
@@ -50,6 +58,7 @@ const SubWrapper = styled.div`
   gap: 0.5em;
   padding: 1.5em;
   align-items: start;
+  max-width: 29.85em;
   border: 1px solid #7a83ab;
   border-radius: 1.25em;
 
@@ -58,14 +67,14 @@ const SubWrapper = styled.div`
   }
 `
 
-const Paragraph = styled(Text.Normal)`
+const Paragraph = styled(Text.Normal)<{ color: string }>`
   line-height: 1.5;
-  color: #242424;
+  color: ${({ color }) => color};
 `
 
-const Title = styled.span`
+const Title = styled.span<{ color: string }>`
   display: inline-block;
-  color: ${({ theme }) => theme.colors.primary[0]};
+  color: ${({ color }) => color};
   margin-bottom: 0.5em;
   font-weight: 600;
   line-height: 1.5;

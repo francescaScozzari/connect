@@ -18,6 +18,12 @@ exports[`No search results placeholder component Placeholder renders correctly 1
   text-transform: none;
 }
 
+.c12 {
+  color: #242424;
+  margin: 0;
+  text-transform: none;
+}
+
 .c8 {
   font-size: 16px;
   font-weight: 400;
@@ -62,6 +68,7 @@ exports[`No search results placeholder component Placeholder renders correctly 1
   gap: 0.5em;
   padding: 1.5em;
   align-items: start;
+  max-width: 29.85em;
   border: 1px solid #7a83ab;
   border-radius: 1.25em;
 }
@@ -70,12 +77,12 @@ exports[`No search results placeholder component Placeholder renders correctly 1
   flex-shrink: 0;
 }
 
-.c12 {
+.c13 {
   line-height: 1.5;
   color: #242424;
 }
 
-.c13 {
+.c14 {
   display: inline-block;
   color: #2B2D42;
   margin-bottom: 0.5em;
@@ -247,10 +254,12 @@ exports[`No search results placeholder component Placeholder renders correctly 1
           </g>
         </svg>
         <p
-          class="c7 c8 c12"
+          class="c12 c8 c13"
+          color="#242424"
         >
           <span
-            class="c13"
+            class="c14"
+            color="#2B2D42"
           >
             Start from the the research call
           </span>
@@ -278,10 +287,12 @@ exports[`No search results placeholder component Placeholder renders correctly 1
           </g>
         </svg>
         <p
-          class="c7 c8 c12"
+          class="c12 c8 c13"
+          color="#242424"
         >
           <span
-            class="c13"
+            class="c14"
+            color="#2B2D42"
           >
             More detail for greater match
           </span>

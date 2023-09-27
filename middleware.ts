@@ -42,8 +42,8 @@ export function middleware(req: NextRequest) {
     requestHeaders.set('cookie', '')
     return NextResponse.next({
       request: {
-        headers: requestHeaders,
-      },
+        headers: requestHeaders
+      }
     })
   }
 

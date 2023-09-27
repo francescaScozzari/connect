@@ -63,7 +63,7 @@ exports[`Card component Card renders correctly 1`] = `
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
-  max-width: 38em;
+  max-width: 50em;
 }
 
 .c4 {
