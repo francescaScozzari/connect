@@ -40,7 +40,6 @@ const SearchForm = ({ handleSubmit }: Props) => {
 
   const onSubmit: SubmitHandler<FormValues> = async body => {
     handleSubmit({ ...body })
-    console.log(isSubmitted)
   }
 
   const plausible = usePlausible()
@@ -59,7 +58,7 @@ const SearchForm = ({ handleSubmit }: Props) => {
           }}
           rows={1}
           onKeyDown={e => {
-            if (e.key === 'Enter') {
+            if (e.key === 'Enter' && e.shiftKey == false) {
               e.preventDefault()
               formRef?.current?.requestSubmit()
             }

@@ -65,6 +65,8 @@ exports[`<Footer /> Footer renders correctly 1`] = `
   >
     <a
       class="c1 c3"
+      data-cy="privacy-policy"
+      href="https://example.com/connect-privacy-policy"
     >
       Privacy Policy
     </a>

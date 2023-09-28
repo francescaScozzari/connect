@@ -16,6 +16,7 @@ services:
         condition: service_started
     environment:
       - CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-http://consumer:3000}
+      - NEXT_PUBLIC_PRIVACY_POLICY_URL=${NEXT_PUBLIC_PRIVACY_POLICY_URL:-https://example.com/connect-privacy-policy}
     volumes:
       - ./cypress:/app/cypress
       - ./cypress.config.ts:/app/cypress.config.ts

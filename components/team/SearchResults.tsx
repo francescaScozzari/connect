@@ -53,9 +53,10 @@ const Paragraph = styled(Text.Normal)`
   color: #242424;
   height: fit-content;
   max-height: 60vh;
+  word-break: break-all;
   text-align: start;
   padding: 2em;
-  overflow: scroll;
+  overflow: auto;
   background-color: white;
   border-radius: 1.25em;
   border: 1px solid #c9d2ec;

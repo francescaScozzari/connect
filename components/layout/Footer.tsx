@@ -1,6 +1,11 @@
 import React from 'react'
 import { styled } from 'styled-components'
 
+const privacyPolicyURL =
+  process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL
+    ? process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL
+    : 'https://example.com/connect-privacy-policy'
+
 const Footer = () => {
   return (
     <OuterWrapper>
@@ -9,7 +14,12 @@ const Footer = () => {
         Chieti-Pescara
       </FooterLink>
       <InnerWrapper>
-        <FooterLinkVariant>Privacy Policy</FooterLinkVariant>
+        <FooterLinkVariant
+          data-cy="privacy-policy"
+          href={privacyPolicyURL}
+        >
+          Privacy Policy
+        </FooterLinkVariant>
         <FooterLinkVariant
           data-cy="ingenium"
           href="https://ingenium-eu.education/"

@@ -14,6 +14,13 @@ context('Homepage', () => {
         'https://en.unich.it/'
       )
 
+      cy.contains(/privacy policy/i)
+      cy.get('[data-cy="privacy-policy"]').should(
+        'have.attr',
+        'href',
+        Cypress.env('privacyPolicyUrl')
+      )
+
       cy.contains(/ingenium university/i)
       cy.get('[data-cy="ingenium"]').should(
         'have.attr',

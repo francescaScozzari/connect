@@ -8,6 +8,9 @@ export default defineConfig({
       return require('./cypress/plugins/index.ts')(on, config)
     }
   },
+  env: {
+    'privacyPolicyUrl': process.env.NEXT_PUBLIC_PRIVACY_POLICY_URL
+  },
   screenshotsFolder: 'cypress-outputs',
   video: false,
   viewportHeight: 720,
