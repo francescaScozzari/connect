@@ -54,6 +54,8 @@ WORKDIR /app
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 RUN apt-get update \
+  && apt-get install --only-upgrade --assume-yes \
+    libc6 \
   && apt-get install --assume-yes --no-install-recommends \
     curl \
   && rm -rf /var/lib/apt/lists/*
