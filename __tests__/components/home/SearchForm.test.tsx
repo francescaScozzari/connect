@@ -42,7 +42,7 @@ describe('<SearchForm />', () => {
       }
     })
 
-    fireEvent.click(await screen.getByRole('reset'))
+    fireEvent.click(await screen.findByRole('reset'))
 
     expect(await screen.findByRole('textarea')).toBeEmptyDOMElement()
   })

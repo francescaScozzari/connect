@@ -5,7 +5,7 @@
   "scripts": {
     "audit:fix": "npm_config_yes=true npx yarn-audit-fix",
     "build": "next build",
-    "ci:audit": "/bin/bash -c 'yarn audit --groups dependencies; [[ $? -ge 8 ]] && exit 1 || true'",
+    "ci:audit": "/bin/bash -c 'yarn audit --groups dependencies; [[ $? -ge 1 ]] && exit 1 || true'",
     "ci:e2e": "cypress run",
     "ci:lint": "next lint",
     "ci:unit-test": "npx jest --color --silent --detectOpenHandles --coverage --ci --reporters=default --reporters=jest-junit",
