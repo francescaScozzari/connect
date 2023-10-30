@@ -3,7 +3,7 @@
 const { withPlausibleProxy } = require('next-plausible')
 const { withSentryConfig } = require('@sentry/nextjs')
 
-const { SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT_NAME, SENTRY_URL } =
+const { NEXT_PUBLIC_PLAUSIBLE_URL, SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT_NAME, SENTRY_URL} =
   process.env
 
 const nextjsConfig = withPlausibleProxy()({
@@ -15,7 +15,15 @@ const nextjsConfig = withPlausibleProxy()({
     {
       source: '/frontend/health',
       destination: '/api/health'
-    }
+    },
+    {
+      source: '/proxy/api/event',
+      destination: `${NEXT_PUBLIC_PLAUSIBLE_URL}/api/event`
+    },
+    {
+      source: '/js/script.js',
+      destination: `${NEXT_PUBLIC_PLAUSIBLE_URL}/js/script.js`
+    },
   ]
 })
 
