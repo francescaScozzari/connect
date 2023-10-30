@@ -8,10 +8,6 @@ const { SENTRY_AUTH_TOKEN, SENTRY_ORG, SENTRY_PROJECT_NAME, SENTRY_URL } =
 
 const nextjsConfig = withPlausibleProxy()({
   compiler: { styledComponents: true },
-  i18n: {
-    defaultLocale: 'en-US',
-    locales: ['en-US', 'it-IT']
-  },
   output: 'standalone',
   reactStrictMode: true,
   swcMinify: true,

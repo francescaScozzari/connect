@@ -53,8 +53,6 @@ axios.interceptors.request.use(config => {
     const lang = parseCookies().NEXT_LOCALE as 'it' | 'en'
     ;(config.headers as AxiosHeaders)['Accept-Language'] = languages[lang]
   }
-  ;(config.headers as AxiosHeaders)['Content-Type'] =
-    'application/json; charset=utf-8'
   if (config.method !== 'get') {
     if (parseCookies()?.csrftoken) {
       ;(config.headers as AxiosHeaders)['X-CSRFToken'] =
