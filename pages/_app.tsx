@@ -31,8 +31,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <PlausibleProvider
         domain={domain}
         customDomain={customDomain}
-        selfHosted={customDomain !== 'https://plausible.io'}
-        trackLocalhost
+        selfHosted
       >
         <Provider store={store}>
           <Layout>
