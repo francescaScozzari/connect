@@ -121,7 +121,7 @@ test_build:
   needs: []
   variables:
     BACKEND_IMAGE_NAME: "gitlabci_connect_backend"
-    BACKEND_IMAGE_TAG: "${CI_JOB_NAME}-${VERSION_REF}"
+    BACKEND_IMAGE_TAG: "${CI_JOB_NAME}-${CI_COMMIT_SHA}"
   before_script:
     - export DOCKER_CONFIG=${PWD}/.dockerconfig
   script:
