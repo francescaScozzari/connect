@@ -131,7 +131,7 @@ test_build:
     SERVICE_BUILD_TARGET: "remote"
     SERVICE_DOCKER_FILE: "docker/remote.Dockerfile"
     SERVICE_IMAGE_NAME: "gitlabci_${PROJECT_SLUG}_frontend"
-    SERVICE_IMAGE_TAG: "$CI_JOB_NAME-$VERSION_REF"
+    SERVICE_IMAGE_TAG: "$CI_JOB_NAME-$CI_COMMIT_SHA"
   before_script:
     - export DOCKER_CONFIG=$PWD/.dockerconfig
   script:
