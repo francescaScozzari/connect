@@ -1,12 +1,21 @@
 # Connect Orchestrator
 
-This is the "Connect" orchestrator.
+This is the orchestrator for the "Connect" web app.
+
+A "self-explainable" AI platform (Connect),
+an open cloud platform based on explainable artificial intelligence (XAI) for matching research interests.
 
 ## Index
 
-- [Quickstart](#quickstart)
-  - [Git](#git)
-    - [Clone](#clone)
+- [Remote setup](#remote-setup)
+  - [Git clone](#git-clone-remote)
+  - [Environment variables](#environment-variables-remote)
+  - [Automated deployment](#automated-deployment)
+  - [Manual deployment](#manual-deployment)
+  - [Run with docker compose](#run-with-docker-compose)
+  - [Populate data](#populate-data)
+- [Local setup](#local-setup)
+  - [Git clone](#git-clone)
   - [Environment variables](#environment-variables)
   - [Docker](#docker)
     - [Build](#build)
@@ -15,35 +24,117 @@ This is the "Connect" orchestrator.
     - [Pull](#pull)
     - [Django manage command](#django-manage-command)
     - [Restart and build services](#restart-and-build-services)
-  - [Create SSL Certificate <sup id="a-setup-https-locally">1</sup>](#create-ssl-certificate-sup-ida-setup-https-locally1sup)
-  - [Create and activate a local SSL Certificate <sup id="a-setup-https-locally">1</sup>](#create-and-activate-a-local-ssl-certificate-sup-ida-setup-https-locally1sup)
-    - [Install the cert utils](#install-the-cert-utils)
-    - [Import certificates](#import-certificates)
-    - [Trust the self-signed server certificate](#trust-the-self-signed-server-certificate)
+  - [Activate a valid local SSL Certificate](#activate-a-valid-local-ssl-certificate)
 
-## Quickstart
+## Remote setup
+
+This section explains the steps you need to setup the project remote execution.
+
+### Git clone (remote)
+
+Clone the orchestrator and services repositories:
+
+```console
+$ git clone git@gitlab.com:uda-connect/orchestrator.git connect
+$ cd connect
+```
+
+### Environment variables (remote)
+
+In order for the project to run correctly, a number of environment variables must be set in an `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
+
+Enter the newly created **project** directory and create the `.env` file copying from `.env_template`:
+
+```console
+$ cd ~/connect
+$ cp .env_template .env
+```
+
+Ensure that all environment variables are properly configured and that the `COMPOSE_FILE` variable in the `.env` file is set as shown below:
+
+```ini
+COMPOSE_FILE=docker-compose.yaml:./docker-compose/remote.yaml
+```
+
+### Automated deployment
+
+Configure the backend and frontend services pipeline for support automated deployments.
+
+[https://docs.gitlab.com/ee/ci/ssh_keys/](https://docs.gitlab.com/ee/ci/ssh_keys/)
+
+### Manual deployment
+
+Retrieve all the latest released images from the container registry.
+
+```console
+$ docker login registry.gitlab.com
+$ docker pull registry.gitlab.com/uda-connect/backend:v.0.0.0
+$ docker pull registry.gitlab.com/uda-connect/frontend:v.0.0.0
+$ docker logout
+```
+
+Export the environment variables with the latest released image versions for each service, for example:
+
+```console
+$ export BACKEND_IMAGE=registry.gitlab.com/uda-connect/backend:v.0.0.0
+$ export FRONTEND_IMAGE=registry.gitlab.com/uda-connect/frontend:v.0.0.0
+```
+
+### Run with docker compose
+
+```console
+$ docker compose up -d
+```
+
+### Populate data
+
+#### Import authors
+
+Before import authors into relational database, copy your `.txt` files with author ids into `./data` directory.
+
+```console
+$ mkdir -p .cache
+$ ./scripts/import_authors.sh ./data/<author_ids_file>.txt
+```
+
+**Note**: The `import_authors` process generate a cache stored into the `~/.cache` directory
+(if not exists create it with the right users permissions before script execution).
+
+#### Load documents
+
+To load documents to vector database
+
+```console
+$ ./scripts/load_documents.sh
+```
+
+If you wish to limit the number of documents to be processed (e.g., from 0 to 100)
+
+```console
+$ ./scripts/load_documents.sh 0 100
+```
+
+## Local setup
 
 This section explains the steps you need to clone and work with this project.
 
-1. [clone](#clone) the project code
+1. [Git clone](#git-clone) the project code
 2. set all the required [environment variables](#environment-variables)
 3. [build](#build) all the services
 4. [create a superuser](#create-a-superuser) to login the platform
 5. [run](#run) all the services
 6. login using the URL: http://localhost:8080
 
-### Git
-
-#### Clone
+### Git clone
 
 Clone the orchestrator and services repositories:
 
 ```console
-git clone git@gitlab.com:uda-connect/orchestrator.git connect
-cd connect
-git clone -b main git@gitlab.com:uda-connect/backend.git
-git clone -b main git@gitlab.com:uda-connect/frontend.git
-cd ..
+$ git clone git@gitlab.com:uda-connect/orchestrator.git connect
+$ cd connect
+$ git clone -b main git@gitlab.com:uda-connect/backend.git
+$ git clone -b main git@gitlab.com:uda-connect/frontend.git
+$ cd ..
 ```
 
 **NOTE** : We're cloning the `main` branch for all repo.
@@ -55,7 +146,7 @@ In order for the project to run correctly, a number of environment variables mus
 Enter the newly created **project** directory and create the `.env` file copying from `.env_template`:
 
 ```console
-$ cd ~/projects/connect
+$ cd ~/connect
 $ cp .env_template .env
 ```
 
