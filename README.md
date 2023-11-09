@@ -28,7 +28,7 @@ an open cloud platform based on explainable artificial intelligence (XAI) for m
 
 ## Remote setup
 
-This section explains the steps you need to setup the project remote execution.
+This section explains the steps you need to set up the project remote execution.
 
 ### Git clone (remote)
 
@@ -41,7 +41,7 @@ $ cd connect
 
 ### Environment variables (remote)
 
-In order for the project to run correctly, a number of environment variables must be set in an `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
+For the project to run correctly, some environment variables must be set in a `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
 
 Enter the newly created **project** directory and create the `.env` file copying from `.env_template`:
 
@@ -58,7 +58,7 @@ COMPOSE_FILE=docker-compose.yaml:./docker-compose/remote.yaml
 
 ### Automated deployment
 
-Configure the backend and frontend services pipeline for support automated deployments.
+Configure the backend and frontend services pipeline to support automated deployments.
 
 [https://docs.gitlab.com/ee/ci/ssh_keys/](https://docs.gitlab.com/ee/ci/ssh_keys/)
 
@@ -90,15 +90,15 @@ $ docker compose up -d
 
 #### Import authors
 
-Before import authors into relational database, copy your `.txt` files with author ids into `./data` directory.
+Before importing authors into a relational database, copy your `.txt` files with author IDs into `./data` directory.
 
 ```console
 $ mkdir -p .cache
 $ ./scripts/import_authors.sh ./data/<author_ids_file>.txt
 ```
 
-**Note**: The `import_authors` process generate a cache stored into the `~/.cache` directory
-(if not exists create it with the right users permissions before script execution).
+**Note**: The `import_authors` process generates a cache stored in the `~/.cache` directory
+(if not exist create it with the right user permissions before script execution).
 
 #### Load documents
 
@@ -121,7 +121,7 @@ This section explains the steps you need to clone and work with this project.
 1. [Git clone](#git-clone) the project code
 2. set all the required [environment variables](#environment-variables)
 3. [build](#build) all the services
-4. [create a superuser](#create-a-superuser) to login the platform
+4. [create a superuser](#create-a-superuser) to log in to the platform
 5. [run](#run) all the services
 6. login using the URL: http://localhost:8080
 
@@ -137,11 +137,11 @@ $ git clone -b main git@gitlab.com:uda-connect/frontend.git
 $ cd ..
 ```
 
-**NOTE** : We're cloning the `main` branch for all repo.
+**NOTE**: We're cloning the `main` branch for all repositories.
 
 ### Environment variables
 
-In order for the project to run correctly, a number of environment variables must be set in an `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
+For the project to run correctly, some environment variables must be set in a `.env` file inside the orchestrator directory. For ease of use, a `.env_template` template is provided.
 
 Enter the newly created **project** directory and create the `.env` file copying from `.env_template`:
 
@@ -166,13 +166,13 @@ $ docker-compose build
 $ docker-compose up
 ```
 
-**NOTE**: It can be daemonized adding the `-d` flag.
+**NOTE**: It can be daemonized by adding the `-d` flag.
 
 ### Makefile shortcuts
 
-#### Self documentation of Makefile commands
+#### Self-documentation of Makefile commands
 
-To show the Makefile self documentation help:
+To show the Makefile self-documentation help:
 
 ```console
 $ make
@@ -222,7 +222,7 @@ $ make rebuild s=backend
 
 ### Activate a valid local SSL Certificate
 
-Import the `traefik/conf/local/unsigned.crt` file in your browser to have a trusted ssl certificate:
+Import the `traefik/conf/local/unsigned.crt` file in your browser to have a trusted SSL certificate:
 
 #### Firefox
 
