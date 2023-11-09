@@ -13,8 +13,7 @@ export BACKEND_IMAGE
 
 author_paths=$1
 date_timestamp=$(date +%Y%m%d%H%M)
-echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/import_authors_"$date_timestamp".logs
-docker run --rm \
+docker run \
     --entrypoint="/tmp/scripts/configure_scopus.sh" \
     --env-file .env \
     --env QDRANT_API_KEY=$QDRANT_API_KEY \
@@ -28,5 +27,8 @@ docker run --rm \
     --volume="$(pwd)"/.cache/pybliometrics:/home/appuser/.cache/pybliometrics/\
     "$BACKEND_IMAGE" \
     /bin/bash -sc \
-    "python3 -m manage import_authors --author-paths $author_paths --populate-documents -v 3 >> /app/data/import_authors_$date_timestamp.logs"
+    "echo \"STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')\" >> /tmp/import_authors_$date_timestamp.logs & \
+    python3 -m manage import_authors --author-paths $author_paths --populate-documents -v 3 >> /tmp/import_authors_$date_timestamp.logs"
+docker cp connect_import_authors_"$date_timestamp":/tmp/import_authors_"$date_timestamp".logs ./data/
+docker rm connect_import_authors_"$date_timestamp"
 echo "FINISHED AT: $(date '+%Y-%m-%d %H:%M:%S')" >> ./data/import_authors_"$date_timestamp".logs

@@ -16,7 +16,7 @@ from="${1-""}"
 to="${2-""}"
 date_timestamp=$(date +%Y%m%d%H%M)
 echo "STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')" > ./data/load_documents_"$date_timestamp".logs
-docker run --rm \
+docker run \
     --entrypoint="" \
     --env-file .env \
     --env QDRANT_API_KEY=$QDRANT_API_KEY \
@@ -26,11 +26,13 @@ docker run --rm \
     --env PYB_CONFIG_FILE="/app/scopus/tests/config/pybliometrics.cfg" \
     --env SENTRY_DSN=$BACKEND_SENTRY_DSN \
     --name connect_load_documents_"$date_timestamp" \
-    --volume="$(pwd)"/data/:/app/data/ \
     "$BACKEND_IMAGE" \
     /bin/bash -sc \
-    "python3 -m manage load_documents -v 3 \
+    "echo \"STARTED AT: $(date '+%Y-%m-%d %H:%M:%S')\" > /tmp/load_documents_$date_timestamp.logs & \
+    python3 -m manage load_documents -v 3 \
     $(if [ "$from" != "" ]; then echo "--from $from"; fi) \
     $(if [ "$to" != "" ]; then echo "--to $to"; fi) \
-    >> /app/data/load_documents_$date_timestamp.logs"
+    >> /tmp/load_documents_$date_timestamp.logs"
+docker cp connect_load_documents_"$date_timestamp":/tmp/load_documents_"$date_timestamp".logs ./data/
+docker rm connect_load_documents_"$date_timestamp"
 echo "FINISHED AT: $(date '+%Y-%m-%d %H:%M:%S')" >> ./data/load_documents_"$date_timestamp".logs
