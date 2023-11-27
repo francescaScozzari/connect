@@ -34,4 +34,4 @@ providers:
     network: default
     exposedByDefault: false
   file:
-    filename: /traefik/conf/remote/dynamic.yaml
+    filename: /traefik/conf/remote/dev/dynamic.yaml
