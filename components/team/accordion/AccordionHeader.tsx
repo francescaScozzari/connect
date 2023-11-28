@@ -3,7 +3,7 @@ import { styled } from 'styled-components'
 import * as Accordion from '@radix-ui/react-accordion'
 
 import { H3, Text } from '@/components/commons/Typography'
-import { IconChevron, IconUni } from '@/components/commons/Icons'
+import { IconChevron, IconLink, IconUni } from '@/components/commons/Icons'
 import type { AuthorData } from '@/models/Authors'
 
 const AccordionHeader = React.forwardRef<HTMLButtonElement, AuthorData>(
@@ -16,9 +16,16 @@ const AccordionHeader = React.forwardRef<HTMLButtonElement, AuthorData>(
             <IconUni title="author" />
             <ShortText color="white">{university}</ShortText>
           </SubContainer>
-          <Paragraph color="white">
-            ORCID <OrcidCode>{orcid ? orcid : '-'}</OrcidCode>
-          </Paragraph>
+          {orcid ? (
+            <Paragraph color="white">
+              ORCID:{' '}
+              <OrcidCode href={`https://orcid.org/${orcid}`} target="_blank">
+                {orcid} <IconLink title="orcid" />
+              </OrcidCode>
+            </Paragraph>
+          ) : (
+            <Paragraph color="white">ORCID: –</Paragraph>
+          )}
         </Container>
       </AuthorData>
       <CustomAccordionTrigger ref={forwardedRef}>
@@ -29,15 +36,21 @@ const AccordionHeader = React.forwardRef<HTMLButtonElement, AuthorData>(
 )
 
 const Paragraph = styled(Text.NormalBold)`
-  padding: 0.375em 0.5em;
+  padding: 0.375em 0.75em;
   background-color: ${({ theme }) => theme.colors.primary[0]};
   border-radius: 1.25em;
+  font-weight: 600;
 `
 
-const OrcidCode = styled.strong`
+const OrcidCode = styled.a`
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
   text-transform: uppercase;
-  font-size: normal;
   color: white;
+  font-weight: 900;
+  text-decoration: underline;
 `
 
 const SubContainer = styled.div`

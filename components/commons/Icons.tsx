@@ -203,6 +203,26 @@ const IconUni = ({ title, ...props }: Props) => {
   )
 }
 
+const IconLink = ({ title, ...props }: Props) => {
+  return (
+    <svg
+      width="20"
+      height="20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <title>{title}</title>
+      <g>
+        <path
+          d="M15.8333 15.8333H4.16667V4.16667H10V2.5H4.16667C3.24167 2.5 2.5 3.25 2.5 4.16667V15.8333c0 .9167.74167 1.6667 1.66667 1.6667H15.8333c.9167 0 1.6667-.75 1.6667-1.6667V10h-1.6667v5.8333ZM11.6667 2.5v1.66667h2.9916L6.46667 12.3583l1.175 1.175 8.19163-8.19163v2.99166H17.5V2.5h-5.8333Z"
+          fill="#fff"
+        />
+      </g>
+    </svg>
+  )
+}
+
 export {
   IconChevron,
   IconArrowCircle,
@@ -214,5 +234,6 @@ export {
   IconSearchPlaceholder,
   IconGroup,
   IconNoGroup,
-  IconUni
+  IconUni,
+  IconLink
 }

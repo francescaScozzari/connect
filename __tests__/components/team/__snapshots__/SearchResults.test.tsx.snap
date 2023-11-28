@@ -46,15 +46,21 @@ exports[`Search results component All search results renders correctly 1`] = `
 }
 
 .c19 {
-  padding: 0.375em 0.5em;
+  padding: 0.375em 0.75em;
   background-color: #2B2D42;
   border-radius: 1.25em;
+  font-weight: 600;
 }
 
 .c20 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
   text-transform: uppercase;
-  font-size: normal;
   color: white;
+  font-weight: 900;
+  text-decoration: underline;
 }
 
 .c14 {
@@ -331,12 +337,32 @@ exports[`Search results component All search results renders correctly 1`] = `
                 class="c15 c18 c19"
                 color="white"
               >
-                ORCID 
-                <strong
+                ORCID:
+                 
+                <a
                   class="c20"
+                  href="https://orcid.org/0000-0000-0000-0001"
+                  target="_blank"
                 >
                   0000-0000-0000-0001
-                </strong>
+                   
+                  <svg
+                    fill="none"
+                    height="20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>
+                      orcid
+                    </title>
+                    <g>
+                      <path
+                        d="M15.8333 15.8333H4.16667V4.16667H10V2.5H4.16667C3.24167 2.5 2.5 3.25 2.5 4.16667V15.8333c0 .9167.74167 1.6667 1.66667 1.6667H15.8333c.9167 0 1.6667-.75 1.6667-1.6667V10h-1.6667v5.8333ZM11.6667 2.5v1.66667h2.9916L6.46667 12.3583l1.175 1.175 8.19163-8.19163v2.99166H17.5V2.5h-5.8333Z"
+                        fill="#fff"
+                      />
+                    </g>
+                  </svg>
+                </a>
               </p>
             </div>
           </div>
