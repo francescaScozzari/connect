@@ -26,11 +26,10 @@ const Home: NextPage = () => {
       {spinnerLoading && <Spinner spinnerLoading={spinnerLoading} />}
       <SearchForm
         handleSubmit={async body => {
-          const { givenSentence } = body
-
+          const { teamSize, givenSentence } = body
           setSpinnerLoading(true)
 
-          searchAuthors({}, { teamSize: 20, prompt: givenSentence })
+          searchAuthors({}, { teamSize: teamSize, prompt: givenSentence })
             .then(({ data }) => {
               const { authors, givenSentence } = data
               localStorage.setItem(
@@ -68,14 +67,11 @@ const Home: NextPage = () => {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 3em;
+  gap: 4em;
   min-height: calc(100vh - 80px);
   align-items: center;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.primary[0]};
-
-  svg {
-  }
 `
 
 export default Home

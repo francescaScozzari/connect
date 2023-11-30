@@ -27,6 +27,7 @@ export const GlobalStyle = createGlobalStyle`
 
   :root {
     font-size: 1em;
+    background-color: #2B2D42;
   }
 
   * {

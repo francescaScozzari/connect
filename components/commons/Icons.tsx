@@ -2,6 +2,7 @@ import React from 'react'
 
 type Props = {
   title: string
+  fill?: string
 } & React.ComponentPropsWithoutRef<'svg'>
 
 const IconArrowCircle = ({ title, ...props }: Props) => {
@@ -147,7 +148,7 @@ const IconSearchPlaceholder = ({ title, ...props }: Props) => {
   )
 }
 
-const IconGroup = ({ title, ...props }: Props) => {
+const IconGroup = ({ title, fill, ...props }: Props) => {
   return (
     <svg
       width="26"
@@ -159,7 +160,7 @@ const IconGroup = ({ title, ...props }: Props) => {
       <title>{title}</title>
       <path
         d="M4.333 8.083A2.173 2.173 0 0 0 6.5 5.917 2.173 2.173 0 0 0 4.333 3.75a2.173 2.173 0 0 0-2.166 2.167c0 1.191.975 2.166 2.166 2.166Zm1.224 1.192a7.565 7.565 0 0 0-1.224-.108 7.53 7.53 0 0 0-3.011.628A2.178 2.178 0 0 0 0 11.799V13.5h4.875v-1.744c0-.9.25-1.744.683-2.481Zm16.11-1.192a2.173 2.173 0 0 0 2.166-2.166 2.173 2.173 0 0 0-2.166-2.167A2.173 2.173 0 0 0 19.5 5.917c0 1.191.975 2.166 2.167 2.166ZM26 11.8c0-.877-.52-1.657-1.322-2.004a7.53 7.53 0 0 0-3.011-.628c-.423 0-.824.043-1.225.108.434.737.683 1.582.683 2.48V13.5H26v-1.7Zm-8.407-3.011A11.313 11.313 0 0 0 13 7.811c-1.766 0-3.326.423-4.593.975A3.237 3.237 0 0 0 6.5 11.756V13.5h13v-1.744a3.237 3.237 0 0 0-1.907-2.969Zm-8.85 2.545c.097-.249.14-.422.985-.747A8.938 8.938 0 0 1 13 9.979c1.116 0 2.22.195 3.272.607.834.325.877.498.986.747H8.742ZM13 2.667c.596 0 1.083.487 1.083 1.083S13.596 4.833 13 4.833a1.087 1.087 0 0 1-1.083-1.083c0-.596.487-1.083 1.083-1.083ZM13 .5a3.246 3.246 0 0 0-3.25 3.25A3.246 3.246 0 0 0 13 7a3.246 3.246 0 0 0 3.25-3.25A3.246 3.246 0 0 0 13 .5Z"
-        fill="#fff"
+        fill={fill ?? 'white'}
       />
     </svg>
   )
@@ -223,6 +224,36 @@ const IconLink = ({ title, ...props }: Props) => {
   )
 }
 
+const IconMinus = ({ title, ...props }: Props) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <title>{title}</title>
+      <path stroke="#fff" strokeWidth="2" d="M19 12H5" />
+    </svg>
+  )
+}
+
+const IconPlus = ({ title, ...props }: Props) => {
+  return (
+    <svg
+      width="24"
+      height="24"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <title>{title}</title>
+      <path stroke="#fff" strokeWidth="2" d="M12 5v14M19 12H5" />
+    </svg>
+  )
+}
+
 export {
   IconChevron,
   IconArrowCircle,
@@ -235,5 +266,7 @@ export {
   IconGroup,
   IconNoGroup,
   IconUni,
-  IconLink
+  IconLink,
+  IconMinus,
+  IconPlus
 }

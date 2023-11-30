@@ -25,7 +25,7 @@ const theme: DefaultTheme = {
       attention: '#FFC700',
       success: '#1AC755',
       warning: '#FF7A00',
-      error: '#BA1B23'
+      error: ''
     },
     neutrals: {
       0: '#FFFFFF',
@@ -97,11 +97,11 @@ const theme: DefaultTheme = {
       fontWeight: 600
     },
     small: {
-      fontSize: '10px',
+      fontSize: '12px',
       fontWeight: 400
     },
     smallBold: {
-      fontSize: '10px',
+      fontSize: '12px',
       fontWeight: 500
     }
   }

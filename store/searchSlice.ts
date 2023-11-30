@@ -4,9 +4,10 @@ import type { Author } from '@/models/Authors'
 interface SearchState {
   authors: Author[]
   q: string
+  teamSize: number
 }
 
-const initialState: SearchState = { authors: [], q: '' }
+const initialState: SearchState = { authors: [], q: '', teamSize: 0 }
 
 const searchSlice = createSlice({
   name: 'search',
@@ -15,6 +16,7 @@ const searchSlice = createSlice({
     setTeam: (state, action) => {
       state.authors = action.payload.authors
       state.q = action.payload.q
+      state.teamSize = action.payload.teamSize
     }
   }
 })

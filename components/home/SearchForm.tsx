@@ -7,13 +7,17 @@ import { Text } from '@/components/commons/Typography'
 import {
   IconArrowSubmit,
   IconCrossReset,
+  IconMinus,
+  IconPlus,
   IconSearchPlaceholder
 } from '@/components/commons/Icons'
 import { useDynamicHeight } from '@/hooks'
 import { usePlausible } from 'next-plausible'
+import { TeamFilter } from './TeamFilter'
 
 type FormValues = {
   givenSentence: string
+  teamSize: number
 }
 
 type Props = {
@@ -24,9 +28,11 @@ const SearchForm = ({ handleSubmit }: Props) => {
   const {
     register,
     reset,
+    setValue,
+    getValues,
     handleSubmit: handleHookFormSubmit,
     formState: { errors, isSubmitting, isSubmitted, isValid }
-  } = useForm<FormValues>({ mode: 'onChange' })
+  } = useForm<FormValues>({ defaultValues: { teamSize: 5 }, mode: 'onChange' })
 
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null)
   const formRef = useRef<HTMLFormElement | null>(null)
@@ -46,9 +52,46 @@ const SearchForm = ({ handleSubmit }: Props) => {
 
   return (
     <Form onSubmit={handleHookFormSubmit(onSubmit)} role="search" ref={formRef}>
+      <TeamFilter>
+        <TeamButton
+          type="button"
+          disabled={isSubmitting || isSubmitted || getValues('teamSize') <= 5}
+          onClick={() => {
+            const value = getValues('teamSize')
+
+            setValue('teamSize', value - 1, {
+              shouldValidate: true
+            })
+          }}
+        >
+          <IconMinus title="minus" />
+        </TeamButton>
+        <TeamInput
+          readOnly
+          inputMode="numeric"
+          {...register('teamSize', {
+            max: 20,
+            min: 5
+          })}
+        />
+        <TeamButton
+          type="button"
+          disabled={isSubmitting || isSubmitted || getValues('teamSize') >= 20}
+          onClick={() => {
+            const value = getValues('teamSize')
+
+            setValue('teamSize', value + 1, {
+              shouldValidate: true
+            })
+          }}
+        >
+          <IconPlus title="plus" />
+        </TeamButton>
+      </TeamFilter>
+
       <Wrapper>
         <HeightKeeper ref={heightKeeperRef} />
-        <Input
+        <SearchInput
           id="q"
           placeholder="Search here to find your research team"
           role="textarea"
@@ -143,8 +186,8 @@ const SubmitButton = styled.button`
   border-radius: 50%;
   background-color: ${({ theme }) => theme.colors.secondary[0]};
   position: absolute;
-  padding: 1.5em;
-  top: calc(50% - 3.125em);
+  padding: 1.125em;
+  top: calc(57.5% - 3.125em);
   right: 0.75em;
 
   &:disabled {
@@ -157,6 +200,22 @@ const SubmitButton = styled.button`
 
   @media (max-width: 768px) {
     top: calc(50% - 3.125em);
+  }
+`
+
+const TeamButton = styled.button`
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-color: ${({ theme }) => theme.colors.secondary[0]};
+  padding: 0.3em 0.375em;
+
+  &:disabled {
+    background-color: white;
+    border-color: rgb(36 36 36 / 0.25);
+
+    svg path {
+      stroke: rgb(36 36 36 / 0.25);
+    }
   }
 `
 
@@ -173,12 +232,11 @@ const Form = styled.form`
   flex-direction: column;
   margin-bottom: 1.5em;
   p {
-    margin-left: 0.625em;
     color: ${({ theme }) => theme.colors.status.error};
   }
 `
 
-const Input = styled.textarea`
+const SearchInput = styled.textarea`
   position: relative;
   flex-grow: 1;
   resize: none;
@@ -188,7 +246,7 @@ const Input = styled.textarea`
   border-radius: 3.5em;
   box-sizing: border-box;
   width: 47.5em;
-  padding: 2.75em 7.75em 2.75em 4.875em;
+  padding: 2em 7.75em 2em 4.875em;
   color: #242424;
   font-size: 1.125rem;
   line-height: normal;
@@ -205,6 +263,19 @@ const Input = styled.textarea`
   @media (max-width: 768px) {
     width: 36em;
   }
+`
+
+const TeamInput = styled.input`
+  position: relative;
+  flex-grow: 1;
+  resize: none;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 3.5em;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  height: 2.5em;
+  text-align: center;
 `
 
 export { SearchForm }

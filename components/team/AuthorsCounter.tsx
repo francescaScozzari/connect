@@ -5,7 +5,7 @@ import { IconGroup } from '@/components/commons/Icons'
 const AuthorsCounter = ({ counter }: { counter: number }) => {
   return (
     <Label>
-      <IconGroup title="group" />
+      <IconGroup title="team" />
       <Bold as="span">{counter}</Bold> researchers identified
     </Label>
   )

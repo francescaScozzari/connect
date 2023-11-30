@@ -13,7 +13,7 @@ const EmptyPlaceholder = () => {
     <MainSection>
       <AuthorsCounter counter={0} />
       <Container>
-        <IconNoGroup title="no group" />
+        <IconNoGroup title="no team" />
         <H2.Normal color="#2B2D42">Your search returned no results</H2.Normal>
         <Link href="/">
           <BackButton />

@@ -33,6 +33,6 @@ const FloatingCointainer = styled.div`
   background-color: ${({ theme }) => theme.colors.primary[0]};
   position: absolute;
   z-index: 500;
-  height: calc(100vh + 80px);
+  height: 100vw;
   width: 100%;
 `

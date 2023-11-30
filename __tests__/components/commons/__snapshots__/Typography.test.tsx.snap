@@ -135,7 +135,7 @@ exports[`Text Small Small Text renders correctly with style props 1`] = `
 }
 
 .c1 {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 400;
 }
 
@@ -156,7 +156,7 @@ exports[`Text Small SmallBold Text renders correctly with style props 1`] = `
 }
 
 .c1 {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 500;
 }
 
