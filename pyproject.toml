@@ -62,7 +62,7 @@ omit = [
     "connect/asgi.py",
     "connect/workers.py",
     "connect/wsgi.py",
-    "manage*.py",
+    "manage.py",
     "venv/*",
 ]
 source = ["."]

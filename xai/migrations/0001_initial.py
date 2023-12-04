@@ -1,11 +1,9 @@
 from django.db import migrations
-from connect.qdrant import cli as qdrant_cli
-from django.conf import settings
+
 from connect.qdrant import (
     create_collection as qdrant_create_collection,
     delete_collection as qdrant_delete_collection,
 )
-from qdrant_client import models
 
 
 def create_collection(apps, schema_editor):  # pragma: nocover

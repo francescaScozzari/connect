@@ -11,7 +11,7 @@ from qdrant_client.http import models
 
 from connect.qdrant import cli as qdrant_cli
 from scopus.models import ScopusDocument
-from xai import STOP_WORDS, logger
+from xai import AUTHOR_IDS_KEY, STOP_WORDS, logger
 from xai.embedder import LLMEmbedder
 from xai.explainability import ExplainabilityComputing
 from xai.models import TokensEmbeddings
@@ -70,7 +70,7 @@ class WriteEmbeddingFacade:
         point = models.PointStruct(
             id=self.document.pk,
             payload={
-                "author_ids": [
+                AUTHOR_IDS_KEY: [
                     author_id
                     for author_id in self.document.author_ids
                     if int(author_id) in connect_author_ids
@@ -138,9 +138,11 @@ class SearchMostSimilarFacade:
             with_vectors=False,
         )
         author_ids = list(
-            set(itertools.chain(*[result.payload["author_ids"] for result in results]))
+            set(
+                itertools.chain(*[result.payload[AUTHOR_IDS_KEY] for result in results])
+            )
         )
-        return {"results": results, "author_ids": author_ids}
+        return {"results": results, AUTHOR_IDS_KEY: author_ids}
 
     def search_most_similar_filtered_by_author_id(
         self, author_id: str, limit_documents: int = 3
@@ -159,7 +161,7 @@ class SearchMostSimilarFacade:
             query_filter=models.Filter(
                 must=[
                     models.FieldCondition(
-                        key="author_ids", match=models.MatchAny(any=[author_id])
+                        key=AUTHOR_IDS_KEY, match=models.MatchAny(any=[author_id])
                     )
                 ]
             ),
@@ -200,7 +202,7 @@ class SearchMostSimilarFacade:
         result = self.search_most_similar(limit=limit_documents)
         authors = []
         logger.debug(f"start search by each {len(result['author_ids'])} authors")
-        for author_id in result["author_ids"]:
+        for author_id in result[AUTHOR_IDS_KEY]:
             logger.debug(f"search most similar for author {author_id}")
             started_at = datetime.now()
             author_documents = self.search_most_similar_filtered_by_author_id(

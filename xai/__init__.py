@@ -4,6 +4,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
+AUTHOR_IDS_KEY = "author_ids"
 EMBEDDING_FILLER_CHAR = "#"
 EMBEDDING_KEY = "embedding"
 EMBEDDING_METACHARS = ["[CLS]", "[SEP]"]

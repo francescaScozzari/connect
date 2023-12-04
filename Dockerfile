@@ -10,6 +10,8 @@ RUN chown $APPUSER:$APPUSER $WORKDIR
 ENV PATH="/home/${APPUSER}/.local/bin:${PATH}"
 ARG PACKAGES_PATH=/home/${APPUSER}/.local/lib/python3.11/site-packages
 RUN apt-get update \
+    && apt-get install --only-upgrade --assume-yes \
+        libnghttp2-14 \
     && apt-get install --assume-yes --no-install-recommends \
         curl \
         libpq5 \
