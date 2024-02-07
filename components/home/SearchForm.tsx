@@ -276,6 +276,7 @@ const TeamInput = styled.input`
   box-sizing: border-box;
   height: 2.5em;
   text-align: center;
+  pointer-events: none;
 `
 
 export { SearchForm }

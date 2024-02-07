@@ -142,6 +142,7 @@ exports[`<SearchForm /> SearchForm renders correctly 1`] = `
   box-sizing: border-box;
   height: 2.5em;
   text-align: center;
+  pointer-events: none;
 }
 
 @media (max-width: 1280px) {
