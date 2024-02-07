@@ -18,7 +18,7 @@ const SearchTips = ({
       <SubWrapper>
         <IconNote title={'note'} color={titleColor} />
         <Paragraph color={textColor}>
-          <Title color={titleColor}>Start from the the research call</Title>
+          <Title color={titleColor}>Start from the research call</Title>
           <br /> If you are working or will have to work on a research paper for
           a call, you might report in the search field the title or objectives
           of that
