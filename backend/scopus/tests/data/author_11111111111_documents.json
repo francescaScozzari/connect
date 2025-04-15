@@ -1,0 +1,621 @@
+{
+  "search-results": {
+    "entry": [
+      {
+        "@_fa": "true",
+        "affiliation": [
+          {
+            "@_fa": "true",
+            "affiliation-city": "Cambridge",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/444444444",
+            "affilname": "Massachusetts Institute of Technology",
+            "afid": "444444444"
+          }
+        ],
+        "article-number": "101428",
+        "authkeywords": "Arbitrary precision arithmetic | Floating point numbers | Integer numbers | Java | Rational numbers",
+        "author": [
+          {
+            "@_fa": "true",
+            "@seq": "1",
+            "afid": [
+              {
+                "$": "444444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "11111111111",
+            "authname": "Cooper S.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+            "given-name": "Sheldon",
+            "initials": "S.",
+            "surname": "Cooper"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "2",
+            "afid": [
+              {
+                "$": "444444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "22222222222",
+            "authname": "Hofstadter L.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/22222222222",
+            "given-name": "Leonard",
+            "initials": "L.",
+            "orcid": "0000-0000-0000-0001",
+            "surname": "Hofstadter"
+          }
+        ],
+        "author-count": {
+          "$": "2",
+          "@limit": "100",
+          "@total": "2"
+        },
+        "citedby-count": "0",
+        "dc:creator": "Cooper S.",
+        "dc:description": "The GNU Multiple Precision Arithmetic Library (GMP) is a widely used library for computing with arbitrary precision arithmetic. The library has functionally complete bindings for many programming languages, including .NET, C++, OCaml, Python, Ruby, and Rust, with the notable exception of Java. The JGMP library provides Java bindings and wrappers for using GMP from within any JVM-based language. The library has been thoroughly tested and benchmarked.",
+        "dc:identifier": "SCOPUS_ID:12345678901",
+        "dc:title": "JGMP: Java bindings and wrappers for the GMP library",
+        "eid": "2-s2.0-12345678901",
+        "freetoread": {
+          "value": [
+            {
+              "$": "all"
+            },
+            {
+              "$": "publisherfullgold"
+            }
+          ]
+        },
+        "freetoreadLabel": {
+          "value": [
+            {
+              "$": "All Open Access"
+            },
+            {
+              "$": "Gold"
+            }
+          ]
+        },
+        "fund-no": "undefined",
+        "link": [
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678901",
+            "@ref": "self"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678901?field=author,affiliation",
+            "@ref": "author-affiliation"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/record.uri?partnerID=H4x0Rl33t&scp=12345678901&origin=inward",
+            "@ref": "scopus"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/citedby.uri?partnerID=H4x0Rl33t&scp=12345678901&origin=inward",
+            "@ref": "scopus-citedby"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/article/eid/1-s2.0-S5432112345678901",
+            "@ref": "full-text"
+          }
+        ],
+        "openaccess": "1",
+        "openaccessFlag": true,
+        "pii": "S5432112345678901",
+        "prism:aggregationType": "Journal",
+        "prism:coverDate": "2023-07-01",
+        "prism:coverDisplayDate": "July 2023",
+        "prism:doi": "99.9999/999-9-999-99999-9_99",
+        "prism:eIssn": "99999999",
+        "prism:pageRange": null,
+        "prism:publicationName": "SoftwareX",
+        "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/12345678901",
+        "prism:volume": "23",
+        "source-id": "9999999999",
+        "subtype": "ar",
+        "subtypeDescription": "Article"
+      },
+      {
+        "@_fa": "true",
+        "affiliation": [
+          {
+            "@_fa": "true",
+            "affiliation-city": "Cambridge",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444444",
+            "affilname": "Massachusetts Institute of Technology",
+            "afid": "44444444"
+          }
+        ],
+        "authkeywords": "Equation systems | Iterative methods | Narrowing | Static analysis | Widening",
+        "author": [
+          {
+            "@_fa": "true",
+            "@seq": "1",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "11111111111",
+            "authname": "Cooper S.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+            "given-name": "Sheldon",
+            "initials": "S.",
+            "orcid": "0000-0000-0000-0002",
+            "surname": "Cooper"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "2",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "22222222222",
+            "authname": "Hofstadter L.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/22222222222",
+            "given-name": "Leonard",
+            "initials": "L.",
+            "orcid": "0000-0000-0000-0001",
+            "surname": "Hofstadter"
+          }
+        ],
+        "author-count": {
+          "$": "2",
+          "@limit": "100",
+          "@total": "2"
+        },
+        "citedby-count": "0",
+        "dc:creator": "Cooper S.",
+        "dc:description": "We present ScalaFix, a modular library for solving equation systems by iterative methods. ScalaFix implements several solvers, involving iteration strategies from plain Kleene’s iteration to more complex ones based on a hierarchical ordering of the unknowns. It works with finite and infinite equation systems and supports widening, narrowing and warrowing operators. It also allows intertwining ascending and descending chains and other advanced techniques such as localized wideninS.",
+        "dc:identifier": "SCOPUS_ID:12345678902",
+        "dc:title": "The ScalaFix Equation Solver",
+        "eid": "2-s2.0-12345678902",
+        "fund-no": "undefined",
+        "link": [
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678902",
+            "@ref": "self"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678902?field=author,affiliation",
+            "@ref": "author-affiliation"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/record.uri?partnerID=H4x0Rl33t&scp=12345678902&origin=inward",
+            "@ref": "scopus"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/citedby.uri?partnerID=H4x0Rl33t&scp=12345678902&origin=inward",
+            "@ref": "scopus-citedby"
+          }
+        ],
+        "openaccess": "0",
+        "openaccessFlag": false,
+        "prism:aggregationType": "Book Series",
+        "prism:coverDate": "2023-01-01",
+        "prism:coverDisplayDate": "2023",
+        "prism:doi": "99.9999/999-9-999-99999-8_88",
+        "prism:eIssn": "88888888",
+        "prism:isbn": [
+          {
+            "$": "888888888888888",
+            "@_fa": "true"
+          }
+        ],
+        "prism:issn": "88888887",
+        "prism:pageRange": "142-159",
+        "prism:publicationName": "Lecture Notes in Computer Science (including subseries Lecture Notes in Artificial Intelligence and Lecture Notes in Bioinformatics)",
+        "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/12345678902",
+        "prism:volume": "14000 LNCS",
+        "source-id": "12345",
+        "subtype": "cp",
+        "subtypeDescription": "Conference Paper"
+      },
+      {
+        "@_fa": "true",
+        "affiliation": [
+          {
+            "@_fa": "true",
+            "affiliation-city": "Princeton",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444445",
+            "affilname": "Princeton University",
+            "afid": "44444445"
+          },
+          {
+            "@_fa": "true",
+            "affiliation-city": "Parma",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444446",
+            "affilname": "East Texas Tech University",
+            "afid": "44444446"
+          },
+          {
+            "@_fa": "true",
+            "affiliation-city": "Cambridge",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444444",
+            "affilname": "Massachusetts Institute of Technology",
+            "afid": "44444444"
+          },
+          {
+            "@_fa": "true",
+            "affiliation-city": "Harvard",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444447",
+            "affilname": "Harvard University",
+            "afid": "44444447"
+          },
+          {
+            "@_fa": "true",
+            "affiliation-city": "New Haven",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444448",
+            "affilname": "Yale University",
+            "afid": "44444448"
+          }
+        ],
+        "authkeywords": "AlphaZero-like algorithms | reinforcement learning| score-based games",
+        "author": [
+          {
+            "@_fa": "true",
+            "@seq": "1",
+            "afid": [
+              {
+                "$": "44444447",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "55555555555",
+            "authname": "Wolowitz H.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/55555555555",
+            "given-name": "Howard",
+            "initials": "H.",
+            "surname": "Wolowitz"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "2",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "66666666666",
+            "authname": "Koothrappali R.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/66666666666",
+            "given-name": "Raj",
+            "initials": "R.",
+            "surname": "Koothrappali"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "3",
+            "afid": [
+              {
+                "$": "44444446",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "77777777777",
+            "authname": "Rostenkowski B.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/77777777777",
+            "given-name": "Bernadette",
+            "initials": "B.",
+            "surname": "Rostenkowski"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "4",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "11111111111",
+            "authname": "Cooper S.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+            "given-name": "Sheldon",
+            "initials": "S.",
+            "surname": "Cooper"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "5",
+            "afid": [
+              {
+                "$": "44444448",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "99999999999",
+            "authname": "Winkle L.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/99999999999",
+            "given-name": "Leslie",
+            "initials": "L.",
+            "surname": "Winkle"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "6",
+            "afid": [
+              {
+                "$": "44444445",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "88888888888",
+            "authname": "Fowler A. F.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/88888888888",
+            "given-name": "Amy Farrah",
+            "initials": "A. F.",
+            "surname": "Fowler"
+          }
+        ],
+        "author-count": {
+          "$": "6",
+          "@limit": "100",
+          "@total": "6"
+        },
+        "citedby-count": "0",
+        "dc:creator": "Wolowitz L.",
+        "dc:description": "In the last years, DeepMind algorithm AlphaZero has become the state of the art to efficiently tackle perfect information two-player zero-sum games with a win/lose outcome. However, when the win/lose outcome is decided by a final score difference, AlphaZero may play score-suboptimal moves, because all winning final positions are equivalent from the win/lose outcome perspective. This can be an issue, for instance when used for teaching, or when trying to understand whether there is a better move. Moreover, there is the theoretical quest of the perfect game. A naive approach would be training a AlphaZero-like agent to predict score differences instead of win/lose outcomes. Since the game of Go is deterministic, this should as well produce outcome-optimal play. However, it is a folklore belief that \"this does not work\".In this paper we first provide empirical evidence to this belief. We then give a theoretical interpretation of this suboptimality in a general perfect information two-player zero-sum game where the complexity of a game like Go is replaced by randomness of the environment. We show that an outcome-optimal policy has a different preference for uncertainty when it is winning or losing. In particular, when in a losing state, an outcome-optimal agent chooses actions leading to a higher variance of the score. We then posit that when approximation is involved, a deterministic game behaves like a nondeterministic game, where the score variance is modeled by how uncertain the position is. We validate this hypothesis in a AlphaZero-like software with a human expert.",
+        "dc:identifier": "SCOPUS_ID:12345678903",
+        "dc:title": "Score vs. Winrate in Score-Based Games: Which Reward for Reinforcement Learning?",
+        "eid": "2-s2.0-12345678903",
+        "freetoread": {
+          "value": [
+            {
+              "$": "all"
+            },
+            {
+              "$": "repository"
+            },
+            {
+              "$": "repositoryam"
+            }
+          ]
+        },
+        "freetoreadLabel": {
+          "value": [
+            {
+              "$": "All Open Access"
+            },
+            {
+              "$": "Green"
+            }
+          ]
+        },
+        "fund-no": "undefined",
+        "link": [
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678903",
+            "@ref": "self"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678903?field=author,affiliation",
+            "@ref": "author-affiliation"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/record.uri?partnerID=H4x0Rl33t&scp=12345678903&origin=inward",
+            "@ref": "scopus"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/citedby.uri?partnerID=H4x0Rl33t&scp=12345678903&origin=inward",
+            "@ref": "scopus-citedby"
+          }
+        ],
+        "openaccess": "0",
+        "openaccessFlag": false,
+        "prism:aggregationType": "Conference Proceeding",
+        "prism:coverDate": "2022-01-01",
+        "prism:coverDisplayDate": "2022",
+        "prism:doi": "99.9999/999-9-999-99999-7_77",
+        "prism:isbn": [
+          {
+            "$": "9781665462839",
+            "@_fa": "true"
+          }
+        ],
+        "prism:pageRange": "573-578",
+        "prism:publicationName": "Proceedings - 21st IEEE International Conference on Machine Learning and Applications, ICMLA 2022",
+        "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/12345678903",
+        "source-id": "98765432101",
+        "subtype": "cp",
+        "subtypeDescription": "Conference Paper"
+      },
+      {
+        "@_fa": "true",
+        "affiliation": [
+          {
+            "@_fa": "true",
+            "affiliation-city": "Cambridge",
+            "affiliation-country": "USA",
+            "affiliation-url": "https://api.elsevier.com/content/affiliation/affiliation_id/44444444",
+            "affilname": "Massachusetts Institute of Technology",
+            "afid": "44444444"
+          }
+        ],
+        "authkeywords": "aliasing | linearity | object-oriented programming | Sharing analysis",
+        "author": [
+          {
+            "@_fa": "true",
+            "@seq": "1",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "11111111111",
+            "authname": "Cooper S.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/11111111111",
+            "given-name": "Sheldon",
+            "initials": "S.",
+            "surname": "Cooper"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "2",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "66666666666",
+            "authname": "Koothrappali R.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/66666666666",
+            "given-name": "Raj",
+            "initials": "R.",
+            "surname": "Koothrappali"
+          },
+          {
+            "@_fa": "true",
+            "@seq": "3",
+            "afid": [
+              {
+                "$": "44444444",
+                "@_fa": "true"
+              }
+            ],
+            "authid": "22222222222",
+            "authname": "Hofstadter L.",
+            "author-url": "https://api.elsevier.com/content/author/author_id/22222222222",
+            "given-name": "Leonard",
+            "initials": "L.",
+            "surname": "Hofstadter"
+          }
+        ],
+        "author-count": {
+          "$": "3",
+          "@limit": "100",
+          "@total": "3"
+        },
+        "citedby-count": "0",
+        "dc:creator": "Cooper S.",
+        "dc:description": "Sharing analysis is used to statically discover data structures which may overlap in object-oriented programs. Using the abstract interpretation framework, we show that sharing analysis greatly benefits from linearity information. A variable is linear in a program state when different field paths starting from it always reach different objects. We propose a graph-based abstract domain which can represent aliasing, linearity, and sharing information and define all the necessary abstract operators for the analysis of a Java-like language.",
+        "dc:identifier": "SCOPUS_ID:12345678904",
+        "dc:title": "The role of linearity in sharing analysis",
+        "eid": "2-s2.0-12345678904",
+        "freetoread": {
+          "value": [
+            {
+              "$": "all"
+            },
+            {
+              "$": "publisherhybridgold"
+            }
+          ]
+        },
+        "freetoreadLabel": {
+          "value": [
+            {
+              "$": "All Open Access"
+            },
+            {
+              "$": "Hybrid Gold"
+            }
+          ]
+        },
+        "fund-no": "undefined",
+        "link": [
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678904",
+            "@ref": "self"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://api.elsevier.com/content/abstract/scopus_id/12345678904?field=author,affiliation",
+            "@ref": "author-affiliation"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/record.uri?partnerID=H4x0Rl33t&scp=12345678904&origin=inward",
+            "@ref": "scopus"
+          },
+          {
+            "@_fa": "true",
+            "@href": "https://www.scopus.com/inward/citedby.uri?partnerID=H4x0Rl33t&scp=12345678904&origin=inward",
+            "@ref": "scopus-citedby"
+          }
+        ],
+        "openaccess": "1",
+        "openaccessFlag": true,
+        "prism:aggregationType": "Journal",
+        "prism:coverDate": "2022-01-01",
+        "prism:coverDisplayDate": "2022",
+        "prism:doi": "99.9999/999-9-999-99999-6_66",
+        "prism:issn": "98765432",
+        "prism:issueIdentifier": "1",
+        "prism:pageRange": "44-110",
+        "prism:publicationName": "Mathematical Structures in Computer Science",
+        "prism:url": "https://api.elsevier.com/content/abstract/scopus_id/12345678904",
+        "prism:volume": "32",
+        "source-id": "9876543210",
+        "subtype": "ar",
+        "subtypeDescription": "Article"
+      }
+    ],
+    "link": [
+      {
+        "@_fa": "true",
+        "@href": "https://api.elsevier.com/content/search/scopus?start=0&count=25&query=AU-ID%2811111111111%29&view=COMPLETE",
+        "@ref": "self",
+        "@type": "application/json"
+      },
+      {
+        "@_fa": "true",
+        "@href": "https://api.elsevier.com/content/search/scopus?start=0&count=25&query=AU-ID%2811111111111%29&view=COMPLETE",
+        "@ref": "first",
+        "@type": "application/json"
+      },
+      {
+        "@_fa": "true",
+        "@href": "https://api.elsevier.com/content/search/scopus?start=25&count=25&query=AU-ID%2811111111111%29&view=COMPLETE",
+        "@ref": "next",
+        "@type": "application/json"
+      },
+      {
+        "@_fa": "true",
+        "@href": "https://api.elsevier.com/content/search/scopus?start=13&count=25&query=AU-ID%2811111111111%29&view=COMPLETE",
+        "@ref": "last",
+        "@type": "application/json"
+      }
+    ],
+    "opensearch:itemsPerPage": "25",
+    "opensearch:Query": {
+      "@role": "request",
+      "@searchTerms": "AU-ID(11111111111)",
+      "@startPage": "0"
+    },
+    "opensearch:startIndex": "0",
+    "opensearch:totalResults": "4"
+  }
+}

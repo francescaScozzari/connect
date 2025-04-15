@@ -1,0 +1,265 @@
+stages:
+  - Test
+  - Test-build
+  - Build
+  - Deploy
+  - Report
+
+variables:
+  COMPOSE_DOCKER_CLI_BUILD: 1
+  DOCKER_BUILDKIT: 1
+  PROJECT_SLUG: connect
+  SENTRY_PROJECT_NAME: connect-backend
+  VERSION_BEFORE_REF: ${CI_COMMIT_BEFORE_SHA}
+  VERSION_REF: ${CI_COMMIT_SHA}
+
+.staging:
+  rules: &staging-rules
+    - &pipeline-push-rule
+      if: $CI_PIPELINE_SOURCE != "push"
+      when: never
+    - &staging-rule
+      if: $CI_COMMIT_BRANCH == "main"
+      variables:
+        ENV_HOST: dev.connect.unich.it
+  environment:
+    name: staging
+
+.production:
+  rules: &production-rules
+    - <<: *pipeline-push-rule
+    - &production-rule
+      if: $CI_COMMIT_TAG
+      variables:
+        ENV_HOST: connect.unich.it
+        VERSION_REF: "v.${CI_COMMIT_TAG}"
+  environment:
+    name: production
+
+.sentry:
+  stage: .pre
+  image: docker:20
+  services:
+    - docker:20-dind
+  script:
+    - >
+      docker run --rm
+      -v ${PWD}:${PWD}
+      -w ${PWD}
+      -e CI_ENVIRONMENT_NAME
+      -e PROJECT_DIR=${CI_PROJECT_DIR}
+      -e PROJECT_SLUG
+      -e RELEASE_END
+      -e RELEASE_START
+      -e SENTRY_AUTH_TOKEN
+      -e SENTRY_DSN
+      -e SENTRY_ORG
+      -e SENTRY_PROJECT_NAME
+      -e SENTRY_URL
+      -e VERSION_REF
+      --entrypoint=""
+      getsentry/sentry-cli:latest ./scripts/ci_sentry.sh ${SENTRY_CMD}
+
+.sentry_release:
+  extends:
+    - .sentry
+  variables:
+    SENTRY_CMD: release
+  before_script:
+    - RELEASE_START=$(date +%s)
+
+sentry_release_staging:
+  extends:
+    - .staging
+    - .sentry_release
+  rules:
+    - &sentry-rule
+      if: $SENTRY_ENABLED != "true"
+      when: never
+    - *staging-rules
+
+sentry_release_production:
+  extends:
+    - .production
+    - .sentry_release
+  rules:
+    - <<: *sentry-rule
+    - *production-rules
+
+test:
+  stage: Test
+  image: docker:20
+  services:
+    - docker:20-dind
+  needs: []
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "push"
+  variables:
+    BACKEND_CONTAINER_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}_backend"
+    BACKEND_BUILD_TARGET: "test"
+    BACKEND_IMAGE_NAME: "gitlabci_connect_backend"
+    BACKEND_IMAGE_TAG: "${CI_JOB_NAME}-${CI_JOB_ID}"
+    COMPOSE_PROJECT_NAME: "${CI_PROJECT_PATH_SLUG}-${CI_JOB_NAME}-${CI_JOB_ID}"
+  script:
+    - docker-compose build
+    - docker-compose run --name ${BACKEND_CONTAINER_NAME} backend
+    - docker cp ${BACKEND_CONTAINER_NAME}:/app/htmlcov htmlcov
+  after_script:
+    - docker-compose down -v
+  coverage: '/^TOTAL.*\s+(\d+\%)$/'
+  artifacts:
+    expire_in: 1 day
+    paths:
+      - htmlcov
+    when: always
+
+test_build:
+  stage: Test-build
+  image: docker:20
+  services:
+    - docker:20-dind
+  needs: []
+  variables:
+    BACKEND_IMAGE_NAME: "gitlabci_connect_backend"
+    BACKEND_IMAGE_TAG: "${CI_JOB_NAME}-${CI_COMMIT_SHA}"
+  before_script:
+    - export DOCKER_CONFIG=${PWD}/.dockerconfig
+  script:
+    - docker build --tag ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG} --target remote --pull .
+    - >
+      docker run --rm
+      --entrypoint=""
+      --env-file .env_template
+      --env BACKEND_BUILD_TARGET=remote
+      --env DJANGO_CONFIGURATION=Remote
+      --env PYTHONDEVMODE=""
+      ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+      python3 -m manage check --deploy
+    - mkdir trivy
+    - >
+      docker run --rm
+      --entrypoint=""
+      --env GIT_STRATEGY=none
+      --env TARGET_IMAGE=${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+      --env TRIVY_CACHE_DIR=/tmp/.trivycache/
+      --env TRIVY_NO_PROGRESS=true
+      --volume /var/run/docker.sock:/var/run/docker.sock
+      --volume ${PWD}/trivy:/trivy
+      --volume ${PWD}/.trivyignore:/.trivyignore
+      --volume ${PWD}/scripts/trivy.sh:/app/trivy.sh
+      aquasec/trivy /app/trivy.sh
+  after_script:
+    - docker rmi ${BACKEND_IMAGE_NAME}:${BACKEND_IMAGE_TAG}
+  artifacts:
+    paths:
+      - trivy
+    when: always
+
+pages:
+  stage: Report
+  image: busybox
+  needs: ["test"]
+  rules:
+    - <<: *pipeline-push-rule
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+  script:
+    - mkdir public
+    - mv htmlcov public/htmlcov
+  artifacts:
+    paths:
+      - public
+
+.build:
+  stage: Build
+  image: docker:20
+  services:
+    - docker:20-dind
+  before_script:
+    - export DOCKER_CONFIG=${PWD}/.dockerconfig
+    - echo "${CI_REGISTRY_PASSWORD}" | docker login --username "${CI_REGISTRY_USER}" --password-stdin "${CI_REGISTRY}"
+  script:
+    - docker build -t ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} --target remote --pull .
+    - docker push ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF}
+  after_script:
+    - docker logout ${CI_REGISTRY}
+
+build_staging:
+  extends:
+    - .staging
+    - .build
+  needs:
+    - job: test
+    - job: test_build
+
+build_production:
+  extends:
+    - .production
+    - .build
+  needs:
+    - job: test
+    - job: test_build
+
+.deploy:
+  stage: Deploy
+  image: ubuntu:22.04
+  before_script:
+    - "which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )"
+    - eval $(ssh-agent -s)
+    - echo "$ENV_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh-keyscan $ENV_HOST >> ~/.ssh/known_hosts
+    - chmod 644 ~/.ssh/known_hosts
+  script:
+    - >
+      ssh $ENV_USER@$ENV_HOST "cd $ENV_WORK_DIR &&
+      export BACKEND_IMAGE=${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} &&
+      echo ${CI_REGISTRY_PASSWORD} | docker login --username ${CI_REGISTRY_USER} --password-stdin ${CI_REGISTRY} &&
+      docker pull ${CI_REGISTRY}/${CI_PROJECT_PATH}:${VERSION_REF} &&
+      docker compose stop ${CI_PROJECT_NAME} &&
+      docker compose up -d ${CI_PROJECT_NAME} &&
+      docker logout ${CI_REGISTRY} &&
+      exit"
+  after_script:
+    - rm -rf ~/.ssh
+
+deploy_staging:
+  extends:
+    - .staging
+    - .deploy
+  needs:
+    - build_staging
+
+deploy_production:
+  extends:
+    - .production
+    - .deploy
+  needs:
+    - build_production
+
+.rollback:
+  extends: .deploy
+  variables:
+    VERSION_REF: ${VERSION_BEFORE_REF}
+
+rollback_staging:
+  extends:
+    - .staging
+    - .rollback
+  needs: ["deploy_staging"]
+  rules:
+    - <<: *pipeline-push-rule
+    - <<: *staging-rule
+      when: manual
+      allow_failure: true
+
+rollback_production:
+  extends:
+    - .production
+    - .rollback
+  needs: ["deploy_production"]
+  rules:
+    - <<: *pipeline-push-rule
+    - <<: *production-rule
+      when: manual
+      allow_failure: true

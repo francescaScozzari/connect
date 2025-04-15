@@ -1,0 +1,54 @@
+version: "3.4"
+
+services:
+  backend:
+    build:
+      args:
+        USER: ${USER:-appuser}
+      context: .
+      target: ${BACKEND_BUILD_TARGET:-test}
+    image: ${BACKEND_IMAGE_NAME:-connect_backend}:${BACKEND_IMAGE_TAG:-latest}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - CACHE_URL
+      - DATABASE_URL=${DATABASE_URL:-postgres://postgres:postgres@postgres:5432/connect}
+      - DJANGO_ADMINS
+      - DJANGO_ALLOWED_HOSTS
+      - DJANGO_CONFIGURATION=${DJANGO_CONFIGURATION:-Testing}
+      - DJANGO_DEBUG
+      - DJANGO_DEFAULT_FROM_EMAIL
+      - DJANGO_SCOPUS_API_KEYS=${DJANGO_SCOPUS_API_KEYS:-""}
+      - DJANGO_SCOPUS_INST_TOKEN=${DJANGO_SCOPUS_INST_TOKEN:-""}
+      - DJANGO_SECRET_KEY
+      - DJANGO_SERVER_EMAIL
+      - DJANGO_SESSION_COOKIE_DOMAIN
+      - DJANGO_SUPERUSER_EMAIL
+      - DJANGO_SUPERUSER_PASSWORD
+      - DJANGO_SUPERUSER_USERNAME
+      - EMAIL_URL
+      - INTERNAL_SERVICE_PORT=${INTERNAL_SERVICE_PORT:-8000}
+      - PYTHONBREAKPOINT
+      - QDRANT_LOCATION=${QDRANT_LOCATION:-:memory:}
+    platform: linux/amd64
+    ports:
+      - "${BACKEND_PORT:-8000}:${INTERNAL_SERVICE_PORT:-8000}"
+    user: ${USER:-appuser}
+
+  postgres:
+    environment:
+      - POSTGRES_DB=connect
+      - POSTGRES_INITDB_ARGS=--no-sync
+      - POSTGRES_PASSWORD=postgres
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 30
+    image: postgres:15-bookworm
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+
+volumes:
+  pg_data: {}
