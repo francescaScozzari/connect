@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Layout components <Layout /> Primary layout renders correctly 1`] = `
+@media (max-width: 1280px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+@media (max-width: 1280px) {
+
+}
+
+@media (max-width: 768px) {
+
+}
+
+<div
+  class="Toastify"
+/>
+`;

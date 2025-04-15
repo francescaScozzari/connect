@@ -1,0 +1,77 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button components <BackButton /> BackButton renders correctly 1`] = `
+.c1 {
+  color: #1C1C1C;
+  margin: 0;
+  text-transform: none;
+}
+
+.c2 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.c3 {
+  text-transform: uppercase;
+  font-weight: 600;
+  line-height: normal;
+  color: white;
+}
+
+.c0 {
+  all: unset;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 10px;
+  cursor: pointer;
+  width: fit-content;
+  outline: none;
+  padding: 0.75em 1em;
+  gap: 1em;
+  transition: 0.3s background-color ease-in-out;
+  background-color: #CE2F7C;
+}
+
+.c0:disabled {
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+<button
+  class="c0"
+>
+  <svg
+    height="24"
+    width="24"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <title>
+      back
+    </title>
+    <defs>
+      <style />
+    </defs>
+    <g
+      id="_21.search"
+    >
+      <circle
+        cx="9"
+        cy="9"
+        r="7"
+        style="fill: none; stroke: white; stroke-width: 2px;"
+      />
+      <path
+        d="m14 14 8 8"
+        style="fill: none; stroke: white; stroke-width: 2px;"
+      />
+    </g>
+  </svg>
+  <span
+    class="c1 c2 c3"
+  >
+    make a new search
+  </span>
+</button>
+`;

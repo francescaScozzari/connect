@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  consumer:
+    environment:
+      - INTERNAL_BACKEND_URL=${INTERNAL_BACKEND_URL:-http://provider:8000}
+      - NEXT_PUBLIC_PROJECT_URL=${NEXT_PUBLIC_PROJECT_URL:-https://localhost:8443}
+      - NEXT_PUBLIC_PLAUSIBLE_URL=${NEXT_PUBLIC_PLAUSIBLE_URL:-https://plausible.io}
+      - NEXT_PUBLIC_PRIVACY_POLICY_URL=${NEXT_PUBLIC_PRIVACY_POLICY_URL:-https://example.com/connect-privacy-policy}
+      - REACT_ENVIRONMENT=${REACT_ENVIRONMENT:-development}

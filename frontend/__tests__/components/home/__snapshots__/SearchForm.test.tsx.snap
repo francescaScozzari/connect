@@ -1,0 +1,365 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<SearchForm /> SearchForm renders correctly 1`] = `
+.c3 {
+  color: #c9d2ec;
+  margin: 0;
+  text-transform: none;
+}
+
+.c5 {
+  color: white;
+  margin: 0;
+  text-transform: none;
+}
+
+.c4 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.c6 {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.c1 {
+  position: relative;
+  margin-bottom: 1em;
+  display: flex;
+  gap: 0.75em;
+}
+
+.c2 {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  gap: 0.25em;
+}
+
+.c7 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 7.75em;
+  background-color: white;
+  border: 4px solid #e5e5e5;
+  border-radius: 3.75em;
+}
+
+.c13 {
+  display: block;
+  position: absolute;
+  top: calc(50% - 1.25em);
+  left: calc(4.5em - 2.25em);
+}
+
+.c11 {
+  display: none;
+}
+
+.c14 {
+  all: unset;
+  display: none;
+  position: absolute;
+  top: calc(50% - 1.25em);
+  left: calc(4.5em - 2.25em);
+}
+
+.c15 {
+  border: 1px solid transparent;
+  border-radius: 50%;
+  background-color: #CE2F7C;
+  position: absolute;
+  padding: 1.125em;
+  top: calc(57.5% - 3.125em);
+  right: 0.75em;
+}
+
+.c15:disabled {
+  opacity: 0.5;
+}
+
+.c8 {
+  border: 2px solid transparent;
+  border-radius: 50%;
+  background-color: #CE2F7C;
+  padding: 0.3em 0.375em;
+}
+
+.c8:disabled {
+  background-color: white;
+  border-color: rgb(36 36 36 / 0.25);
+}
+
+.c8:disabled svg path {
+  stroke: rgb(36 36 36 / 0.25);
+}
+
+.c10 {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: 2em;
+  align-items: center;
+}
+
+.c0 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.5em;
+}
+
+.c12 {
+  position: relative;
+  flex-grow: 1;
+  resize: none;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 3.5em;
+  box-sizing: border-box;
+  width: 47.5em;
+  padding: 2em 7.75em 2em 4.875em;
+  color: #242424;
+  font-size: 1.125rem;
+  line-height: normal;
+  text-align: start;
+}
+
+.c12::placeholder {
+  opacity: 0.6;
+}
+
+.c9 {
+  position: relative;
+  flex-grow: 1;
+  resize: none;
+  overflow: hidden;
+  border: 1px solid #e5e5e5;
+  border-radius: 3.5em;
+  box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, 0.1);
+  box-sizing: border-box;
+  height: 2.5em;
+  text-align: center;
+  pointer-events: none;
+}
+
+@media (max-width: 1280px) {
+  .c13 {
+    top: calc(50% - 1.25em);
+  }
+}
+
+@media (max-width: 768px) {
+  .c13 {
+    top: calc(50% - 1.25em);
+    left: calc(4.5em - 2.25em);
+  }
+}
+
+@media (max-width: 1280px) {
+  .c14 {
+    top: calc(50% - 1.25em);
+  }
+}
+
+@media (max-width: 768px) {
+  .c14 {
+    top: calc(50% - 1.25em);
+    left: calc(4.5em - 2.25em);
+  }
+}
+
+@media (max-width: 1280px) {
+  .c15 {
+    top: calc(50% - 3.125em);
+  }
+}
+
+@media (max-width: 768px) {
+  .c15 {
+    top: calc(50% - 3.125em);
+  }
+}
+
+@media (max-width: 1280px) {
+  .c12 {
+    width: 42em;
+  }
+}
+
+@media (max-width: 768px) {
+  .c12 {
+    width: 36em;
+  }
+}
+
+<form
+  class="c0"
+  role="search"
+>
+  <div
+    class="c1"
+  >
+    <svg
+      fill="none"
+      height="14"
+      width="26"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>
+        team
+      </title>
+      <path
+        d="M4.333 8.083A2.173 2.173 0 0 0 6.5 5.917 2.173 2.173 0 0 0 4.333 3.75a2.173 2.173 0 0 0-2.166 2.167c0 1.191.975 2.166 2.166 2.166Zm1.224 1.192a7.565 7.565 0 0 0-1.224-.108 7.53 7.53 0 0 0-3.011.628A2.178 2.178 0 0 0 0 11.799V13.5h4.875v-1.744c0-.9.25-1.744.683-2.481Zm16.11-1.192a2.173 2.173 0 0 0 2.166-2.166 2.173 2.173 0 0 0-2.166-2.167A2.173 2.173 0 0 0 19.5 5.917c0 1.191.975 2.166 2.167 2.166ZM26 11.8c0-.877-.52-1.657-1.322-2.004a7.53 7.53 0 0 0-3.011-.628c-.423 0-.824.043-1.225.108.434.737.683 1.582.683 2.48V13.5H26v-1.7Zm-8.407-3.011A11.313 11.313 0 0 0 13 7.811c-1.766 0-3.326.423-4.593.975A3.237 3.237 0 0 0 6.5 11.756V13.5h13v-1.744a3.237 3.237 0 0 0-1.907-2.969Zm-8.85 2.545c.097-.249.14-.422.985-.747A8.938 8.938 0 0 1 13 9.979c1.116 0 2.22.195 3.272.607.834.325.877.498.986.747H8.742ZM13 2.667c.596 0 1.083.487 1.083 1.083S13.596 4.833 13 4.833a1.087 1.087 0 0 1-1.083-1.083c0-.596.487-1.083 1.083-1.083ZM13 .5a3.246 3.246 0 0 0-3.25 3.25A3.246 3.246 0 0 0 13 7a3.246 3.246 0 0 0 3.25-3.25A3.246 3.246 0 0 0 13 .5Z"
+        fill="#c9d2ec"
+      />
+    </svg>
+    <div
+      class="c2"
+    >
+      <p
+        class="c3 c4"
+        color="#c9d2ec"
+      >
+        N. Researchers
+      </p>
+      <p
+        class="c5 c6"
+        color="white"
+      >
+        Min 5 / Max 20
+      </p>
+    </div>
+    <div
+      class="c7"
+    >
+      <button
+        class="c8"
+        disabled=""
+        type="button"
+      >
+        <svg
+          fill="none"
+          height="24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            minus
+          </title>
+          <path
+            d="M19 12H5"
+            stroke="#fff"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+      <input
+        class="c9"
+        inputmode="numeric"
+        name="teamSize"
+        readonly=""
+      />
+      <button
+        class="c8"
+        type="button"
+      >
+        <svg
+          fill="none"
+          height="24"
+          width="24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <title>
+            plus
+          </title>
+          <path
+            d="M12 5v14M19 12H5"
+            stroke="#fff"
+            stroke-width="2"
+          />
+        </svg>
+      </button>
+    </div>
+  </div>
+  <div
+    class="c10"
+  >
+    <div
+      class="c11"
+    />
+    <textarea
+      class="c12"
+      id="q"
+      name="givenSentence"
+      placeholder="Search here to find your research team"
+      role="textarea"
+      rows="1"
+    />
+    <svg
+      class="c13"
+      fill="#242424"
+      height="40"
+      width="40"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <title>
+        search
+      </title>
+      <g>
+        <path
+          d="M25.833 23.333h-1.316l-.467-.45a10.786 10.786 0 0 0 2.617-7.05C26.667 9.85 21.817 5 15.833 5 9.85 5 5 9.85 5 15.833c0 5.984 4.85 10.834 10.833 10.834 2.684 0 5.15-.984 7.05-2.617l.45.467v1.316l8.334 8.317 2.483-2.483-8.317-8.334Zm-10 0a7.49 7.49 0 0 1-7.5-7.5c0-4.15 3.35-7.5 7.5-7.5s7.5 3.35 7.5 7.5-3.35 7.5-7.5 7.5Z"
+          fill="#8F8F8F"
+        />
+      </g>
+    </svg>
+    <button
+      class="c14"
+      role="reset"
+      type="button"
+    >
+      <svg
+        fill="#242424"
+        height="40"
+        width="40"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>
+          reset
+        </title>
+        <g>
+          <path
+            d="m31.666 10.683-2.35-2.35L20 17.65l-9.317-9.317-2.35 2.35L17.65 20l-9.317 9.317 2.35 2.35L20 22.35l9.316 9.317 2.35-2.35L22.35 20l9.316-9.317Z"
+            fill="#515151"
+          />
+        </g>
+      </svg>
+    </button>
+    <button
+      class="c15"
+      disabled=""
+      role="submit"
+      type="submit"
+    >
+      <svg
+        fill="white"
+        height="45"
+        viewBox="0 0 45 45"
+        width="45"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>
+          submit
+        </title>
+        <g>
+          <path
+            d="M22.5 7.5L19.8563 10.1437L30.3188 20.625H7.5V24.375H30.3188L19.8563 34.8563L22.5 37.5L37.5 22.5L22.5 7.5Z"
+          />
+        </g>
+      </svg>
+    </button>
+  </div>
+</form>
+`;

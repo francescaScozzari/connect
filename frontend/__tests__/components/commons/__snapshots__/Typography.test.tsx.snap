@@ -1,0 +1,295 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Text Big Big Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 18px;
+  font-weight: 400;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Big BigBold Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Medium Medium Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 14px;
+  font-weight: 400;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Medium MediumBold Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Normal Normal Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Normal NormalBold Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Small Small Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 12px;
+  font-weight: 400;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Text Small SmallBold Text renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+<p
+  class="c0 c1"
+  color="red"
+>
+  MainParagraph
+</p>
+`;
+
+exports[`Titles H1 Big H1 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 50px;
+  font-weight: 700;
+}
+
+<h1
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h1>
+`;
+
+exports[`Titles H1 Medium H1 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 49px;
+  font-weight: 700;
+}
+
+<h1
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h1>
+`;
+
+exports[`Titles H1 Normal H1 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 35px;
+  font-weight: 700;
+}
+
+<h1
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h1>
+`;
+
+exports[`Titles H2 Normal H2 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+<h2
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h2>
+`;
+
+exports[`Titles H3 H3 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+<h3
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h3>
+`;
+
+exports[`Titles H4 H4 renders correctly with style props 1`] = `
+.c0 {
+  color: red;
+  margin: 0;
+  text-transform: uppercase;
+  font-style: italic;
+}
+
+.c1 {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+<h4
+  class="c0 c1"
+  color="red"
+>
+  MainTitle
+</h4>
+`;

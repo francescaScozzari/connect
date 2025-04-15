@@ -1,0 +1,23 @@
+version: "3.8"
+
+services:
+  consumer:
+    build:
+      args:
+        USER: ${USER:-nextjs}
+      context: ./
+      dockerfile: ${SERVICE_DOCKER_FILE:-docker/test.Dockerfile}
+    environment:
+      - NEXT_PUBLIC_PROJECT_URL
+    volumes:
+      - ./__tests__:/app/__tests__:ro
+      - ./components:/app/components:ro
+      - ./declarations:/app/declarations:ro
+      - ./hooks:/app/hooks:ro
+      - ./models:/app/models:ro
+      - ./pages:/app/pages:ro
+      - ./public:/app/public:ro
+      - ./store:/app/store:ro
+      - ./styles:/app/styles:ro
+      - ./utils:/app/utils:ro
+    user: ${USER:-nextjs}

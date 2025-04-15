@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  consumer:
+    image: ${CONSUMER_IMAGE}
+    environment:
+      - NEXT_PUBLIC_PROJECT_URL=${NEXT_PUBLIC_PROJECT_URL:-http://localhost:3000}
+
+  cypress:
+    build:
+      context: ./
+      dockerfile: docker/cypress.Dockerfile
+    container_name: cypress
+    depends_on:
+      consumer:
+        condition: service_started
+    environment:
+      - CYPRESS_BASE_URL=${CYPRESS_BASE_URL:-http://consumer:3000}
+      - NEXT_PUBLIC_PRIVACY_POLICY_URL=${NEXT_PUBLIC_PRIVACY_POLICY_URL:-https://example.com/connect-privacy-policy}
+    volumes:
+      - ./cypress:/app/cypress
+      - ./cypress.config.ts:/app/cypress.config.ts
+
+networks:
+  container_network:
+    name: container_network
+    driver: bridge

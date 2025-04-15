@@ -1,0 +1,429 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Search results component All search results renders correctly 1`] = `
+.c11 {
+  color: white;
+  margin: 0;
+  text-transform: none;
+}
+
+.c12 {
+  font-size: 24px;
+  font-weight: 700;
+}
+
+.c4 {
+  color: #1C1C1C;
+  margin: 0;
+  text-transform: none;
+}
+
+.c15 {
+  color: white;
+  margin: 0;
+  text-transform: none;
+}
+
+.c25 {
+  color: #242424;
+  margin: 0;
+  text-transform: none;
+}
+
+.c5 {
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.c18 {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.c16 {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.c19 {
+  padding: 0.375em 0.75em;
+  background-color: #2B2D42;
+  border-radius: 1.25em;
+  font-weight: 600;
+}
+
+.c20 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  text-transform: uppercase;
+  color: white;
+  font-weight: 900;
+  text-decoration: underline;
+}
+
+.c14 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.25em;
+}
+
+.c17 {
+  text-transform: uppercase;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 50em;
+}
+
+.c13 {
+  display: flex;
+  flex-flow: nowrap;
+  justify-content: space-between;
+}
+
+.c10 {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-content: start;
+  gap: 1em;
+}
+
+.c9 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5em;
+  padding: 1.5em;
+  border: 1px solid #c9d2ec;
+  border-top-left-radius: 1.25em;
+  border-top-right-radius: 1.25em;
+  background-color: #434660;
+  margin-bottom: 0;
+}
+
+.c9[data-state='closed'] {
+  border-radius: 1.25em;
+}
+
+.c21 {
+  all: unset;
+  padding: 0.375em;
+  height: 1.375em;
+  width: 1.375em;
+  border: 2px solid #c9d2ec;
+  border-radius: 50%;
+  transform: rotate(180deg);
+}
+
+.c21[data-state='open']>svg {
+  transform: rotate(-180deg);
+}
+
+.c24 {
+  display: inline-block;
+  color: #2B2D42;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.c26 {
+  line-height: 2.25;
+  text-align: start;
+}
+
+.c23 {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  padding: 2em;
+  width: 100%;
+  background-color: #F4F7F8;
+  border-bottom: 1px solid #c9d2ec;
+}
+
+.c22 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #c9d2ec;
+  border-top: 0;
+  border-bottom: 0;
+}
+
+.c22[data-state='closed'] {
+  border: 0;
+}
+
+.c2 {
+  gap: 1em;
+  font-size: 0.875rem;
+  color: white;
+}
+
+.c3 {
+  margin-left: 0.5em;
+  font-weight: 700;
+}
+
+.c7 {
+  display: inline-block;
+  color: #2B2D42;
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.c6 {
+  font-size: 1.125rem;
+  line-height: 2.25;
+  color: #242424;
+  height: fit-content;
+  max-height: 60vh;
+  word-break: break-all;
+  text-align: start;
+  padding: 2em;
+  overflow: auto;
+  background-color: white;
+  border-radius: 1.25em;
+  border: 1px solid #c9d2ec;
+}
+
+.c0 {
+  width: 100%;
+  padding: 4em;
+  display: grid;
+  column-gap: 3em;
+  grid-template-columns: 0.5fr 1fr;
+  grid-auto-flow: column;
+  background-color: #2B2D42;
+}
+
+.c1 {
+  grid-column: 1;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  gap: 1em;
+  position: sticky;
+  top: 2em;
+}
+
+.c8 {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+  width: 100%;
+}
+
+@media (max-width: 1600px) {
+  .c17 {
+    max-width: 28em;
+  }
+}
+
+@media (max-width: 1440px) {
+  .c17 {
+    max-width: 16em;
+  }
+}
+
+<section
+  class="c0"
+>
+  <div
+    class="c1"
+  >
+    <span
+      class="c2"
+    >
+      <svg
+        fill="none"
+        height="14"
+        width="26"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <title>
+          team
+        </title>
+        <path
+          d="M4.333 8.083A2.173 2.173 0 0 0 6.5 5.917 2.173 2.173 0 0 0 4.333 3.75a2.173 2.173 0 0 0-2.166 2.167c0 1.191.975 2.166 2.166 2.166Zm1.224 1.192a7.565 7.565 0 0 0-1.224-.108 7.53 7.53 0 0 0-3.011.628A2.178 2.178 0 0 0 0 11.799V13.5h4.875v-1.744c0-.9.25-1.744.683-2.481Zm16.11-1.192a2.173 2.173 0 0 0 2.166-2.166 2.173 2.173 0 0 0-2.166-2.167A2.173 2.173 0 0 0 19.5 5.917c0 1.191.975 2.166 2.167 2.166ZM26 11.8c0-.877-.52-1.657-1.322-2.004a7.53 7.53 0 0 0-3.011-.628c-.423 0-.824.043-1.225.108.434.737.683 1.582.683 2.48V13.5H26v-1.7Zm-8.407-3.011A11.313 11.313 0 0 0 13 7.811c-1.766 0-3.326.423-4.593.975A3.237 3.237 0 0 0 6.5 11.756V13.5h13v-1.744a3.237 3.237 0 0 0-1.907-2.969Zm-8.85 2.545c.097-.249.14-.422.985-.747A8.938 8.938 0 0 1 13 9.979c1.116 0 2.22.195 3.272.607.834.325.877.498.986.747H8.742ZM13 2.667c.596 0 1.083.487 1.083 1.083S13.596 4.833 13 4.833a1.087 1.087 0 0 1-1.083-1.083c0-.596.487-1.083 1.083-1.083ZM13 .5a3.246 3.246 0 0 0-3.25 3.25A3.246 3.246 0 0 0 13 7a3.246 3.246 0 0 0 3.25-3.25A3.246 3.246 0 0 0 13 .5Z"
+          fill="white"
+        />
+      </svg>
+      <span
+        class="c2 c3"
+      >
+        1
+      </span>
+       researchers identified
+    </span>
+    <p
+      class="c4 c5 c6"
+    >
+      <span
+        class="c7"
+      >
+        Why we’re suggesting these researches for your research project
+      </span>
+      <br />
+      <span>
+        Exploring the Role of Microbiota in Gut-Brain Axis 
+        <mark>
+          Communication
+        </mark>
+      </span>
+    </p>
+  </div>
+  <div
+    class="c8"
+  >
+    <div
+      data-orientation="vertical"
+    >
+      <div
+        data-orientation="vertical"
+        data-state="open"
+      >
+        <h3
+          class="c9"
+          data-orientation="vertical"
+          data-state="open"
+        >
+          <div
+            class="c10"
+          >
+            <h3
+              class="c11 c12"
+              color="white"
+            >
+              Leonard Hofstadter
+            </h3>
+            <div
+              class="c13"
+            >
+              <div
+                class="c14"
+              >
+                <svg
+                  fill="none"
+                  height="26"
+                  width="27"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <title>
+                    author
+                  </title>
+                  <g>
+                    <path
+                      d="M13.5 11.917c1.44 0 4.333.726 4.333 2.166v.174A5.724 5.724 0 0 1 13.5 16.25a5.724 5.724 0 0 1-4.334-1.993v-.174c0-1.44 2.893-2.166 4.334-2.166Zm0-1.084a2.173 2.173 0 0 1-2.167-2.166c0-1.192.975-2.167 2.167-2.167 1.191 0 2.166.975 2.166 2.167a2.173 2.173 0 0 1-2.166 2.166Zm6.5.217c0-3.932-2.871-6.717-6.5-6.717-3.63 0-6.5 2.785-6.5 6.717 0 2.535 2.112 5.893 6.5 9.902 4.387-4.009 6.5-7.367 6.5-9.902Zm-6.5-8.883c4.55 0 8.666 3.488 8.666 8.883 0 3.597-2.892 7.854-8.666 12.783-5.774-4.929-8.667-9.186-8.667-12.783 0-5.395 4.117-8.883 8.667-8.883Z"
+                      fill="#fff"
+                    />
+                  </g>
+                </svg>
+                <p
+                  class="c15 c16 c17"
+                  color="white"
+                >
+                  Princeton University
+                </p>
+              </div>
+              <p
+                class="c15 c18 c19"
+                color="white"
+              >
+                ORCID:
+                 
+                <a
+                  class="c20"
+                  href="https://orcid.org/0000-0000-0000-0001"
+                  target="_blank"
+                >
+                  0000-0000-0000-0001
+                   
+                  <svg
+                    fill="none"
+                    height="20"
+                    width="20"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <title>
+                      orcid
+                    </title>
+                    <g>
+                      <path
+                        d="M15.8333 15.8333H4.16667V4.16667H10V2.5H4.16667C3.24167 2.5 2.5 3.25 2.5 4.16667V15.8333c0 .9167.74167 1.6667 1.66667 1.6667H15.8333c.9167 0 1.6667-.75 1.6667-1.6667V10h-1.6667v5.8333ZM11.6667 2.5v1.66667h2.9916L6.46667 12.3583l1.175 1.175 8.19163-8.19163v2.99166H17.5V2.5h-5.8333Z"
+                        fill="#fff"
+                      />
+                    </g>
+                  </svg>
+                </a>
+              </p>
+            </div>
+          </div>
+          <button
+            aria-controls="radix-:r1:"
+            aria-expanded="true"
+            class="c21"
+            data-orientation="vertical"
+            data-radix-collection-item=""
+            data-state="open"
+            id="radix-:r0:"
+            type="button"
+          >
+            <svg
+              fill="none"
+              height="24"
+              width="25"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g>
+                <path
+                  d="m7.91 15.41 4.59-4.58 4.59 4.58L18.5 14l-6-6-6 6 1.41 1.41Z"
+                  fill="#C9D2EC"
+                />
+              </g>
+            </svg>
+          </button>
+        </h3>
+        <div
+          aria-labelledby="radix-:r0:"
+          class="c22"
+          data-orientation="vertical"
+          data-state="open"
+          id="radix-:r1:"
+          role="region"
+          style="--radix-accordion-content-height: var(--radix-collapsible-content-height); --radix-accordion-content-width: var(--radix-collapsible-content-width); transition-duration: 0s; animation-name: none;"
+        >
+          <div
+            class="c23"
+          >
+            <span
+              class="c24"
+            >
+              <mark>
+                test
+              </mark>
+               title
+            </span>
+            <p
+              class="c25 c5 c26"
+              color="#242424"
+            >
+              <mark>
+                test
+              </mark>
+               description
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+`;
