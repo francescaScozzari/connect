@@ -2,7 +2,7 @@
 
 This project is developed under the scientific coordination of [Gianluca Amato](https://www.sci.unich.it/~amato/), [Francesca Scozzari](https://www.dec.unich.it/home-scozzari-francesca-172), and [Chiara Meo](https://www.dec.unich.it/home-meo-maria-chiara-151). 
 
-The project has been funded by the European Commission as part of the “Boosting INGENIUM For Excellence – BI4E” project and the "INGENIUM" European University project.
+The project has been funded by the European Commission as part of the “Boosting INGENIUM For Excellence – BI4E”, the "INGENIUM" European University project and the PNRR project FAIR — Future AI Research (PE00000013), Spoke 9 — Green-aware AI.
 
 A fully operational version of the software is available at [connect.unich.it](https://connect.unich.it).
 
